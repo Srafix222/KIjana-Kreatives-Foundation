@@ -45,10 +45,11 @@
   }
 }
 
-/* Dark section textured background */
+/* Dark section background: Smooth deep navy with subtle ambient lighting */
 .bg-dark-textured {
-  background-color: #0F172A;
-  background-image: repeating-linear-gradient(135deg, #16223A 0 14px, #101A2E 14px 28px);
+  background-color: #0B1329;
+  background-image: radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 15% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
 }
 
 .text-balance {

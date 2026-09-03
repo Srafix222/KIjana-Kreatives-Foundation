@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { PageId, Report } from '../types';
 import { OUTCOMES, KENYA_COUNTIES, REPORTS } from '../data/content';
+import { APP_ASSETS } from '../data/assets';
+import { PageHero } from '../components/PageHero';
 import { StatBand } from '../components/StatBand';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { ArrowRight, MapPin, FileText, Download, CheckCircle2, TrendingUp, Users, Heart } from 'lucide-react';
@@ -19,22 +21,16 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
   return (
     <div id="impact-page" className="w-full">
       
-      {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-          <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
-              Impact & Results
-            </span>
-            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
-              What the work has added up to.
-            </h1>
-            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
-              Figures below represent verified program outcomes. Every metric is tied to an audited student, mentor, and placement record.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* 1. HERO (Option 3: Modern Editorial Canvas with Contextual Showcase Imagery) */}
+      <PageHero
+        badge="Impact & Results"
+        badgeColor="amber"
+        title="What the work has added up to."
+        description="Figures below represent verified program outcomes. Every metric is tied to an audited student, mentor, and placement record."
+        imageSrc={APP_ASSETS.academyShowcase}
+        imageAlt="Kijana Kreatives Foundation showcase and graduation outcomes"
+        imagePosition="object-center"
+      />
 
       {/* 2. ANIMATED STAT BAND */}
       <StatBand />

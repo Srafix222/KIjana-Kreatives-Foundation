@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PageId, Program, ProgramCategory } from '../types';
 import { PROGRAMS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
+import { PageHero } from '../components/PageHero';
 import { GOOGLE_FORMS } from '../data/forms';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { ArrowRight, Check, Sparkles, Filter, Calendar, MapPin, Clock, ExternalLink } from 'lucide-react';
@@ -27,22 +28,16 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
   return (
     <div id="programs-page" className="w-full">
       
-      {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-          <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
-              Programs & Pathways
-            </span>
-            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
-              Pick the craft. We&apos;ll help you get paid for it.
-            </h1>
-            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
-              Every program is project-based, mentor-supported and ends with work you can show a client or an employer.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* 1. HERO (Option 3: Modern Editorial Canvas with Contextual Production Imagery) */}
+      <PageHero
+        badge="Programs & Pathways"
+        badgeColor="amber"
+        title="Pick the craft. We'll help you get paid for it."
+        description="Every program is project-based, mentor-supported and ends with work you can show a client or an employer."
+        imageSrc={APP_ASSETS.cameraFilmSet}
+        imageAlt="Cinema camera and studio lighting rig at Kijana Kreatives Foundation"
+        imagePosition="object-center"
+      />
 
       {/* 2. PROGRAM CATALOGUE & CATEGORY FILTER */}
       <section className="py-14 sm:py-20 md:py-28 bg-[#F8FAFC]">

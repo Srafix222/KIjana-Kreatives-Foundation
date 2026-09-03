@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageId } from '../types';
 import { GOOGLE_FORMS } from '../data/forms';
+import { PageHero } from '../components/PageHero';
 import { 
   CheckCircle2, 
   Users, 
@@ -55,66 +56,57 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
   return (
     <div id="get-involved-page" className="w-full">
       
-      {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-          <div className="max-w-[840px]">
-            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
-              Get Involved · Cohort 2026
-            </span>
-            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
-              Four pathways in. <span className="text-[#F59E0B]">Pick yours.</span>
-            </h1>
-            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[700px] mb-6 sm:mb-8">
-              Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us—apply directly through our official admissions and registration portal.
-            </p>
-
-            {/* Quick-Jump Pathway Buttons */}
-            <div className="flex flex-wrap gap-2 sm:gap-2.5 pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab('youth');
-                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
-              >
-                Youth Application →
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab('mentor');
-                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
-              >
-                Become a Mentor →
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab('volunteer');
-                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
-              >
-                Studio Volunteer →
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab('partner');
-                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
-              >
-                Partner Proposal →
-              </button>
-            </div>
-          </div>
+      {/* 1. HERO (Option 3: Modern Editorial Canvas with Ambient Lighting & Action Cluster) */}
+      <PageHero
+        badge="Get Involved · Cohort 2026"
+        badgeColor="amber"
+        title={<>Four pathways in. <span className="text-[#F59E0B]">Pick yours.</span></>}
+        description="Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us—apply directly through our official admissions and registration portal."
+      >
+        {/* Quick-Jump Pathway Buttons */}
+        <div className="flex flex-wrap gap-2 sm:gap-2.5">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('youth');
+              document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+          >
+            Youth Application →
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('mentor');
+              document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+          >
+            Become a Mentor →
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('volunteer');
+              document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+          >
+            Studio Volunteer →
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('partner');
+              document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+          >
+            Partner Proposal →
+          </button>
         </div>
-      </section>
+      </PageHero>
 
       {/* 2. THE KKF ECOSYSTEM STANDARD (Replacing repetitive role cards with substantive context) */}
       <section className="py-20 md:py-24 bg-[#F8FAFC] border-b border-[#E8EDF4]">

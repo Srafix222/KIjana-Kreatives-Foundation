@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageId, DonationReceipt } from '../types';
 import { DONATION_TIERS, BANKING_DETAILS, CHEQUE_DETAILS, BRAND } from '../data/content';
+import { PageHero } from '../components/PageHero';
 import { 
   Heart, 
   ShieldCheck, 
@@ -173,22 +174,13 @@ export const DonatePage: React.FC<DonatePageProps> = ({
   return (
     <div id="donate-page" className="w-full">
       
-      {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-          <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
-              Direct Giving
-            </span>
-            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
-              Fuel the Next Cohort
-            </h1>
-            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
-              100% of public donations go directly into equipment, materials, studio access and mentorship for young Kenyan creatives.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* 1. HERO (Option 3: Modern Editorial Canvas with Warm Giving Glows) */}
+      <PageHero
+        badge="Direct Giving"
+        badgeColor="amber"
+        title="Fuel the Next Cohort"
+        description="100% of public donations go directly into equipment, materials, studio access and mentorship for young Kenyan creatives."
+      />
 
       {/* 2. DONATION ENGINE & TIERS */}
       <section className="py-14 sm:py-20 md:py-28 bg-[#F8FAFC]">

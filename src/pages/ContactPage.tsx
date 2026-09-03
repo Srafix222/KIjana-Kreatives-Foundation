@@ -14,6 +14,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { WhatsAppIcon } from '../components/SocialIcons';
+import { PageHero } from '../components/PageHero';
 import { BRAND } from '../data/content';
 import { sanitizeText, isValidEmail, isValidPhone, isRateLimited } from '../utils/security';
 
@@ -75,22 +76,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   return (
     <div id="contact-page" className="w-full">
       
-      {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-          <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
-              Get in Touch
-            </span>
-            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
-              Say hello.
-            </h1>
-            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
-              Whether you have a question about a cohort, an idea for a partnership, or want to drop by the space in Nairobi, we would love to hear from you.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* 1. HERO (Option 3: Modern Editorial Canvas with Welcoming Ambient Glows) */}
+      <PageHero
+        badge="Get in Touch"
+        badgeColor="amber"
+        title="Say hello."
+        description="Whether you have a question about a cohort, an idea for a partnership, or want to drop by the space in Nairobi, we would love to hear from you."
+      />
 
       {/* 2. CONTACT CHANNELS & FORM */}
       <section className="py-20 md:py-28 bg-[#F8FAFC]">
