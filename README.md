@@ -1,4 +1,4 @@
-# Kijana Kreatives Foundation — Website
+# Kijana Kreatives Foundation Website
 
 Marketing and conversion site for Kijana Kreatives Foundation (KKF), a Kenyan non-profit founded in Nairobi in 2021 that equips young people with creative and digital skills, mentorship and pathways into paid creative work.
 
