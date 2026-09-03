@@ -191,9 +191,6 @@ Required photography:
 - Analytics, SEO metadata beyond title/favicon
 - Accessibility audit (contrast pass, focus rings, reduced-motion handling for the count-up and hero animation)
 
-<<<<<<< HEAD
-Handing this to another builder: give it `prd.md`, `content.md`, `design-tokens.md`, `assets-manifest.md` and `data-schema.md` together. Auditing what exists instead: give it `audit-prompt.md`.
-
 ## 10. Acceptance criteria
 1. All eight pages render with the shared nav and footer, and every internal link resolves.
 2. Nav backdrop fades in on scroll; mega-menu opens on hover ≥1000px; hamburger panel works <1000px and closes on resize.
