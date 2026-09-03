@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { PageId, Program, ProgramCategory } from '../types';
 import { PROGRAMS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
+import { GOOGLE_FORMS } from '../data/forms';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
-import { ArrowRight, Check, Sparkles, Filter, Calendar, MapPin, Clock } from 'lucide-react';
+import { ArrowRight, Check, Sparkles, Filter, Calendar, MapPin, Clock, ExternalLink } from 'lucide-react';
 
 interface ProgramsPageProps {
   onNavigate: (page: PageId, programSlug?: string) => void;
@@ -27,16 +28,16 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
     <div id="programs-page" className="w-full">
       
       {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-[170px] pb-[100px] md:pt-[190px] md:pb-[120px] relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-6 relative z-10 animate-kkf-rise">
+      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
           <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-4">
+            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
               Programs & Pathways
             </span>
-            <h1 className="font-['Poppins'] font-bold text-[36px] sm:text-[50px] lg:text-[60px] leading-[1.08] tracking-[-0.03em] mb-6">
+            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
               Pick the craft. We&apos;ll help you get paid for it.
             </h1>
-            <p className="font-['Inter'] text-[18px] sm:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
+            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
               Every program is project-based, mentor-supported and ends with work you can show a client or an employer.
             </p>
           </div>
@@ -44,12 +45,12 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
       </section>
 
       {/* 2. PROGRAM CATALOGUE & CATEGORY FILTER */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC]">
-        <div className="max-w-[1240px] mx-auto px-6">
+      <section className="py-14 sm:py-20 md:py-28 bg-[#F8FAFC]">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
           
           {/* Category Filter Chips */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-12 pb-6 border-b border-[#E8EDF4]">
-            <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-12 pb-6 border-b border-[#E8EDF4]">
+            <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -117,7 +118,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E8EDF4] flex items-center justify-between">
+                  <div className="pt-4 border-t border-[#E8EDF4] flex items-center justify-between gap-3">
                     <button
                       type="button"
                       onClick={() => onOpenProgram(prog)}
@@ -127,11 +128,22 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </button>
 
-                    <span className={`text-[11px] font-['Poppins'] font-semibold px-2.5 py-1 rounded-full ${
-                      prog.status === 'Open' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                    }`}>
-                      {prog.status}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={GOOGLE_FORMS.youth.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3.5 py-1.5 rounded-[10px] bg-[#0F172A] hover:bg-[#2563EB] text-white text-xs font-['Poppins'] font-semibold transition-colors inline-flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>Apply</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                      <span className={`text-[11px] font-['Poppins'] font-semibold px-2 py-1 rounded-full ${
+                        prog.status === 'Open' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                      }`}>
+                        {prog.status}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -171,13 +183,22 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
                 ))}
               </div>
 
-              <div className="pt-4">
+              <div className="pt-4 flex flex-wrap items-center gap-3">
+                <a
+                  href={GOOGLE_FORMS.youth.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all shadow-md shadow-blue-600/20 inline-flex items-center gap-2 cursor-pointer"
+                >
+                  <span>Apply for Next Cohort</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
                 <button
                   type="button"
                   onClick={() => onNavigate('get-involved')}
-                  className="px-8 py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all shadow-md shadow-blue-600/20"
+                  className="px-6 py-4 rounded-[14px] bg-white hover:bg-slate-50 border border-[#CBD5E1] text-[#0F172A] font-['Poppins'] font-semibold text-[15px] transition-colors cursor-pointer"
                 >
-                  Apply for Next Cohort
+                  Application Guidelines
                 </button>
               </div>
             </div>

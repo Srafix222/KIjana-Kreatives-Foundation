@@ -154,7 +154,7 @@ export interface Report {
 
 export type GiveMode = 'once' | 'monthly';
 export type Designation = 'creative-training' | 'equipment' | 'scholarships' | 'mentorship' | 'general';
-export type PaymentMethod = 'mpesa' | 'card' | 'bank' | 'international';
+export type PaymentMethod = 'mpesa' | 'card' | 'bank' | 'cheque' | 'paypal' | 'international';
 
 export interface YouthApplication {
   fullName: string;

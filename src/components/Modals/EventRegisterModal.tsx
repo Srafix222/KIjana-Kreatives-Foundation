@@ -182,7 +182,7 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({ event, o
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-[#475569] mb-1">Phone Number (M-Pesa)</label>
+                  <label className="block text-xs font-medium text-[#475569] mb-1">WhatsApp / Phone Number</label>
                   <input
                     type="tel"
                     maxLength={30}

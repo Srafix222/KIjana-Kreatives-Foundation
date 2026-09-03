@@ -68,7 +68,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* 1. HERO SECTION */}
       <section 
         id="home-hero"
-        className="relative bg-[#0F172A] text-white pt-[180px] md:pt-[200px] pb-[130px] md:pb-[160px] overflow-hidden"
+        className="relative bg-[#0F172A] text-white pt-28 sm:pt-36 md:pt-44 pb-16 sm:pb-24 md:pb-32 overflow-hidden"
       >
         {/* Background Full-bleed Image with Left-to-Right Dark Gradient */}
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -94,19 +94,19 @@ export const HomePage: React.FC<HomePageProps> = ({
           />
         </div>
 
-        <div className="max-w-[1240px] mx-auto px-6 relative z-10 animate-kkf-rise">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
           <div className="max-w-[760px]">
             
             {/* Eyebrow Rule */}
-            <div className="flex items-center gap-3 mb-6">
-              <span className="w-10 h-[2px] bg-[#F59E0B] rounded-full" />
-              <span className="font-['Poppins'] font-semibold text-[13px] tracking-[0.16em] text-[#F59E0B] uppercase">
+            <div className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+              <span className="w-8 sm:w-10 h-[2px] bg-[#F59E0B] rounded-full" />
+              <span className="font-['Poppins'] font-semibold text-xs sm:text-[13px] tracking-[0.16em] text-[#F59E0B] uppercase">
                 Kijana Kreatives Foundation
               </span>
             </div>
 
             {/* H1 Headline */}
-            <h1 className="font-['Poppins'] font-bold text-[38px] sm:text-[54px] md:text-[68px] lg:text-[76px] leading-[1.03] tracking-[-0.03em] text-white mb-6 text-balance">
+            <h1 className="font-['Poppins'] font-bold text-[32px] xs:text-[38px] sm:text-[52px] md:text-[64px] lg:text-[76px] leading-[1.06] tracking-[-0.03em] text-white mb-5 sm:mb-6 text-balance">
               Your Talent Can Build Your{' '}
               <span className="text-[#F59E0B] underline decoration-[#F59E0B]/40 decoration-4 underline-offset-8">
                 Future.
@@ -114,16 +114,16 @@ export const HomePage: React.FC<HomePageProps> = ({
             </h1>
 
             {/* Sub-headline */}
-            <p className="font-['Inter'] text-[18px] sm:text-[20px] text-white/85 leading-[1.65] font-normal mb-10 max-w-[620px] text-pretty">
+            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.6] font-normal mb-8 sm:mb-10 max-w-[620px] text-pretty">
               We equip young people with creative and digital skills, mentorship and opportunities to turn their ideas into careers.
             </p>
 
             {/* CTAs (3) */}
-            <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
               <button
                 type="button"
                 onClick={() => onNavigate('programs')}
-                className="px-8 py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all transform active:scale-95 shadow-lg shadow-blue-600/30 flex items-center gap-2 cursor-pointer"
+                className="px-7 py-3.5 sm:py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-sm sm:text-[15.5px] transition-all transform active:scale-95 shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore Our Programs</span>
                 <ArrowRight className="w-4 h-4" />
@@ -132,7 +132,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <button
                 type="button"
                 onClick={() => onNavigate('donate')}
-                className="px-8 py-4 rounded-[14px] bg-white/[0.08] hover:bg-amber-500/20 border border-white/28 hover:border-amber-400 text-white font-['Poppins'] font-semibold text-[15.5px] transition-all cursor-pointer"
+                className="px-7 py-3.5 sm:py-4 rounded-[14px] bg-white/[0.08] hover:bg-amber-500/20 border border-white/28 hover:border-amber-400 text-white font-['Poppins'] font-semibold text-sm sm:text-[15.5px] transition-all text-center cursor-pointer"
               >
                 Support Our Mission
               </button>
@@ -140,10 +140,10 @@ export const HomePage: React.FC<HomePageProps> = ({
               <button
                 type="button"
                 onClick={onOpenVideo}
-                className="inline-flex items-center gap-2 px-4 py-4 text-white/90 hover:text-[#F59E0B] font-['Poppins'] font-semibold text-[15px] transition-colors group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-4 text-white/90 hover:text-[#F59E0B] font-['Poppins'] font-semibold text-sm sm:text-[15px] transition-colors group cursor-pointer"
               >
-                <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#F59E0B] group-hover:text-[#0F172A] text-white flex items-center justify-center transition-colors">
-                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 group-hover:bg-[#F59E0B] group-hover:text-[#0F172A] text-white flex items-center justify-center transition-colors">
+                  <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current ml-0.5" />
                 </div>
                 <span>Watch Our Story →</span>
               </button>
@@ -153,13 +153,13 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 2. FLOATING IMPACT CARDS (Overlapping Hero by -96px) */}
-      <section className="relative z-20 max-w-[1240px] mx-auto px-6 -mt-[84px] md:-mt-[96px] mb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* 2. FLOATING IMPACT CARDS (Responsive Overlap) */}
+      <section className="relative z-20 max-w-[1240px] mx-auto px-4 sm:px-6 -mt-8 sm:-mt-14 md:-mt-20 lg:-mt-24 mb-12 sm:mb-16 md:mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {IMPACT_CARDS.map((card) => (
             <div
               key={card.no}
-              className={`bg-white rounded-[26px] p-8 shadow-[0_18px_44px_rgba(15,23,42,0.12)] border border-[#E8EDF4] flex flex-col justify-between group ${
+              className={`bg-white rounded-[22px] sm:rounded-[26px] p-6 sm:p-8 shadow-[0_18px_44px_rgba(15,23,42,0.12)] border border-[#E8EDF4] flex flex-col justify-between group ${
                 card.accent ? 'card-glow-orange' : 'card-glow'
               }`}
             >

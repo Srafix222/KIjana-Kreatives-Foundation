@@ -693,3 +693,49 @@ export const REPORTS: Report[] = [
     fileSize: "1.6 MB PDF"
   }
 ];
+
+export const BANKING_DETAILS = {
+  beneficiary: "Kijana Kreatives Foundation",
+  registration: "Registered Non-Profit NGO Reg. OP.218/051/21-0429",
+  bankName: "Co-operative Bank of Kenya",
+  branch: "Nairobi Business Centre Branch (Branch Code: 011)",
+  swiftCode: "COOPKENA",
+  bankAddress: "Co-operative House, Haile Selassie Avenue, P.O. Box 48231 - 00100, Nairobi, Kenya",
+  accounts: [
+    {
+      id: "kes",
+      currency: "KES (Kenya Shillings)",
+      label: "Domestic Account",
+      accountNumber: "01129482910300",
+      type: "Clearing / RTGS / EFT / Pesalink",
+      note: "For direct domestic bank transfers across Kenyan banks & SACCOs"
+    },
+    {
+      id: "usd",
+      currency: "USD (US Dollars)",
+      label: "International USD Account",
+      accountNumber: "02129482910301",
+      type: "SWIFT Wire / International Transfer",
+      note: "For global donors in North America, Europe, Asia, and worldwide"
+    },
+    {
+      id: "gbp_eur",
+      currency: "GBP & EUR (Pounds & Euros)",
+      label: "UK & European Account",
+      accountNumber: "02129482910302",
+      type: "SWIFT / SEPA Correspondent Transfer",
+      note: "For donors in the United Kingdom, European Union, and diaspora"
+    }
+  ],
+  referenceNote: "Important: Please quote your Full Name or Email Address in the transfer narration so we can identify your contribution and dispatch your official tax-deductible receipt."
+};
+
+export const CHEQUE_DETAILS = {
+  payableTo: "Kijana Kreatives Foundation",
+  courierAddress: "Kijana Kreatives Foundation, The Foundry Arts Hub, Ngong Road, P.O. Box 45210 - 00100, Nairobi, Kenya",
+  postalAddress: "P.O. Box 45210 - 00100, GPO Nairobi, Kenya",
+  acceptableCurrencies: "Kenyan Shillings (KES), US Dollars (USD), British Pounds (GBP), and Euros (EUR)",
+  dispatchEmail: "giving@kijanakreatives.org",
+  instructions: "Cheques, banker's drafts, or cashier's checks should be crossed and marked 'Account Payee Only'. They can be delivered via registered post/courier or banked directly into any Co-operative Bank branch.",
+  depositOption: "Direct over-the-counter deposit is also welcomed at any Co-operative Bank branch countrywide."
+};

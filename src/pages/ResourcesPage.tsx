@@ -39,16 +39,16 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
     <div id="resources-page" className="w-full">
       
       {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-[170px] pb-[100px] md:pt-[190px] md:pb-[120px] relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-6 relative z-10 animate-kkf-rise">
+      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
           <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-4">
+            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
               Resources &amp; Hub
             </span>
-            <h1 className="font-['Poppins'] font-bold text-[36px] sm:text-[50px] lg:text-[60px] leading-[1.08] tracking-[-0.03em] mb-6">
+            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
               Ideas, Stories &amp; Inspiration
             </h1>
-            <p className="font-['Inter'] text-[18px] sm:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
+            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
               Writing from the programs, plus what&apos;s coming up on the calendar.
             </p>
           </div>

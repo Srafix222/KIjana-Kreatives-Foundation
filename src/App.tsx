@@ -22,6 +22,7 @@ import { StoryVideoModal } from './components/Modals/StoryVideoModal';
 import { DonationReceiptModal } from './components/Modals/DonationReceiptModal';
 import { AnnualReportModal } from './components/Modals/AnnualReportModal';
 import { LegalModal } from './components/Modals/LegalModal';
+import { SpotlightSearchModal } from './components/Modals/SpotlightSearchModal';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>('home');
@@ -36,6 +37,7 @@ export default function App() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [activeReceipt, setActiveReceipt] = useState<DonationReceipt | null>(null);
   const [activeLegal, setActiveLegal] = useState<'privacy' | 'terms' | 'safeguarding' | 'financial' | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Smooth scroll to top on page change
   const handleNavigate = (page: PageId, programSlug?: string, tab?: 'youth' | 'mentor' | 'volunteer' | 'partner') => {
@@ -57,7 +59,11 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A] selection:bg-[#2563EB]/20 selection:text-[#2563EB]">
       {/* 1. Global Navigation */}
-      <Nav currentPage={currentPage} onNavigate={handleNavigate} />
+      <Nav 
+        currentPage={currentPage} 
+        onNavigate={handleNavigate} 
+        onOpenSearch={() => setIsSearchOpen(true)}
+      />
 
       {/* 2. Main Page Content Routing */}
       <main className="flex-1 w-full">
@@ -173,9 +179,21 @@ export default function App() {
             donorName: activeReceipt.donorName,
             donorEmail: activeReceipt.donorEmail,
             amount: activeReceipt.amount,
+            currency: activeReceipt.currency,
             mode: activeReceipt.frequency,
-            method: activeReceipt.paymentMethod.toLowerCase().includes('mpesa') ? 'mpesa' : 'card',
+            method: activeReceipt.paymentMethod.toLowerCase().includes('mpesa') 
+              ? 'mpesa' 
+              : activeReceipt.paymentMethod.toLowerCase().includes('card')
+              ? 'card'
+              : activeReceipt.paymentMethod.toLowerCase().includes('bank')
+              ? 'bank'
+              : activeReceipt.paymentMethod.toLowerCase().includes('cheque') || activeReceipt.paymentMethod.toLowerCase().includes('check')
+              ? 'cheque'
+              : activeReceipt.paymentMethod.toLowerCase().includes('paypal')
+              ? 'paypal'
+              : 'international',
             designation: activeReceipt.impactSummary || 'General Creative Fund',
+            referenceId: activeReceipt.receiptNumber,
           }}
         />
       )}
@@ -186,6 +204,16 @@ export default function App() {
           onClose={() => setActiveLegal(null)}
         />
       )}
+
+      {/* 5. Global Spotlight Search Modal */}
+      <SpotlightSearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onNavigate={handleNavigate}
+        onOpenProgram={(p) => setActiveProgram(p)}
+        onOpenPost={(p) => setActivePost(p)}
+        onOpenEvent={(e) => setActiveEvent(e)}
+      />
     </div>
   );
 }

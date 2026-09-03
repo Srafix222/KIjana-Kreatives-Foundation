@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Download, Printer, Heart, Smartphone, ShieldCheck, ArrowRight } from 'lucide-react';
+import { X, CheckCircle2, Download, Printer, Heart, Smartphone, ShieldCheck, ArrowRight, Building2, CreditCard, FileText, Globe } from 'lucide-react';
 import { BRAND } from '../../data/content';
 
 interface DonationReceiptModalProps {
@@ -10,9 +10,11 @@ interface DonationReceiptModalProps {
     donorEmail: string;
     donorPhone?: string;
     amount: number;
+    currency?: 'KES' | 'USD';
     mode: 'once' | 'monthly';
-    method: 'mpesa' | 'card' | 'bank' | 'international';
+    method: 'mpesa' | 'card' | 'bank' | 'international' | 'cheque' | 'paypal';
     designation: string;
+    referenceId?: string;
   } | null;
 }
 
@@ -32,10 +34,9 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setStep('processing');
-      // Simulate M-Pesa STK push or Card verification
       const timer = setTimeout(() => {
         setStep('confirmed');
-      }, 2400);
+      }, 1600);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -44,6 +45,20 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const currencySymbol = donationDetails.currency === 'USD' ? '$' : 'KES ';
+  const formattedAmount = `${currencySymbol}${donationDetails.amount.toLocaleString()}`;
+
+  const getMethodLabel = (method: string) => {
+    switch (method) {
+      case 'mpesa': return 'M-Pesa Express (Kenya)';
+      case 'card': return 'Credit / Debit Card (Global)';
+      case 'bank': return 'Bank Wire Transfer (SWIFT / EFT)';
+      case 'cheque': return "Cheque / Banker's Draft";
+      case 'paypal': return 'PayPal Global Transfer';
+      default: return 'International Transfer';
+    }
   };
 
   return (
@@ -67,28 +82,49 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
           <div className="p-8 md:p-12 text-center flex flex-col items-center justify-center space-y-5">
             <div className="relative">
               <div className="w-20 h-20 rounded-full border-4 border-amber-400/30 border-t-[#F59E0B] animate-spin" />
-              <Smartphone className="w-8 h-8 text-[#0F172A] absolute inset-0 m-auto" />
+              {donationDetails.method === 'mpesa' && <Smartphone className="w-8 h-8 text-[#0F172A] absolute inset-0 m-auto" />}
+              {donationDetails.method === 'card' && <CreditCard className="w-8 h-8 text-[#0F172A] absolute inset-0 m-auto" />}
+              {donationDetails.method === 'bank' && <Building2 className="w-8 h-8 text-[#0F172A] absolute inset-0 m-auto" />}
+              {donationDetails.method === 'cheque' && <FileText className="w-8 h-8 text-[#0F172A] absolute inset-0 m-auto" />}
+              {(donationDetails.method === 'paypal' || donationDetails.method === 'international') && <Globe className="w-8 h-8 text-[#0F172A] absolute inset-0 m-auto" />}
             </div>
 
             <h3 className="font-['Poppins'] font-bold text-2xl text-[#0F172A]">
-              {donationDetails.method === 'mpesa' ? 'Prompting M-Pesa STK Push' : 'Authorising Donation'}
+              {donationDetails.method === 'mpesa' && 'Prompting M-Pesa STK Push'}
+              {donationDetails.method === 'card' && 'Authorising Card Donation'}
+              {donationDetails.method === 'bank' && 'Recording Bank Wire Contribution'}
+              {donationDetails.method === 'cheque' && 'Registering Cheque Contribution'}
+              {donationDetails.method === 'paypal' && 'Connecting PayPal Transfer'}
+              {donationDetails.method === 'international' && 'Processing International Transfer'}
             </h3>
 
             <p className="text-sm text-[#475569] max-w-md leading-relaxed">
               {donationDetails.method === 'mpesa' ? (
                 <>
-                  We sent an instant payment request of <strong>KES {donationDetails.amount.toLocaleString()}</strong> to <strong>{donationDetails.donorPhone || 'your mobile phone'}</strong>. Please enter your M-Pesa PIN on your phone.
+                  We sent an instant payment prompt of <strong>{formattedAmount}</strong> to <strong>{donationDetails.donorPhone || 'your mobile phone'}</strong>. Please enter your M-Pesa PIN on your handset.
+                </>
+              ) : donationDetails.method === 'card' ? (
+                <>
+                  Processing your secure card gift of <strong>{formattedAmount}</strong> through global 3D-Secure clearing...
+                </>
+              ) : donationDetails.method === 'bank' ? (
+                <>
+                  Recording your bank wire transfer notice of <strong>{formattedAmount}</strong> and preparing your official receipt...
+                </>
+              ) : donationDetails.method === 'cheque' ? (
+                <>
+                  Registering your cheque donation acknowledgment for <strong>{formattedAmount}</strong> and dispatching tracking instructions...
                 </>
               ) : (
                 <>
-                  Processing your secure contribution of <strong>KES {donationDetails.amount.toLocaleString()}</strong> for KKF young creators...
+                  Processing your international contribution of <strong>{formattedAmount}</strong> for KKF young creators...
                 </>
               )}
             </p>
 
             <div className="p-3 bg-[#EFF5FF] rounded-xl text-xs text-[#2563EB] font-medium flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#2563EB]" />
-              Secured with 256-bit encryption · Safaricom Daraja Verified
+              <span>Secured with 256-bit encryption · Registered Non-Profit NGO</span>
             </div>
           </div>
         ) : (
@@ -100,10 +136,10 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h3 className="font-['Poppins'] font-bold text-2xl text-[#0F172A]">
-                Asante Sana!
+                Asante Sana! Thank You.
               </h3>
               <p className="text-sm text-[#475569]">
-                Your {donationDetails.mode === 'monthly' ? 'monthly recurring' : 'one-time'} gift of <strong>KES {donationDetails.amount.toLocaleString()}</strong> is confirmed.
+                Your {donationDetails.mode === 'monthly' ? 'monthly recurring' : 'one-time'} contribution of <strong>{formattedAmount}</strong> has been received with deep gratitude.
               </p>
             </div>
 
@@ -140,7 +176,7 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
                 </div>
                 <div>
                   <span className="text-[#64748B] block text-[11px]">Payment Method</span>
-                  <span className="font-semibold text-[#0F172A] text-xs uppercase">{donationDetails.method}</span>
+                  <span className="font-semibold text-[#0F172A] text-xs">{getMethodLabel(donationDetails.method)}</span>
                 </div>
               </div>
 
@@ -154,7 +190,7 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
                 <div className="text-right">
                   <span className="text-[#64748B] block text-[11px]">Amount Contributed</span>
                   <span className="font-['Poppins'] font-bold text-[#2563EB] text-base">
-                    KES {donationDetails.amount.toLocaleString()}
+                    {formattedAmount}
                   </span>
                 </div>
               </div>
@@ -182,7 +218,7 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full sm:w-1/2 py-3 rounded-[12px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-xs transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5"
+                className="w-full sm:w-1/2 py-3 rounded-[12px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-xs transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <span>Done</span>
                 <ArrowRight className="w-4 h-4" />
@@ -196,3 +232,4 @@ export const DonationReceiptModal: React.FC<DonationReceiptModalProps> = ({
     </div>
   );
 };
+

@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { PageId, YouthApplication, MentorApplication, VolunteerApplication, PartnerEnquiry } from '../types';
-import { PROGRAMS, KENYA_COUNTIES } from '../data/content';
+import { PageId } from '../types';
 import { GOOGLE_FORMS } from '../data/forms';
 import { 
-  ArrowRight, 
   CheckCircle2, 
   Users, 
   Briefcase, 
   Heart, 
-  Handshake, 
   Sparkles, 
   ShieldCheck, 
-  UserCheck,
-  AlertCircle,
   ExternalLink,
-  FileText
+  FileText,
+  Clock,
+  Check,
+  Calendar,
+  MessageSquare,
+  HelpCircle,
+  ArrowRight
 } from 'lucide-react';
-import { sanitizeText, isValidEmail, isValidPhone, isRateLimited } from '../utils/security';
 
 interface GetInvolvedPageProps {
   onNavigate: (page: PageId) => void;
@@ -30,1116 +30,525 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
   initialProgramSlug,
 }) => {
   const [activeTab, setActiveTab] = useState<'youth' | 'mentor' | 'volunteer' | 'partner'>(initialTab);
-  const [formError, setFormError] = useState<string>('');
-  const [honeypot, setHoneypot] = useState<string>('');
+  const [copiedLink, setCopiedLink] = useState(false);
 
-  // Youth Form State
-  const [youthForm, setYouthForm] = useState<YouthApplication>({
-    fullName: '',
-    email: '',
-    phone: '',
-    age: 19,
-    county: 'Nairobi',
-    educationLevel: 'Secondary',
-    creativeInterests: '',
-    skillLevel: 'Beginner',
-    portfolioUrl: '',
-    programPreference: initialProgramSlug || 'graphic-design',
-    motivation: '',
-    referralSource: 'Social media',
-    consent: false,
-    guardianName: '',
-    guardianPhone: '',
-    guardianConsent: false,
-  });
-
-  // Mentor Form State
-  const [mentorForm, setMentorForm] = useState<MentorApplication>({
-    name: '',
-    email: '',
-    phone: '',
-    profession: '',
-    organization: '',
-    creativeField: '',
-    yearsExperience: 5,
-    skills: '',
-    profileUrl: '',
-    availability: '1–2 hours a month',
-    motivation: '',
-  });
-
-  // Volunteer Form State
-  const [volunteerForm, setVolunteerForm] = useState<VolunteerApplication>({
-    name: '',
-    email: '',
-    phone: '',
-    county: 'Nairobi',
-    availability: 'Weekends & Events',
-    interests: ['Cohort support'],
-    motivation: '',
-  });
-
-  // Partner Form State
-  const [partnerForm, setPartnerForm] = useState<PartnerEnquiry>({
-    organization: '',
-    contactName: '',
-    email: '',
-    phone: '',
-    interest: 'Fund a cohort',
-    message: '',
-  });
-
-  const [submissionSuccess, setSubmissionSuccess] = useState<{
-    referenceId: string;
-    type: string;
-  } | null>(null);
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   useEffect(() => {
     if (initialProgramSlug) {
-      setYouthForm((prev) => ({ ...prev, programPreference: initialProgramSlug }));
       setActiveTab('youth');
     }
   }, [initialProgramSlug]);
 
-  const handleYouthSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError('');
+  const activeForm = GOOGLE_FORMS[activeTab];
 
-    if (honeypot) {
-      setSubmissionSuccess({ referenceId: 'KKF-Y-2026-9999', type: 'Youth Cohort Application' });
-      return;
-    }
-
-    if (isRateLimited('youth_submit', 2500)) {
-      setFormError('Please wait a moment before resubmitting.');
-      return;
-    }
-
-    const cleanName = sanitizeText(youthForm.fullName, 100);
-    const cleanEmail = sanitizeText(youthForm.email, 120);
-    const cleanPhone = sanitizeText(youthForm.phone, 30);
-
-    if (!cleanName || !cleanEmail || !cleanPhone) {
-      setFormError('Please fill out all required fields.');
-      return;
-    }
-
-    if (!isValidEmail(cleanEmail)) {
-      setFormError('Please provide a valid email address.');
-      return;
-    }
-
-    if (!isValidPhone(cleanPhone)) {
-      setFormError('Please provide a valid phone number.');
-      return;
-    }
-
-    if (!youthForm.consent) {
-      setFormError('Please agree to the data processing consent checkbox to submit.');
-      return;
-    }
-
-    if (Number(youthForm.age) < 18 && (!youthForm.guardianName || !youthForm.guardianPhone || !youthForm.guardianConsent)) {
-      setFormError('Applicants under 18 years must provide parent/guardian details and consent.');
-      return;
-    }
-
-    const ref = `KKF-Y-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    setSubmissionSuccess({ referenceId: ref, type: 'Youth Cohort Application' });
-  };
-
-  const handleMentorSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError('');
-
-    if (honeypot) {
-      setSubmissionSuccess({ referenceId: 'KKF-M-2026-9999', type: 'Mentor Network Application' });
-      return;
-    }
-
-    if (isRateLimited('mentor_submit', 2500)) {
-      setFormError('Please wait a moment before resubmitting.');
-      return;
-    }
-
-    const cleanEmail = sanitizeText(mentorForm.email, 120);
-    if (!isValidEmail(cleanEmail)) {
-      setFormError('Please enter a valid email address.');
-      return;
-    }
-
-    const ref = `KKF-M-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    setSubmissionSuccess({ referenceId: ref, type: 'Mentor Network Application' });
-  };
-
-  const handleVolunteerSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError('');
-
-    if (honeypot) {
-      setSubmissionSuccess({ referenceId: 'KKF-V-2026-9999', type: 'Volunteer Registration' });
-      return;
-    }
-
-    if (isRateLimited('volunteer_submit', 2500)) {
-      setFormError('Please wait a moment before resubmitting.');
-      return;
-    }
-
-    const cleanEmail = sanitizeText(volunteerForm.email, 120);
-    if (!isValidEmail(cleanEmail)) {
-      setFormError('Please enter a valid email address.');
-      return;
-    }
-
-    const ref = `KKF-V-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    setSubmissionSuccess({ referenceId: ref, type: 'Volunteer Registration' });
-  };
-
-  const handlePartnerSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError('');
-
-    if (honeypot) {
-      setSubmissionSuccess({ referenceId: 'KKF-P-2026-9999', type: 'Partnership Inquiry' });
-      return;
-    }
-
-    if (isRateLimited('partner_submit', 2500)) {
-      setFormError('Please wait a moment before resubmitting.');
-      return;
-    }
-
-    const cleanEmail = sanitizeText(partnerForm.email, 120);
-    if (!isValidEmail(cleanEmail)) {
-      setFormError('Please enter a valid email address.');
-      return;
-    }
-
-    const ref = `KKF-P-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    setSubmissionSuccess({ referenceId: ref, type: 'Partnership Inquiry' });
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(activeForm.url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2500);
   };
 
   return (
     <div id="get-involved-page" className="w-full">
       
       {/* 1. HERO */}
-      <section className="bg-dark-textured text-white pt-[170px] pb-[100px] md:pt-[190px] md:pb-[120px] relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-6 relative z-10 animate-kkf-rise">
-          <div className="max-w-[800px]">
-            <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-4">
-              Get Involved
+      <section className="bg-dark-textured text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 relative overflow-hidden">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
+          <div className="max-w-[840px]">
+            <span className="font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3 sm:mb-4">
+              Get Involved · Cohort 2026
             </span>
-            <h1 className="font-['Poppins'] font-bold text-[36px] sm:text-[50px] lg:text-[60px] leading-[1.08] tracking-[-0.03em] mb-6">
-              Four ways in. Pick yours.
+            <h1 className="font-['Poppins'] font-bold text-[30px] xs:text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-6">
+              Four pathways in. <span className="text-[#F59E0B]">Pick yours.</span>
             </h1>
-            <p className="font-['Inter'] text-[18px] sm:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[680px]">
-              Whether you are starting out, giving time or building programs with us, there is a way to take part.
+            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.65] font-normal max-w-[700px] mb-6 sm:mb-8">
+              Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us—apply directly through our official admissions and registration portal.
             </p>
+
+            {/* Quick-Jump Pathway Buttons */}
+            <div className="flex flex-wrap gap-2 sm:gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('youth');
+                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+              >
+                Youth Application →
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('mentor');
+                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+              >
+                Become a Mentor →
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('volunteer');
+                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+              >
+                Studio Volunteer →
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('partner');
+                  document.getElementById('application-forms')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-4 py-2 rounded-[100px] bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-[13px] font-['Poppins'] font-semibold text-white transition-colors cursor-pointer"
+              >
+                Partner Proposal →
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 2. ROUTE CARDS */}
-      <section className="py-20 md:py-24 bg-[#F8FAFC]">
+      {/* 2. THE KKF ECOSYSTEM STANDARD (Replacing repetitive role cards with substantive context) */}
+      <section className="py-20 md:py-24 bg-[#F8FAFC] border-b border-[#E8EDF4]">
         <div className="max-w-[1240px] mx-auto px-6">
+          
+          <div className="max-w-[700px] mb-14">
+            <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
+              Our Commitments
+            </span>
+            <h2 className="font-['Poppins'] font-bold text-[30px] sm:text-[40px] text-[#0F172A] leading-[1.12] tracking-[-0.025em] mb-4">
+              The KKF Ecosystem Standard
+            </h2>
+            <p className="font-['Inter'] text-[16px] text-[#475569] leading-relaxed">
+              Every young creator, mentor, and partner who joins our community steps into an environment built for authentic creative growth, dignity, and commercial readiness.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            {/* Youth */}
-            <div 
-              onClick={() => { 
-                setActiveTab('youth'); 
-                setSubmissionSuccess(null); 
-              }}
-              className={`rounded-[26px] p-8 border card-glow flex flex-col justify-between group cursor-pointer ${
-                activeTab === 'youth' 
-                  ? 'bg-white border-[#2563EB] shadow-lg ring-2 ring-[#2563EB]/20 -translate-y-1' 
-                  : 'bg-white border-[#E8EDF4]'
-              }`}
-            >
+            {/* Card 1: 100% Tuition-Free */}
+            <div className="bg-white rounded-[26px] p-8 border border-[#E8EDF4] card-glow flex flex-col justify-between group">
               <div>
-                <span className="font-['Poppins'] font-semibold text-[12px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
-                  YOUTH
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#2563EB] mb-6 shadow-xs">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <span className="font-['Poppins'] font-semibold text-[11px] tracking-[0.16em] text-[#2563EB] uppercase block mb-2">
+                  EQUIPMENT & ACCESS
                 </span>
-                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-2 group-hover:text-[#2563EB] transition-colors">
-                  Join a program
+                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-3 group-hover:text-[#2563EB] transition-colors">
+                  100% Tuition-Free
                 </h3>
                 <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
-                  Apply to a Creative or Digital Academy cohort. No prior formal training required.
+                  Accepted young creators pay KES 0 in tuition. Dedicated high-performance iMac/PC workstations, cameras, sound booths, drawing tablets, and licensed software suites are fully provided.
                 </p>
               </div>
 
               <div className="pt-6 mt-6 border-t border-[#E8EDF4]">
-                <a
-                  href={GOOGLE_FORMS.youth.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center justify-between w-full text-xs font-['Poppins'] font-semibold text-[#2563EB] hover:text-[#1D4FD8] transition-colors"
-                >
-                  <span>Apply</span>
-                  <ExternalLink className="w-4 h-4 ml-1" />
-                </a>
+                <span className="inline-flex items-center gap-1.5 text-xs font-['Poppins'] font-semibold text-[#2563EB]">
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Zero Equipment Fees</span>
+                </span>
               </div>
             </div>
 
-            {/* Mentors */}
-            <div 
-              onClick={() => { 
-                setActiveTab('mentor'); 
-                setSubmissionSuccess(null); 
-              }}
-              className={`rounded-[26px] p-8 border card-glow flex flex-col justify-between group cursor-pointer ${
-                activeTab === 'mentor' 
-                  ? 'bg-white border-[#2563EB] shadow-lg ring-2 ring-[#2563EB]/20 -translate-y-1' 
-                  : 'bg-white border-[#E8EDF4]'
-              }`}
-            >
+            {/* Card 2: Live Industry Briefs */}
+            <div className="bg-white rounded-[26px] p-8 border border-[#E8EDF4] card-glow-orange flex flex-col justify-between group">
               <div>
-                <span className="font-['Poppins'] font-semibold text-[12px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
-                  MENTORS
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-[#D97706] mb-6 shadow-xs">
+                  <Briefcase className="w-6 h-6" />
+                </div>
+                <span className="font-['Poppins'] font-semibold text-[11px] tracking-[0.16em] text-[#D97706] uppercase block mb-2">
+                  PRODUCTION PRACTICE
                 </span>
-                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-2 group-hover:text-[#2563EB] transition-colors">
-                  Share your skills
+                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-3 group-hover:text-[#D97706] transition-colors">
+                  Real Client Capstones
                 </h3>
                 <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
-                  Give a few hours a month to a young creative working in your field.
+                  No hypothetical textbook drills. Cohorts tackle live production briefs for Kenyan brands, cultural initiatives, and non-profits—graduating with verified commercial client portfolios.
                 </p>
               </div>
 
               <div className="pt-6 mt-6 border-t border-[#E8EDF4]">
-                <a
-                  href={GOOGLE_FORMS.mentor.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center justify-between w-full text-xs font-['Poppins'] font-semibold text-[#2563EB] hover:text-[#1D4FD8] transition-colors"
-                >
-                  <span>Become a Mentor</span>
-                  <ExternalLink className="w-4 h-4 ml-1" />
-                </a>
+                <span className="inline-flex items-center gap-1.5 text-xs font-['Poppins'] font-semibold text-[#D97706]">
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Commercial Portfolios</span>
+                </span>
               </div>
             </div>
 
-            {/* Volunteers */}
-            <div 
-              onClick={() => { 
-                setActiveTab('volunteer'); 
-                setSubmissionSuccess(null); 
-              }}
-              className={`rounded-[26px] p-8 border card-glow-orange flex flex-col justify-between group cursor-pointer ${
-                activeTab === 'volunteer' 
-                  ? 'bg-white border-[#F59E0B] shadow-lg ring-2 ring-[#F59E0B]/20 -translate-y-1' 
-                  : 'bg-white border-[#E8EDF4]'
-              }`}
-            >
+            {/* Card 3: Weekly 1-on-1 Critiques */}
+            <div className="bg-white rounded-[26px] p-8 border border-[#E8EDF4] card-glow flex flex-col justify-between group">
               <div>
-                <span className="font-['Poppins'] font-semibold text-[12px] tracking-[0.16em] text-[#D97706] uppercase block mb-3">
-                  VOLUNTEERS
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#2563EB] mb-6 shadow-xs">
+                  <Users className="w-6 h-6" />
+                </div>
+                <span className="font-['Poppins'] font-semibold text-[11px] tracking-[0.16em] text-[#2563EB] uppercase block mb-2">
+                  INDUSTRY GUIDANCE
                 </span>
-                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-2 group-hover:text-[#D97706] transition-colors">
-                  Give your time
+                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-3 group-hover:text-[#2563EB] transition-colors">
+                  Weekly 1-on-1 Mentorship
                 </h3>
                 <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
-                  Help run cohorts, events, showcases and community workshops.
+                  Learn alongside active creative directors, senior animators, film producers, and tech leads. Regular 1-on-1 portfolio audits, technical masterclasses, and career coaching elevate your craft.
                 </p>
               </div>
 
               <div className="pt-6 mt-6 border-t border-[#E8EDF4]">
-                <a
-                  href={GOOGLE_FORMS.volunteer.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center justify-between w-full text-xs font-['Poppins'] font-semibold text-[#D97706] hover:text-[#B45309] transition-colors"
-                >
-                  <span>Volunteer</span>
-                  <ExternalLink className="w-4 h-4 ml-1" />
-                </a>
+                <span className="inline-flex items-center gap-1.5 text-xs font-['Poppins'] font-semibold text-[#2563EB]">
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Active Industry Leads</span>
+                </span>
               </div>
             </div>
 
-            {/* Partners (Dark Card) */}
-            <div 
-              onClick={() => { 
-                setActiveTab('partner'); 
-                setSubmissionSuccess(null); 
-              }}
-              className={`rounded-[26px] p-8 border dark-card-glow-orange flex flex-col justify-between text-white group cursor-pointer ${
-                activeTab === 'partner' 
-                  ? 'bg-[#0F172A] border-amber-400 shadow-xl ring-2 ring-amber-400/30 -translate-y-1' 
-                  : 'bg-[#16223A] border-white/10'
-              }`}
-            >
+            {/* Card 4: Commercial Pathways */}
+            <div className="bg-white rounded-[26px] p-8 border border-[#E8EDF4] card-glow-orange flex flex-col justify-between group">
               <div>
-                <span className="font-['Poppins'] font-semibold text-[12px] tracking-[0.16em] text-[#F59E0B] uppercase block mb-3">
-                  PARTNERS
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-[#D97706] mb-6 shadow-xs">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <span className="font-['Poppins'] font-semibold text-[11px] tracking-[0.16em] text-[#D97706] uppercase block mb-2">
+                  ECONOMIC OUTCOMES
                 </span>
-                <h3 className="font-['Poppins'] font-bold text-[20px] text-white mb-2 group-hover:text-amber-300 transition-colors">
-                  Create opportunities
+                <h3 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] mb-3 group-hover:text-[#D97706] transition-colors">
+                  Paid Creative Pathways
                 </h3>
-                <p className="font-['Inter'] text-[14.5px] text-white/70 leading-relaxed">
-                  Build programs, placements or funded challenges with measurable impact.
+                <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
+                  We bridge creators directly into the creative economy through 20+ agency partnerships, studio apprenticeships, freelance gigs, and grant opportunities across Kenya.
                 </p>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-white/10">
-                <a
-                  href={GOOGLE_FORMS.partner.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center justify-between w-full text-xs font-['Poppins'] font-semibold text-amber-400 hover:text-amber-300 transition-colors"
-                >
-                  <span>Become a Partner</span>
-                  <ExternalLink className="w-4 h-4 ml-1" />
-                </a>
+              <div className="pt-6 mt-6 border-t border-[#E8EDF4]">
+                <span className="inline-flex items-center gap-1.5 text-xs font-['Poppins'] font-semibold text-[#D97706]">
+                  <Check className="w-3.5 h-3.5" />
+                  <span>20+ Agency Partners</span>
+                </span>
               </div>
             </div>
 
           </div>
+
         </div>
       </section>
 
-      {/* 3. APPLICATION TABS & FORM ENGINE */}
-      <section id="application-forms" className="py-20 md:py-28 bg-white border-t border-[#E8EDF4]">
-        <div className="max-w-[940px] mx-auto px-6">
+      {/* 3. APPLICATION & ADMISSIONS HUB (Clean, direct, zero redundant fields) */}
+      <section id="application-forms" className="py-20 md:py-28 bg-white">
+        <div className="max-w-[1060px] mx-auto px-6">
           
-          <div className="text-center max-w-[600px] mx-auto mb-8">
-            <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[42px] text-[#0F172A] leading-[1.10] tracking-[-0.025em] mb-3">
-              Apply
+          <div className="text-center max-w-[700px] mx-auto mb-10">
+            <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
+              Application & Proposal Portal
+            </span>
+            <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[44px] text-[#0F172A] leading-[1.10] tracking-[-0.025em] mb-4">
+              Apply Online
             </h2>
-            <p className="font-['Inter'] text-[16px] text-[#64748B]">
-              Applications are reviewed on a rolling basis. Cohorts run year-round.
+            <p className="font-['Inter'] text-[16px] text-[#64748B] leading-relaxed">
+              All cohort applications, mentor registrations, volunteer signups, and partnership proposals are submitted online. For youth applicants, one application covers all 6 programs from our Programs page. Applications are reviewed on a rolling basis.
             </p>
           </div>
 
-          {/* Direct Google Forms Action Card */}
-          <div className="mb-10 bg-gradient-to-r from-[#EFF6FF] via-[#F8FAFC] to-[#EFF6FF] border border-[#BFDBFE] rounded-[20px] p-5 sm:p-6 card-glow flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5 text-left">
-              <div className="w-10 h-10 rounded-xl bg-[#2563EB] text-white flex items-center justify-center shrink-0 shadow-sm">
-                <FileText className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="font-['Poppins'] font-bold text-[15px] text-[#0F172A]">
-                  Official Google Form Application
-                </h4>
-                <p className="font-['Inter'] text-xs sm:text-[13px] text-[#475569]">
-                  Directly complete and submit via the Google Forms portal.
-                </p>
-              </div>
-            </div>
-            <a
-              href={GOOGLE_FORMS[activeTab].url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[12px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-xs sm:text-[13px] shadow-sm hover:shadow transition-all shrink-0"
-            >
-              <span>{GOOGLE_FORMS[activeTab].shortAction}</span>
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* Form Switcher Tabs */}
-          <div className="flex justify-center mb-10">
+          {/* Form Track Switcher Tabs */}
+          <div className="flex justify-center mb-10 overflow-x-auto pb-2 scrollbar-none">
             <div className="inline-flex p-1.5 rounded-[100px] bg-[#F1F5F9] border border-[#E2E8F0] gap-1">
               {[
-                { id: 'youth', label: 'Youth application' },
-                { id: 'mentor', label: 'Mentor application' },
-                { id: 'volunteer', label: 'Volunteer' },
-                { id: 'partner', label: 'Partner enquiry' },
+                { id: 'youth', label: 'Youth Cohorts', badge: '16–30 yrs' },
+                { id: 'mentor', label: 'Mentor Network', badge: 'Industry' },
+                { id: 'volunteer', label: 'Volunteers', badge: 'Events & Studio' },
+                { id: 'partner', label: 'Partnerships', badge: 'Organisations' },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   type="button"
-                  onClick={() => {
-                    setActiveTab(tab.id as any);
-                    setSubmissionSuccess(null);
-                  }}
-                  className={`px-5 py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs sm:text-[13px] transition-all cursor-pointer ${
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-5 sm:px-6 py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs sm:text-[13px] transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'bg-[#0F172A] text-white shadow-sm'
                       : 'text-[#475569] hover:text-[#0F172A]'
                   }`}
                 >
-                  {tab.label}
+                  <span>{tab.label}</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                    activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+                  }`}>
+                    {tab.badge}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Success Banner */}
-          {submissionSuccess ? (
-            <div className="bg-[#F8FAFC] rounded-[28px] p-8 md:p-12 border border-emerald-200 text-center space-y-5 animate-kkf-rise">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
-                <CheckCircle2 className="w-10 h-10" />
-              </div>
-              <h3 className="font-['Poppins'] font-bold text-2xl md:text-3xl text-[#0F172A]">
-                Application Received!
-              </h3>
-              <p className="font-['Inter'] text-[15.5px] text-[#475569] max-w-lg mx-auto leading-relaxed">
-                Thank you for applying for the <strong>{submissionSuccess.type}</strong>. Our admissions and mentorship committee will review your submission and contact you via email/phone within 5 working days.
-              </p>
-              <div className="p-4 rounded-[16px] bg-white border border-[#E8EDF4] max-w-md mx-auto text-left text-xs font-['Inter'] space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-[#64748B]">Reference Code:</span>
-                  <span className="font-mono font-bold text-[#2563EB]">{submissionSuccess.referenceId}</span>
+          {/* Dedicated Application Card */}
+          <div className="bg-[#F8FAFC] rounded-[32px] p-8 md:p-12 border border-[#E2E8F0] shadow-sm card-glow">
+            
+            {/* Header / Track Banner */}
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-8 border-b border-[#E2E8F0]">
+              <div className="space-y-3 max-w-[700px]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/60 text-[#2563EB] text-[11px] font-['Poppins'] font-semibold tracking-wider uppercase">
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>{activeForm.category}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-[#64748B]">Status:</span>
-                  <span className="font-semibold text-emerald-600">Queued for Rolling Review</span>
+                
+                <h3 className="font-['Poppins'] font-bold text-[26px] sm:text-[32px] text-[#0F172A] leading-[1.15]">
+                  {activeForm.title}
+                </h3>
+                
+                <p className="font-['Poppins'] font-medium text-[15px] text-[#2563EB]">
+                  {activeForm.tagline}
+                </p>
+                
+                <p className="font-['Inter'] text-[15px] text-[#475569] leading-relaxed pt-1">
+                  {activeForm.description}
+                </p>
+              </div>
+
+              {/* Status pill */}
+              <div className="shrink-0">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-['Poppins'] font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Applications Open · 2026</span>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setSubmissionSuccess(null)}
-                className="mt-4 px-6 py-2.5 rounded-[12px] bg-[#0F172A] text-white text-xs font-['Poppins'] font-semibold hover:bg-[#2563EB] transition-colors"
-              >
-                Submit Another Application
-              </button>
             </div>
-          ) : (
-            <div className="bg-[#F8FAFC] rounded-[28px] p-8 md:p-12 border border-[#E8EDF4] shadow-sm card-glow font-['Inter']">
+
+            {/* Meta Attributes Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-6 border-b border-[#E2E8F0]">
+              <div className="flex items-start gap-3">
+                <Users className="w-5 h-5 text-[#2563EB] shrink-0 mt-0.5" />
+                <div>
+                  <span className="block font-['Poppins'] font-semibold text-[11.5px] uppercase tracking-wider text-[#64748B]">
+                    Eligibility
+                  </span>
+                  <span className="font-['Inter'] text-[13.5px] text-[#0F172A] font-medium leading-snug">
+                    {activeForm.eligibility}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Clock className="w-5 h-5 text-[#2563EB] shrink-0 mt-0.5" />
+                <div>
+                  <span className="block font-['Poppins'] font-semibold text-[11.5px] uppercase tracking-wider text-[#64748B]">
+                    Time to Complete
+                  </span>
+                  <span className="font-['Inter'] text-[13.5px] text-[#0F172A] font-medium leading-snug">
+                    {activeForm.timeToComplete}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Calendar className="w-5 h-5 text-[#2563EB] shrink-0 mt-0.5" />
+                <div>
+                  <span className="block font-['Poppins'] font-semibold text-[11.5px] uppercase tracking-wider text-[#64748B]">
+                    Review Cycle
+                  </span>
+                  <span className="font-['Inter'] text-[13.5px] text-[#0F172A] font-medium leading-snug">
+                    {activeForm.reviewTime}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* When Youth Tab: Direct cross-link to Programs page for full curriculum, tools, and syllabi */}
+            {activeTab === 'youth' && (
+              <div className="my-8 p-5 sm:p-6 rounded-[22px] bg-white border border-[#E2E8F0] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0 mt-0.5">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A]">
+                      Exploring program tracks and detailed syllabi?
+                    </h4>
+                    <p className="font-['Inter'] text-xs sm:text-[13.5px] text-[#64748B] mt-0.5 leading-relaxed">
+                      All detailed course descriptions, weekly curricula, prerequisites, and studio schedules are on our Programs page.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('programs')}
+                  className="px-4 py-2.5 rounded-[12px] bg-[#0F172A] hover:bg-[#2563EB] text-white font-['Poppins'] font-semibold text-xs transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
+                >
+                  <span>View Programs Page</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
+            {/* 2-Column Guidance Breakdown */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
               
-              {/* Common Error Banner */}
-              {formError && (
-                <div className="mb-6 p-4 rounded-[16px] bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-medium flex items-center gap-3">
-                  <AlertCircle className="w-5 h-5 shrink-0" />
-                  <span>{formError}</span>
-                </div>
-              )}
-
-              {/* Honeypot field for bot protection across tabs */}
-              <div className="hidden" aria-hidden="true">
-                <input
-                  type="text"
-                  name="get_involved_hp"
-                  tabIndex={-1}
-                  value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
-                  autoComplete="off"
-                />
+              {/* Column 1: Checklist */}
+              <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4]">
+                <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A] mb-4 flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#2563EB]" />
+                  <span>What You&apos;ll Need to Prepare</span>
+                </h4>
+                <ul className="space-y-3">
+                  {activeForm.checklist.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5 font-['Inter'] text-[13.5px] text-[#475569]">
+                      <span className="w-5 h-5 rounded-full bg-blue-50 text-[#2563EB] flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* TAB 1: YOUTH APPLICATION */}
-              {activeTab === 'youth' && (
-                <form onSubmit={handleYouthSubmit} className="space-y-6">
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={youthForm.fullName}
-                        onChange={(e) => setYouthForm({ ...youthForm, fullName: e.target.value })}
-                        placeholder="Your full name"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={youthForm.email}
-                        onChange={(e) => setYouthForm({ ...youthForm, email: e.target.value })}
-                        placeholder="you@example.com"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Phone (M-Pesa) <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={youthForm.phone}
-                        onChange={(e) => setYouthForm({ ...youthForm, phone: e.target.value })}
-                        placeholder="+254 700 000 000"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Age <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        min="14"
-                        max="35"
-                        value={youthForm.age}
-                        onChange={(e) => setYouthForm({ ...youthForm, age: Number(e.target.value) })}
-                        placeholder="18"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        County <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        value={youthForm.county}
-                        onChange={(e) => setYouthForm({ ...youthForm, county: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        {KENYA_COUNTIES.map((c) => (
-                          <option key={c.name} value={c.name}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Under 18 Guardian Consent Module */}
-                  {Number(youthForm.age) < 18 && (
-                    <div className="p-5 rounded-[18px] bg-amber-500/10 border border-amber-500/30 space-y-4 animate-kkf-rise">
-                      <div className="flex items-center gap-2 text-amber-800 font-['Poppins'] font-semibold text-xs uppercase tracking-wider">
-                        <AlertCircle className="w-4 h-4 text-amber-600" />
-                        Guardian Consent Required (Applicant Under 18)
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-xs font-medium text-amber-900 mb-1">
-                            Parent / Guardian Full Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={youthForm.guardianName || ''}
-                            onChange={(e) => setYouthForm({ ...youthForm, guardianName: e.target.value })}
-                            placeholder="e.g. Mary Wanjiku"
-                            className="w-full px-3.5 py-2.5 rounded-[10px] bg-white border border-amber-200 text-sm focus:outline-hidden"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-medium text-amber-900 mb-1">
-                            Parent / Guardian Phone <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="tel"
-                            required
-                            value={youthForm.guardianPhone || ''}
-                            onChange={(e) => setYouthForm({ ...youthForm, guardianPhone: e.target.value })}
-                            placeholder="+254 712 345 678"
-                            className="w-full px-3.5 py-2.5 rounded-[10px] bg-white border border-amber-200 text-sm focus:outline-hidden"
-                          />
-                        </div>
-                      </div>
-                      <label className="flex items-start gap-2.5 text-xs text-amber-950 cursor-pointer pt-1">
-                        <input
-                          type="checkbox"
-                          required
-                          checked={youthForm.guardianConsent || false}
-                          onChange={(e) => setYouthForm({ ...youthForm, guardianConsent: e.target.checked })}
-                          className="mt-0.5 rounded text-amber-600 focus:ring-amber-500"
-                        />
-                        <span>I confirm that my parent or legal guardian has granted consent for my participation in KKF programs.</span>
-                      </label>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Education Level
-                      </label>
-                      <select
-                        value={youthForm.educationLevel}
-                        onChange={(e) => setYouthForm({ ...youthForm, educationLevel: e.target.value as any })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        <option value="Secondary">Secondary</option>
-                        <option value="Certificate">Certificate</option>
-                        <option value="Diploma">Diploma</option>
-                        <option value="Undergraduate">Undergraduate</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Program Preference <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        value={youthForm.programPreference}
-                        onChange={(e) => setYouthForm({ ...youthForm, programPreference: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        {PROGRAMS.map((p) => (
-                          <option key={p.slug} value={p.slug}>{p.title} ({p.category})</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Current Skill Level
-                      </label>
-                      <select
-                        value={youthForm.skillLevel}
-                        onChange={(e) => setYouthForm({ ...youthForm, skillLevel: e.target.value as any })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        <option value="Beginner">Beginner (No prior training)</option>
-                        <option value="Some experience">Some experience (Self-taught / Hobby)</option>
-                        <option value="Intermediate">Intermediate (Practicing / Small briefs)</option>
-                        <option value="Advanced">Advanced (Seeking placement)</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Portfolio / Social Link <span className="text-[#94A3B8] font-normal">(Optional)</span>
-                      </label>
-                      <input
-                        type="url"
-                        value={youthForm.portfolioUrl || ''}
-                        onChange={(e) => setYouthForm({ ...youthForm, portfolioUrl: e.target.value })}
-                        placeholder="https://behance.net/you or instagram"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                      Why do you want to join KKF? <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      required
-                      rows={3}
-                      value={youthForm.motivation}
-                      onChange={(e) => setYouthForm({ ...youthForm, motivation: e.target.value })}
-                      placeholder="Tell us about your creative goals and what you hope to build (a few sentences is enough)..."
-                      className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Creative Interests
-                      </label>
-                      <input
-                        type="text"
-                        value={youthForm.creativeInterests}
-                        onChange={(e) => setYouthForm({ ...youthForm, creativeInterests: e.target.value })}
-                        placeholder="e.g. photography, animation, music"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        How did you hear about KKF?
-                      </label>
-                      <select
-                        value={youthForm.referralSource}
-                        onChange={(e) => setYouthForm({ ...youthForm, referralSource: e.target.value as any })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        <option value="Social media">Social media</option>
-                        <option value="A friend">A friend</option>
-                        <option value="School">School / Community</option>
-                        <option value="An event">An event</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <label className="flex items-start gap-3 text-xs text-[#475569] cursor-pointer pt-2">
-                    <input
-                      type="checkbox"
-                      required
-                      checked={youthForm.consent}
-                      onChange={(e) => setYouthForm({ ...youthForm, consent: e.target.checked })}
-                      className="mt-0.5 rounded text-[#2563EB] focus:ring-[#2563EB]"
-                    />
-                    <span>
-                      I consent to KKF storing this information for the purpose of processing my application in accordance with the Kenya Data Protection Act 2019.
-                    </span>
-                  </label>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      className="w-full sm:w-auto px-9 py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Submit Application</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {/* TAB 2: MENTOR APPLICATION */}
-              {activeTab === 'mentor' && (
-                <form onSubmit={handleMentorSubmit} className="space-y-6">
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={mentorForm.name}
-                        onChange={(e) => setMentorForm({ ...mentorForm, name: e.target.value })}
-                        placeholder="Your full name"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={mentorForm.email}
-                        onChange={(e) => setMentorForm({ ...mentorForm, email: e.target.value })}
-                        placeholder="you@example.com"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Phone <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={mentorForm.phone}
-                        onChange={(e) => setMentorForm({ ...mentorForm, phone: e.target.value })}
-                        placeholder="+254 700 000 000"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Profession <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={mentorForm.profession}
-                        onChange={(e) => setMentorForm({ ...mentorForm, profession: e.target.value })}
-                        placeholder="e.g. Art Director, Cinematographer"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Organization / Studio
-                      </label>
-                      <input
-                        type="text"
-                        value={mentorForm.organization}
-                        onChange={(e) => setMentorForm({ ...mentorForm, organization: e.target.value })}
-                        placeholder="Where you work"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Creative Field
-                      </label>
-                      <input
-                        type="text"
-                        value={mentorForm.creativeField}
-                        onChange={(e) => setMentorForm({ ...mentorForm, creativeField: e.target.value })}
-                        placeholder="e.g. Film, Design, Music, UI/UX"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Years of Experience
-                      </label>
-                      <input
-                        type="number"
-                        min="1"
-                        max="50"
-                        value={mentorForm.yearsExperience}
-                        onChange={(e) => setMentorForm({ ...mentorForm, yearsExperience: Number(e.target.value) })}
-                        placeholder="5"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Availability
-                      </label>
-                      <select
-                        value={mentorForm.availability}
-                        onChange={(e) => setMentorForm({ ...mentorForm, availability: e.target.value as any })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        <option value="1–2 hours a month">1–2 hours a month</option>
-                        <option value="3–5 hours a month">3–5 hours a month</option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Project-based">Project-based</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Skills you can teach
-                      </label>
-                      <input
-                        type="text"
-                        value={mentorForm.skills}
-                        onChange={(e) => setMentorForm({ ...mentorForm, skills: e.target.value })}
-                        placeholder="e.g. After Effects, Client Pitching, Lighting"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        LinkedIn or Portfolio URL
-                      </label>
-                      <input
-                        type="url"
-                        value={mentorForm.profileUrl || ''}
-                        onChange={(e) => setMentorForm({ ...mentorForm, profileUrl: e.target.value })}
-                        placeholder="https://linkedin.com/in/..."
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                      Why do you want to mentor with KKF?
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={mentorForm.motivation}
-                      onChange={(e) => setMentorForm({ ...mentorForm, motivation: e.target.value })}
-                      placeholder="Share a brief note on what excites you about mentoring emerging creators..."
-                      className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                    />
-                  </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      className="w-full sm:w-auto px-9 py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Submit Mentor Profile</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {/* TAB 3: VOLUNTEER APPLICATION */}
-              {activeTab === 'volunteer' && (
-                <form onSubmit={handleVolunteerSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={volunteerForm.name}
-                        onChange={(e) => setVolunteerForm({ ...volunteerForm, name: e.target.value })}
-                        placeholder="Your full name"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={volunteerForm.email}
-                        onChange={(e) => setVolunteerForm({ ...volunteerForm, email: e.target.value })}
-                        placeholder="you@example.com"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={volunteerForm.phone}
-                        onChange={(e) => setVolunteerForm({ ...volunteerForm, phone: e.target.value })}
-                        placeholder="+254 700 000 000"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        County of Residence
-                      </label>
-                      <select
-                        value={volunteerForm.county}
-                        onChange={(e) => setVolunteerForm({ ...volunteerForm, county: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        {KENYA_COUNTIES.map((c) => (
-                          <option key={c.name} value={c.name}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                      How would you like to help?
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={volunteerForm.motivation}
-                      onChange={(e) => setVolunteerForm({ ...volunteerForm, motivation: e.target.value })}
-                      placeholder="e.g. event coordination, cohort operations, video production, workshop logistics..."
-                      className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                    />
-                  </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      className="w-full sm:w-auto px-9 py-4 rounded-[14px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Submit Volunteer Form</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {/* TAB 4: PARTNER ENQUIRY */}
-              {activeTab === 'partner' && (
-                <form onSubmit={handlePartnerSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Organization / Foundation Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={partnerForm.organization}
-                        onChange={(e) => setPartnerForm({ ...partnerForm, organization: e.target.value })}
-                        placeholder="Company or Foundation"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Lead Contact Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={partnerForm.contactName}
-                        onChange={(e) => setPartnerForm({ ...partnerForm, contactName: e.target.value })}
-                        placeholder="Your full name"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Work Email <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={partnerForm.email}
-                        onChange={(e) => setPartnerForm({ ...partnerForm, email: e.target.value })}
-                        placeholder="partnership@organization.com"
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                        Partnership Model
-                      </label>
-                      <select
-                        value={partnerForm.interest}
-                        onChange={(e) => setPartnerForm({ ...partnerForm, interest: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                      >
-                        <option value="Fund a cohort">Fund a full cohort</option>
-                        <option value="Fund a challenge">Sponsor a Creative Challenge</option>
-                        <option value="Equipment library">Donate Studio Equipment</option>
-                        <option value="Placements">Provide Studio Placements / Internships</option>
-                        <option value="Other">Other Collaboration</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[13.5px] font-medium text-[#475569] mb-2">
-                      Message / Partnership Concept
-                    </label>
-                    <textarea
-                      rows={4}
-                      value={partnerForm.message}
-                      onChange={(e) => setPartnerForm({ ...partnerForm, message: e.target.value })}
-                      placeholder="Tell us about your organization's goals and how you'd like to support Kenyan youth..."
-                      className="w-full px-4 py-3 rounded-[12px] bg-white border border-[#DDE5EF] text-[15px] focus:outline-hidden focus:border-[#2563EB]"
-                    />
-                  </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      className="w-full sm:w-auto px-9 py-4 rounded-[14px] bg-[#0F172A] hover:bg-[#2563EB] text-white font-['Poppins'] font-semibold text-[15.5px] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Send Partnership Inquiry</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              )}
+              {/* Column 2: Key Benefits */}
+              <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4]">
+                <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A] mb-4 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-[#D97706]" />
+                  <span>What You Receive</span>
+                </h4>
+                <ul className="space-y-3">
+                  {activeForm.keyBenefits.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5 font-['Inter'] text-[13.5px] text-[#475569]">
+                      <span className="w-5 h-5 rounded-full bg-amber-50 text-[#D97706] flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                        ✓
+                      </span>
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
             </div>
-          )}
+
+            {/* Launch Box & Direct Action */}
+            <div className="pt-6 border-t border-[#E2E8F0]">
+              <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-[24px] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+                <div className="space-y-1.5 text-center sm:text-left">
+                  <div className="inline-flex items-center gap-2 text-xs font-['Poppins'] font-semibold text-[#F59E0B] uppercase tracking-wider">
+                    <FileText className="w-4 h-4" />
+                    <span>Official Application Portal</span>
+                  </div>
+                  <h4 className="font-['Poppins'] font-bold text-[20px] sm:text-[22px] text-white">
+                    Ready to submit your application?
+                  </h4>
+                  <p className="font-['Inter'] text-xs sm:text-[13.5px] text-white/75 max-w-lg">
+                    The application form opens directly in a new window. You can safely complete and submit your application on any device.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
+                  <a
+                    href={activeForm.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[14px] bg-[#F59E0B] hover:bg-[#FFB52E] text-[#0F172A] font-['Poppins'] font-bold text-[15px] shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all cursor-pointer"
+                  >
+                    <span>{activeForm.actionText}</span>
+                    <ExternalLink className="w-4 h-4 shrink-0" />
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    title="Copy direct application link"
+                    className="w-full sm:w-auto px-4 py-3.5 rounded-[14px] bg-white/10 hover:bg-white/15 border border-white/15 text-white/90 text-xs font-['Poppins'] font-semibold transition-colors cursor-pointer text-center"
+                  >
+                    {copiedLink ? 'Link Copied!' : 'Copy Link'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Rolling Admissions Workflow (4 Steps) */}
+          <div className="mt-16 pt-12 border-t border-[#E8EDF4]">
+            <div className="text-center max-w-[600px] mx-auto mb-10">
+              <span className="font-['Poppins'] font-semibold text-[12px] tracking-[0.16em] text-[#2563EB] uppercase block mb-2">
+                HOW IT WORKS
+              </span>
+              <h3 className="font-['Poppins'] font-bold text-[24px] sm:text-[28px] text-[#0F172A]">
+                Our 4-Step Rolling Admissions Flow
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  step: '01',
+                  title: 'Submit Application',
+                  desc: 'Complete the online application form with your track preference, contact details, and creative ambitions.',
+                },
+                {
+                  step: '02',
+                  title: 'Review Within 5 Days',
+                  desc: 'Our admissions committee assesses motivation, commitment, and track fit on a rolling weekly basis.',
+                },
+                {
+                  step: '03',
+                  title: 'Discovery Chat',
+                  desc: 'A brief 15-minute informal conversation (in-person at The Foundry or via video call) to align goals.',
+                },
+                {
+                  step: '04',
+                  title: 'Studio Onboarding',
+                  desc: 'Selected candidates are confirmed, assigned studio workstations, and matched with mentors.',
+                },
+              ].map((item) => (
+                <div key={item.step} className="p-6 rounded-[20px] bg-[#F8FAFC] border border-[#E8EDF4]">
+                  <span className="font-['Poppins'] font-bold text-[24px] text-[#2563EB] block mb-2">
+                    {item.step}
+                  </span>
+                  <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A] mb-2">
+                    {item.title}
+                  </h4>
+                  <p className="font-['Inter'] text-[13.5px] text-[#475569] leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Questions / Admissions Help Desk */}
+          <div className="mt-12 p-6 sm:p-8 rounded-[24px] bg-[#EFF6FF] border border-[#BFDBFE] flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4 text-left">
+              <div className="w-12 h-12 rounded-2xl bg-[#2563EB] text-white flex items-center justify-center shrink-0 shadow-sm">
+                <HelpCircle className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A]">
+                  Have questions before submitting your application?
+                </h4>
+                <p className="font-['Inter'] text-xs sm:text-[14px] text-[#475569] leading-relaxed">
+                  Our admissions coordinators are happy to assist with track selection or technical questions.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto shrink-0 justify-center">
+              <a
+                href="mailto:admissions@kijanakreatives.org"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[12px] bg-white hover:bg-slate-50 border border-[#CBD5E1] text-[#0F172A] font-['Poppins'] font-semibold text-xs sm:text-[13px] transition-colors"
+              >
+                <span>Email Admissions</span>
+              </a>
+              <a
+                href="https://wa.me/254700123456"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[12px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-xs sm:text-[13px] transition-colors shadow-xs"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                <span>WhatsApp Admissions</span>
+              </a>
+            </div>
+          </div>
 
         </div>
       </section>
@@ -1151,16 +560,16 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
             Support a creative instead.
           </h2>
           <p className="font-['Inter'] text-[17.5px] text-white/80 leading-relaxed mb-10">
-            Funding equipment, training and mentorship is the fastest way to open a place in a cohort.
+            Funding equipment, studio software, and mentorship stipends is the fastest way to open a tuition-free place in our upcoming cohort.
           </p>
 
           <button
             type="button"
             onClick={() => onNavigate('donate')}
-            className="px-9 py-4 rounded-[14px] bg-[#F59E0B] hover:bg-[#FFB52E] text-[#0F172A] font-['Poppins'] font-bold text-[16px] transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2 mx-auto"
+            className="px-9 py-4 rounded-[14px] bg-[#F59E0B] hover:bg-[#FFB52E] text-[#0F172A] font-['Poppins'] font-bold text-[16px] transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2 mx-auto cursor-pointer"
           >
             <Heart className="w-4 h-4 fill-[#0F172A]" />
-            <span>Donate</span>
+            <span>Donate to KKF</span>
           </button>
         </div>
       </section>
