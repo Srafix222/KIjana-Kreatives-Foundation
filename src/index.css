@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    font-family: var(--font-body);
+    color: #0F172A;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@keyframes kkfRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-kkf-rise {
+  animation: kkfRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-kkf-rise {
+    animation: none !important;
+  }
+}
+
+/* Dark section textured background */
+.bg-dark-textured {
+  background-color: #0F172A;
+  background-image: repeating-linear-gradient(135deg, #16223A 0 14px, #101A2E 14px 28px);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Accessible focus styling for all inputs and textareas */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+}
+
+/* ==========================================================================
+   Universal Interactive Glow System
+   ========================================================================== */
+.card-glow,
+.kkf-card-glow {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-glow:hover,
+.kkf-card-glow:hover {
+  transform: translateY(-4px);
+  border-color: #2563EB !important;
+  box-shadow: 0 16px 36px -6px rgba(37, 99, 235, 0.28), 0 0 24px 2px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* Dark-Surface Adaptations: soft sky-blue glow (rgba(59, 130, 246, 0.45)) */
+.dark-card-glow,
+.card-glow-dark,
+.kkf-card-glow-dark {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark-card-glow:hover,
+.card-glow-dark:hover,
+.kkf-card-glow-dark:hover,
+.bg-dark-textured .card-glow:hover,
+.bg-\[\#0F172A\] .card-glow:hover,
+.bg-\[\#16223A\].card-glow:hover,
+.bg-\[\#16223A\] .card-glow:hover {
+  transform: translateY(-4px);
+  border-color: #60A5FA !important;
+  box-shadow: 0 16px 38px -6px rgba(59, 130, 246, 0.45), 0 0 28px 4px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Matching Orange Glow (#F59E0B): Dual-layer orange glow (rgba(245, 158, 11, 0.38) and rgba(245, 158, 11, 0.28)) */
+.card-glow-orange,
+.card-glow-amber,
+.kkf-card-glow-orange {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-glow-orange:hover,
+.card-glow-amber:hover,
+.kkf-card-glow-orange:hover,
+.card-glow.card-glow-orange:hover,
+.card-glow.card-glow-amber:hover {
+  transform: translateY(-4px);
+  border-color: #F59E0B !important;
+  box-shadow: 0 16px 36px -6px rgba(245, 158, 11, 0.38), 0 0 24px 2px rgba(245, 158, 11, 0.28) !important;
+}
+
+/* Dark Surface Orange Glow: golden-amber (#FBBF24 border with rgba(245, 158, 11, 0.48) radiance) */
+.dark-card-glow-orange,
+.card-glow-orange-dark {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark-card-glow-orange:hover,
+.card-glow-orange-dark:hover,
+.card-glow.dark-card-glow-orange:hover,
+.card-glow-orange.dark-card-glow:hover,
+.bg-dark-textured .card-glow-orange:hover,
+.bg-\[\#0F172A\] .card-glow-orange:hover,
+.bg-\[\#16223A\].card-glow-orange:hover,
+.bg-\[\#16223A\] .card-glow-orange:hover,
+.bg-\[\#16223A\] .card-glow-orange-dark:hover {
+  transform: translateY(-4px);
+  border-color: #FBBF24 !important;
+  box-shadow: 0 16px 38px -6px rgba(245, 158, 11, 0.48), 0 0 28px 4px rgba(245, 158, 11, 0.35) !important;
+}
+
+

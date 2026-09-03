@@ -1,0 +1,6 @@
+{
+  "name": "Kijana Kreatives Foundation",
+  "description": "Official website for Kijana Kreatives Foundation (KKF) — empowering Kenya's next generation of creative innovators with skills, mentorship, and career pathways.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
