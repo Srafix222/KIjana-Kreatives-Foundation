@@ -75,7 +75,7 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
               </div>
 
               {/* County Data Box */}
-              <div className="p-5 rounded-[20px] bg-[#EFF5FF] border border-[#2563EB]/20 flex items-center justify-between">
+              <div className="p-5 rounded-[20px] bg-[#EFF5FF] border border-[#2563EB]/20 card-glow flex items-center justify-between">
                 <div>
                   <span className="text-xs text-[#64748B] block">Selected County</span>
                   <span className="font-['Poppins'] font-bold text-lg text-[#0F172A]">{currentCountyData.name} County</span>
@@ -88,7 +88,7 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
             </div>
 
             {/* Right: Map Vector Illustration */}
-            <div className="lg:col-span-6 bg-[#F8FAFC] rounded-[28px] p-8 border border-[#E8EDF4] flex flex-col items-center justify-center">
+            <div className="lg:col-span-6 bg-[#F8FAFC] rounded-[28px] p-8 border border-[#E8EDF4] card-glow flex flex-col items-center justify-center">
               <div className="w-full max-w-[440px] aspect-[4/3] rounded-[20px] overflow-hidden bg-white border border-[#E8EDF4] p-6 flex flex-col justify-between shadow-sm card-glow">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -99,18 +99,18 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 my-4">
-                  <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E8EDF4]">
+                  <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E8EDF4] card-glow">
                     <span className="text-[11px] text-[#64748B] block">Main Facility</span>
                     <span className="font-semibold text-xs text-[#0F172A]">Nairobi Studio Hub</span>
                   </div>
-                  <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E8EDF4]">
+                  <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E8EDF4] card-glow">
                     <span className="text-[11px] text-[#64748B] block">Satellite Pods</span>
                     <span className="font-semibold text-xs text-[#0F172A]">Mombasa &amp; Kisumu</span>
                   </div>
                 </div>
 
                 <p className="text-[11px] text-[#64748B] text-center font-mono">
-                  Asset: about/kenya-counties-map.svg — Highlighted in #2563EB
+                  Asset: about/kenya-counties-map.svg (Highlighted in #2563EB)
                 </p>
               </div>
             </div>

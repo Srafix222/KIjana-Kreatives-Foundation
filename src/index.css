@@ -6,11 +6,20 @@
     --font-body: 'Inter', system-ui, sans-serif;
   }
   
+  *, *::before, *::after {
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    -moz-hyphens: none !important;
+    -ms-hyphens: none !important;
+  }
+
   body {
     font-family: var(--font-body);
     color: #0F172A;
     background-color: #FFFFFF;
     -webkit-font-smoothing: antialiased;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
   }
 
   h1, h2, h3, h4, h5, h6 {

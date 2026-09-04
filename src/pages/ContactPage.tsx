@@ -179,7 +179,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
               </div>
 
               {/* Fast Routing Banner */}
-              <div className="bg-[#16223A] text-white rounded-[24px] p-6 border border-white/10 dark-card-glow space-y-3">
+              <div className="bg-[#16223A] text-white rounded-[24px] p-6 border border-white/10 dark-card-glow-orange space-y-3">
                 <span className="text-[11px] font-['Poppins'] font-bold text-amber-400 uppercase tracking-wider">
                   Looking to apply or partner?
                 </span>

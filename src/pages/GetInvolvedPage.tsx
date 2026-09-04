@@ -61,7 +61,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
         badge="Get Involved · Cohort 2026"
         badgeColor="amber"
         title={<>Four pathways in. <span className="text-[#F59E0B]">Pick yours.</span></>}
-        description="Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us—apply directly through our official admissions and registration portal."
+        description="Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us, apply directly through our official admissions and registration portal."
       >
         {/* Quick-Jump Pathway Buttons */}
         <div className="flex flex-wrap gap-2 sm:gap-2.5">
@@ -164,7 +164,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
                   Real Client Capstones
                 </h3>
                 <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
-                  No hypothetical textbook drills. Cohorts tackle live production briefs for Kenyan brands, cultural initiatives, and non-profits—graduating with verified commercial client portfolios.
+                  No hypothetical textbook drills. Cohorts tackle live production briefs for Kenyan brands, cultural initiatives, and non-profits, graduating with verified commercial client portfolios.
                 </p>
               </div>
 
@@ -351,7 +351,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
 
             {/* When Youth Tab: Direct cross-link to Programs page for full curriculum, tools, and syllabi */}
             {activeTab === 'youth' && (
-              <div className="my-8 p-5 sm:p-6 rounded-[22px] bg-white border border-[#E2E8F0] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="my-8 p-5 sm:p-6 rounded-[22px] bg-white border border-[#E2E8F0] shadow-xs card-glow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0 mt-0.5">
                     <Sparkles className="w-5 h-5" />
@@ -380,7 +380,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
               
               {/* Column 1: Checklist */}
-              <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4]">
+              <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4] card-glow">
                 <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A] mb-4 flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-[#2563EB]" />
                   <span>What You&apos;ll Need to Prepare</span>
@@ -398,7 +398,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
               </div>
 
               {/* Column 2: Key Benefits */}
-              <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4]">
+              <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4] card-glow-orange">
                 <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A] mb-4 flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-[#D97706]" />
                   <span>What You Receive</span>
@@ -419,7 +419,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
 
             {/* Launch Box & Direct Action */}
             <div className="pt-6 border-t border-[#E2E8F0]">
-              <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-[24px] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+              <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-[24px] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl dark-card-glow-orange">
                 <div className="space-y-1.5 text-center sm:text-left">
                   <div className="inline-flex items-center gap-2 text-xs font-['Poppins'] font-semibold text-[#F59E0B] uppercase tracking-wider">
                     <FileText className="w-4 h-4" />
@@ -492,7 +492,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
                   desc: 'Selected candidates are confirmed, assigned studio workstations, and matched with mentors.',
                 },
               ].map((item) => (
-                <div key={item.step} className="p-6 rounded-[20px] bg-[#F8FAFC] border border-[#E8EDF4]">
+                <div key={item.step} className="p-6 rounded-[20px] bg-[#F8FAFC] border border-[#E8EDF4] card-glow">
                   <span className="font-['Poppins'] font-bold text-[24px] text-[#2563EB] block mb-2">
                     {item.step}
                   </span>
@@ -508,7 +508,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
           </div>
 
           {/* Questions / Admissions Help Desk */}
-          <div className="mt-12 p-6 sm:p-8 rounded-[24px] bg-[#EFF6FF] border border-[#BFDBFE] flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="mt-12 p-6 sm:p-8 rounded-[24px] bg-[#EFF6FF] border border-[#BFDBFE] card-glow flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4 text-left">
               <div className="w-12 h-12 rounded-2xl bg-[#2563EB] text-white flex items-center justify-center shrink-0 shadow-sm">
                 <HelpCircle className="w-6 h-6" />

@@ -48,10 +48,10 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               </p>
             </div>
 
-            <div className="lg:col-span-6 rounded-[28px] overflow-hidden shadow-xl border border-[#E8EDF4]">
+            <div className="lg:col-span-6 rounded-[28px] overflow-hidden shadow-xl border border-[#E8EDF4] card-glow">
               <ImagePlaceholder
                 src={APP_ASSETS.creativeWorkshop}
-                fallbackText="about/workshop.jpg — Design workshop, several people at tables (3:4)"
+                fallbackText="about/workshop.jpg: Design workshop, several people at tables (3:4)"
                 alt="KKF Foundation founders and students in Nairobi"
                 aspectRatio="4:3"
                 className="w-full h-full"

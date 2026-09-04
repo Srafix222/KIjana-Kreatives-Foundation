@@ -24,6 +24,7 @@ import {
   Info
 } from 'lucide-react';
 import { sanitizeText, sanitizeAmount, isValidEmail, isValidPhone, isRateLimited } from '../utils/security';
+import { CompanyFavicon, TrueCompanyLogo } from '../components/PartnerLogos';
 
 interface DonatePageProps {
   onNavigate: (page: PageId) => void;
@@ -304,7 +305,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
               </div>
 
               {/* Transparency Badge */}
-              <div className="p-4 rounded-[16px] bg-[#F8FAFC] border border-[#E8EDF4] flex items-center gap-3 text-xs text-[#475569]">
+              <div className="p-4 rounded-[16px] bg-[#F8FAFC] border border-[#E8EDF4] card-glow flex items-center gap-3 text-xs text-[#475569]">
                 <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
                 <span>
                   All contributions are processed securely and audited annually. An instant PDF receipt is generated upon confirmation.
@@ -369,14 +370,17 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                         setErrorMessage('');
                         setPaymentMethod('mpesa');
                       }}
-                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer card-glow flex flex-col justify-between ${
                         paymentMethod === 'mpesa'
                           ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                           : 'bg-white text-[#0F172A] border-[#DDE5EF] hover:border-[#2563EB]'
                       }`}
                     >
                       <div className="flex items-center justify-between w-full mb-1">
-                        <Smartphone className="w-4 h-4" />
+                        <div className="flex items-center gap-1.5">
+                          <CompanyFavicon company="mpesa" size={16} showBorder={false} />
+                          <Smartphone className="w-3.5 h-3.5" />
+                        </div>
                         <span className={`text-[9.5px] px-1.5 py-0.5 rounded font-mono ${
                           paymentMethod === 'mpesa' ? 'bg-white/20 text-white' : 'bg-emerald-50 text-emerald-700'
                         }`}>Kenya</span>
@@ -395,14 +399,17 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                         setErrorMessage('');
                         setPaymentMethod('card');
                       }}
-                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer card-glow flex flex-col justify-between ${
                         paymentMethod === 'card'
                           ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                           : 'bg-white text-[#0F172A] border-[#DDE5EF] hover:border-[#2563EB]'
                       }`}
                     >
                       <div className="flex items-center justify-between w-full mb-1">
-                        <CreditCard className="w-4 h-4" />
+                        <div className="flex items-center gap-1">
+                          <CompanyFavicon company="visa" size={15} showBorder={false} />
+                          <CompanyFavicon company="mastercard" size={15} showBorder={false} />
+                        </div>
                         <span className={`text-[9.5px] px-1.5 py-0.5 rounded font-mono ${
                           paymentMethod === 'card' ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#2563EB]'
                         }`}>Global</span>
@@ -421,14 +428,17 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                         setErrorMessage('');
                         setPaymentMethod('bank');
                       }}
-                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer card-glow flex flex-col justify-between ${
                         paymentMethod === 'bank'
                           ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                           : 'bg-white text-[#0F172A] border-[#DDE5EF] hover:border-[#2563EB]'
                       }`}
                     >
                       <div className="flex items-center justify-between w-full mb-1">
-                        <Building2 className="w-4 h-4" />
+                        <div className="flex items-center gap-1.5">
+                          <CompanyFavicon company="coopbank" size={16} showBorder={false} />
+                          <Building2 className="w-3.5 h-3.5" />
+                        </div>
                         <span className={`text-[9.5px] px-1.5 py-0.5 rounded font-mono ${
                           paymentMethod === 'bank' ? 'bg-white/20 text-white' : 'bg-amber-50 text-amber-700'
                         }`}>SWIFT</span>
@@ -447,7 +457,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                         setErrorMessage('');
                         setPaymentMethod('cheque');
                       }}
-                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer card-glow flex flex-col justify-between ${
                         paymentMethod === 'cheque'
                           ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                           : 'bg-white text-[#0F172A] border-[#DDE5EF] hover:border-[#2563EB]'
@@ -473,14 +483,17 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                         setErrorMessage('');
                         setPaymentMethod('paypal');
                       }}
-                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between col-span-2 sm:col-span-1 ${
+                      className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer card-glow flex flex-col justify-between col-span-2 sm:col-span-1 ${
                         paymentMethod === 'paypal'
                           ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                           : 'bg-white text-[#0F172A] border-[#DDE5EF] hover:border-[#2563EB]'
                       }`}
                     >
                       <div className="flex items-center justify-between w-full mb-1">
-                        <Globe className="w-4 h-4" />
+                        <div className="flex items-center gap-1.5">
+                          <CompanyFavicon company="paypal" size={16} showBorder={false} />
+                          <Globe className="w-3.5 h-3.5" />
+                        </div>
                         <span className={`text-[9.5px] px-1.5 py-0.5 rounded font-mono ${
                           paymentMethod === 'paypal' ? 'bg-white/20 text-white' : 'bg-sky-50 text-sky-700'
                         }`}>Digital</span>
@@ -498,10 +511,13 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                 {/* Method Specific Content Boxes */}
                 {/* 1. M-PESA */}
                 {paymentMethod === 'mpesa' && (
-                  <div className="p-4 rounded-[14px] bg-emerald-500/10 border border-emerald-500/30 space-y-2.5">
-                    <div className="flex items-center justify-between text-xs text-emerald-900 font-semibold">
-                      <span>Lipa na M-Pesa Online</span>
-                      <span className="font-mono text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded">Paybill 247247</span>
+                  <div className="p-4 rounded-[14px] bg-emerald-500/10 border border-emerald-500/30 card-glow space-y-2.5">
+                    <div className="flex items-center justify-between text-xs text-emerald-900 font-semibold pb-1 border-b border-emerald-500/20">
+                      <div className="flex items-center gap-2">
+                        <TrueCompanyLogo company="mpesa" className="h-5 w-auto" />
+                        <span className="text-[11px] font-bold text-emerald-950">Lipa na M-Pesa Online</span>
+                      </div>
+                      <span className="font-mono text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded font-semibold">Paybill 247247</span>
                     </div>
                     <label className="block text-[11px] text-emerald-950 font-medium">
                       M-Pesa Safaricom Mobile Number:
@@ -527,10 +543,14 @@ export const DonatePage: React.FC<DonatePageProps> = ({
 
                 {/* 2. CARD */}
                 {paymentMethod === 'card' && (
-                  <div className="space-y-2.5 p-4 rounded-[14px] bg-white border border-[#DDE5EF]">
-                    <div className="flex items-center justify-between text-xs text-[#0F172A] font-semibold pb-1 border-b border-[#E8EDF4]">
-                      <span>Debit or Credit Card</span>
-                      <span className="text-[10px] font-mono text-[#64748B]">3D-Secure 256-bit</span>
+                  <div className="space-y-2.5 p-4 rounded-[14px] bg-white border border-[#DDE5EF] card-glow">
+                    <div className="flex items-center justify-between text-xs text-[#0F172A] font-semibold pb-1.5 border-b border-[#E8EDF4]">
+                      <div className="flex items-center gap-2.5">
+                        <TrueCompanyLogo company="visa" className="h-4 w-auto" />
+                        <TrueCompanyLogo company="mastercard" className="h-4 w-auto" />
+                        <span className="text-[11px] text-[#475569] font-medium hidden sm:inline">Debit or Credit Card</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#64748B] bg-slate-100 px-2 py-0.5 rounded">3D-Secure 256-bit</span>
                     </div>
                     <div>
                       <label className="block text-xs text-[#475569] mb-1 font-medium">Card Number</label>
@@ -587,11 +607,14 @@ export const DonatePage: React.FC<DonatePageProps> = ({
 
                 {/* 3. BANK WIRE */}
                 {paymentMethod === 'bank' && (
-                  <div className="p-4 rounded-[16px] bg-white border border-[#DDE5EF] space-y-3 font-['Inter']">
+                  <div className="p-4 rounded-[16px] bg-white border border-[#DDE5EF] card-glow space-y-3 font-['Inter']">
                     <div className="flex items-center justify-between pb-2 border-b border-[#E8EDF4]">
-                      <div className="flex items-center gap-1.5">
-                        <Building2 className="w-4 h-4 text-[#2563EB]" />
-                        <span className="font-['Poppins'] font-bold text-xs text-[#0F172A]">Direct Bank Wire Transfer</span>
+                      <div className="flex items-center gap-2">
+                        <TrueCompanyLogo company="coopbank" className="h-5 w-auto" />
+                        <div>
+                          <span className="font-['Poppins'] font-bold text-xs text-[#0F172A] block leading-none">Co-operative Bank of Kenya</span>
+                          <span className="text-[10px] text-[#64748B]">Official Banking Partner</span>
+                        </div>
                       </div>
                       <span className="text-[10px] font-mono bg-blue-50 text-[#2563EB] px-2 py-0.5 rounded font-semibold">SWIFT / EFT</span>
                     </div>
@@ -704,7 +727,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
 
                 {/* 4. CHEQUE / DRAFT */}
                 {paymentMethod === 'cheque' && (
-                  <div className="p-4 rounded-[16px] bg-white border border-[#DDE5EF] space-y-3 font-['Inter']">
+                  <div className="p-4 rounded-[16px] bg-white border border-[#DDE5EF] card-glow space-y-3 font-['Inter']">
                     <div className="flex items-center justify-between pb-2 border-b border-[#E8EDF4]">
                       <div className="flex items-center gap-1.5">
                         <FileText className="w-4 h-4 text-purple-600" />
@@ -792,10 +815,10 @@ export const DonatePage: React.FC<DonatePageProps> = ({
 
                 {/* 5. PAYPAL */}
                 {paymentMethod === 'paypal' && (
-                  <div className="p-4 rounded-[16px] bg-white border border-[#DDE5EF] space-y-3 font-['Inter']">
+                  <div className="p-4 rounded-[16px] bg-white border border-[#DDE5EF] card-glow space-y-3 font-['Inter']">
                     <div className="flex items-center justify-between pb-2 border-b border-[#E8EDF4]">
-                      <div className="flex items-center gap-1.5">
-                        <Globe className="w-4 h-4 text-sky-600" />
+                      <div className="flex items-center gap-2">
+                        <TrueCompanyLogo company="paypal" className="h-4.5 w-auto" />
                         <span className="font-['Poppins'] font-bold text-xs text-[#0F172A]">PayPal Global Giving</span>
                       </div>
                       <span className="text-[10px] font-mono bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-semibold">Instant Global</span>
@@ -922,7 +945,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
               },
               {
                 q: 'How does KKF allocate donated funds?',
-                a: '100% of public gifts support creative youth program delivery — specifically purchasing high-speed laptops, camera rigs, studio software licenses, and subsidizing transit and meals for low-income participants in Kenya.',
+                a: '100% of public gifts support creative youth program delivery, specifically purchasing high-speed laptops, camera rigs, studio software licenses, and subsidizing transit and meals for low-income participants in Kenya.',
               },
               {
                 q: 'Can I donate physical equipment or studio gear?',

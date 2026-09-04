@@ -119,6 +119,10 @@ export interface Partner {
   type: string;
   logo: string;
   order: number;
+  domain?: string;
+  websiteUrl?: string;
+  logoUrl?: string;
+  faviconUrl?: string;
 }
 
 export interface DonationTier {

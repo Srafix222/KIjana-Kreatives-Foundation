@@ -4,7 +4,6 @@ import { BRAND } from '../data/content';
 import { WhatsAppIcon } from './SocialIcons';
 import { 
   Sparkles, 
-  Search, 
   Heart, 
   ChevronRight, 
   ChevronDown, 
@@ -28,7 +27,6 @@ interface MobileMenuProps {
   isOpen: boolean;
   activePage: PageId;
   onNavigate: (page: PageId, subTopic?: string) => void;
-  onOpenSearch: () => void;
   onClose: () => void;
 }
 
@@ -36,7 +34,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
   activePage,
   onNavigate,
-  onOpenSearch,
   onClose
 }) => {
   const [programsExpanded, setProgramsExpanded] = useState(false);
@@ -178,26 +175,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             </div>
           </div>
 
-          {/* 2. In-Drawer Spotlight Search Input Trigger */}
-          <button
-            type="button"
-            onClick={() => {
-              onClose();
-              onOpenSearch();
-            }}
-            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 active:bg-slate-200 text-slate-600 border border-slate-200/90 transition-all text-xs font-['Inter'] cursor-pointer group shadow-2xs"
-            aria-label="Open search"
-          >
-            <div className="flex items-center gap-2.5">
-              <Search className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform shrink-0" />
-              <span className="font-medium text-slate-600">Search tracks, mentors, stories...</span>
-            </div>
-            <span className="text-[10px] bg-white text-slate-500 font-mono px-2 py-0.5 rounded-md border border-slate-200 shadow-2xs shrink-0 flex items-center gap-1">
-              <span className="font-sans">⌘</span>K
-            </span>
-          </button>
-
-          {/* 3. Navigation Links */}
+          {/* Navigation Links */}
           <nav className="space-y-1 font-['Poppins'] text-sm" aria-label="Mobile Navigation Menu">
             
             {/* Home */}

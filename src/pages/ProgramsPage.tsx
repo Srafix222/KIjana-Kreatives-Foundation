@@ -198,10 +198,10 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
               </div>
             </div>
 
-            <div className="lg:col-span-6 rounded-[24px] overflow-hidden shadow-lg border border-[#E8EDF4]">
+            <div className="lg:col-span-6 rounded-[24px] overflow-hidden shadow-lg border border-[#E8EDF4] card-glow">
               <ImagePlaceholder
                 src={APP_ASSETS.academyShowcase}
-                fallbackText="hero/academy-classroom.jpg — Wide classroom shot — full room, work in progress (4:5)"
+                fallbackText="hero/academy-classroom.jpg: Wide classroom shot, full room, work in progress (4:5)"
                 alt="Creative Academy practical session"
                 aspectRatio="4:3"
                 className="w-full h-full"

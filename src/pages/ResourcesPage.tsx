@@ -245,7 +245,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
       {/* 5. NEWSLETTER BLOCK */}
       <section className="py-20 bg-white border-t border-[#E8EDF4]">
         <div className="max-w-[1240px] mx-auto px-6">
-          <div className="bg-[#16223A] text-white rounded-[28px] p-8 md:p-14 border border-white/10 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="bg-[#16223A] text-white rounded-[28px] p-8 md:p-14 border border-white/10 dark-card-glow-orange flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-[540px]">
               <h2 className="font-['Poppins'] font-bold text-[28px] sm:text-[36px] text-white tracking-tight mb-2">
                 Stay Connected

@@ -196,7 +196,7 @@ export const PROGRAMS: Program[] = [
     schedule: "4 days / week (Mon–Thu, 9:00 AM – 3:30 PM)",
     eligibility: "Kenyan youth aged 18–30 with creative aptitude. Equipment is provided in-studio.",
     image: APP_ASSETS.creativeWorkshop,
-    imagePlaceholderText: "programs/graphic-design.jpg — Designer at a laptop, work visible on screen (3:2)",
+    imagePlaceholderText: "programs/graphic-design.jpg: Designer at a laptop, work visible on screen (3:2)",
     featured: true,
     order: 1,
     skills: ["Visual Identity", "Typography", "Adobe Illustrator", "Photoshop", "Editorial Layout"],
@@ -223,7 +223,7 @@ export const PROGRAMS: Program[] = [
     schedule: "4 days / week (Mon–Thu, 9:00 AM – 3:30 PM)",
     eligibility: "Kenyan youth aged 18–30. All cameras and lighting provided during studio sessions.",
     image: APP_ASSETS.outdoorPhotography,
-    imagePlaceholderText: "programs/photography.jpg — Camera operator mid-shot, hands on the body (3:2)",
+    imagePlaceholderText: "programs/photography.jpg: Camera operator mid-shot, hands on the body (3:2)",
     featured: true,
     order: 2,
     skills: ["Camera Operation", "Lighting Setup", "Premiere Pro", "Audio Recording", "Storyboarding"],
@@ -250,7 +250,7 @@ export const PROGRAMS: Program[] = [
     schedule: "4 days / week (Tue & Thu in studio, Mon & Wed online)",
     eligibility: "Kenyan youth aged 18–30 with foundational illustration or design experience.",
     image: APP_ASSETS.motion3dAnimation,
-    imagePlaceholderText: "programs/animation.jpg — Animation workstation, timeline on screen, tablet (3:2)",
+    imagePlaceholderText: "programs/animation.jpg: Animation workstation, timeline on screen, tablet (3:2)",
     featured: true,
     order: 3,
     skills: ["2D Animation", "After Effects", "Keyframing", "Kinetic Typography", "Character Rigging"],
@@ -277,7 +277,7 @@ export const PROGRAMS: Program[] = [
     schedule: "3 days / week studio practicals (9:00 AM – 4:00 PM)",
     eligibility: "Kenyan youth aged 18–30 passionate about sound and audio engineering.",
     image: APP_ASSETS.soundAudioStudio,
-    imagePlaceholderText: "programs/music-production.jpg — Studio recording — desk, monitors, headphones (3:2)",
+    imagePlaceholderText: "programs/music-production.jpg: Studio recording (desk, monitors, headphones) (3:2)",
     featured: true,
     order: 4,
     skills: ["DAW Workflows", "Beatmaking", "Vocal Recording", "Audio Mixing", "Mastering Basics"],
@@ -304,7 +304,7 @@ export const PROGRAMS: Program[] = [
     schedule: "4 days / week (Mon–Thu, 9:00 AM – 3:00 PM)",
     eligibility: "Kenyan youth aged 18–30. Laptop required for hybrid sessions.",
     image: APP_ASSETS.uiUxWireframing,
-    imagePlaceholderText: "programs/ui-ux.jpg — Two people at a UI design session, wireframes (3:2)",
+    imagePlaceholderText: "programs/ui-ux.jpg: Two people at a UI design session, wireframes (3:2)",
     featured: true,
     order: 5,
     skills: ["User Research", "Figma", "Wireframing", "Interactive Prototyping", "Design Systems"],
@@ -331,7 +331,7 @@ export const PROGRAMS: Program[] = [
     schedule: "2 live evening workshops / week + self-paced lab",
     eligibility: "Practicing or aspiring creators based in Kenya.",
     image: APP_ASSETS.motion3dAnimation,
-    imagePlaceholderText: "programs/ai-creatives.jpg — Creative using AI tools, screen legible (3:2)",
+    imagePlaceholderText: "programs/ai-creatives.jpg: Creative using AI tools, screen legible (3:2)",
     featured: true,
     order: 6,
     skills: ["Prompt Engineering", "Generative Visuals", "Workflow Automation", "Creative Ideation", "Ethics in AI"],
@@ -354,7 +354,7 @@ export const STORIES: Story[] = [
     field: "Photography & Film Capstone",
     quote: "“Our cohort spent four weeks documenting informal craft workers in Gikomba. We presented the finished photo book and short documentary to 14 creative agency leads at the graduation showcase.”",
     avatar: APP_ASSETS.featuredFilmmaker,
-    avatarPlaceholderText: "showcase/artisan-doc.jpg — Documentary film crew on location (1:1)",
+    avatarPlaceholderText: "showcase/artisan-doc.jpg: Documentary film crew on location (1:1)",
     featured: true,
     role: "2025 Creative Academy Capstone",
     highlightWork: "5-part documentary short & published print photo book",
@@ -368,7 +368,7 @@ export const STORIES: Story[] = [
     field: "Graphic Design Capstone",
     quote: "“We delivered an end-to-end visual identity and packaging system for an organic coconut cooperative, cutting printing costs while giving their products premium shelf appeal.”",
     avatar: APP_ASSETS.creativeWorkshop,
-    avatarPlaceholderText: "showcase/agri-brand.jpg — Brand identity style guide and packaging (1:1)",
+    avatarPlaceholderText: "showcase/agri-brand.jpg: Brand identity style guide and packaging (1:1)",
     featured: true,
     role: "2025 Design Cohort Capstone",
     highlightWork: "Full brand identity, label packaging, and vendor guidelines",
@@ -382,7 +382,7 @@ export const STORIES: Story[] = [
     field: "UI/UX Capstone",
     quote: "“Our team prototyped a low-bandwidth group savings application in Figma, validated through user tests with 24 market traders. Two team members were hired as junior product designers following the showcase.”",
     avatar: APP_ASSETS.uiUxWireframing,
-    avatarPlaceholderText: "showcase/savings-ui.jpg — Mobile app wireframes and usability tests (1:1)",
+    avatarPlaceholderText: "showcase/savings-ui.jpg: Mobile app wireframes and usability tests (1:1)",
     featured: true,
     role: "2025 Digital Academy Capstone",
     highlightWork: "Tested 34-screen prototype and accessible component library",
@@ -399,7 +399,7 @@ export const FEATURED_CREATOR = {
   bio: "At the close of every 12-week cohort, students present their capstone projects to a jury of working creative directors, agency founders, and production leads. The showcase serves as a direct bridge from training into paid work.",
   quote: "“We don't grade students on multiple-choice tests. We evaluate their ability to take a client brief from research to finished production and articulate why their creative choices work.”",
   image: APP_ASSETS.academyShowcase,
-  imagePlaceholderText: "showcase/annual-exhibition.jpg — Students presenting capstone projects to agency directors (4:5)",
+  imagePlaceholderText: "showcase/annual-exhibition.jpg: Students presenting capstone projects to agency directors (4:5)",
   stats: [
     { label: "Graduation Rate", val: "100%" },
     { label: "Client Briefs", val: "85" },
@@ -454,13 +454,13 @@ export const POSTS: Post[] = [
     excerpt: "What clients and creative directors actually look for when they hire an emerging designer in East Africa.",
     date: "12 Aug 2026",
     image: APP_ASSETS.workshopSession,
-    imagePlaceholderText: "blog/first-paid-brief.jpg — Designer reviewing client brief at desk (16:9)",
+    imagePlaceholderText: "blog/first-paid-brief.jpg: Designer reviewing client brief at desk (16:9)",
     author: "KKF Programs Team",
     readingMinutes: 6,
     body: `When creative directors, agency leads, and startup founders in Nairobi review junior portfolios, they rarely look for endless decorative mockups or flashy visual gimmicks. What they desperately search for is intentional thinking, clarity of process, and proof that you can solve real commercial problems under real-world constraints.
 
 ### 1. Show the Problem, Not Just the Jpeg
-Every project in your portfolio should answer three fundamental questions before showcasing the final visuals: What was the client or organization trying to achieve? What constraints—such as limited production budgets, tight turnaround times, or low-bandwidth mobile networks—did you operate under? How did your visual and structural decisions directly resolve that challenge?
+Every project in your portfolio should answer three fundamental questions before showcasing the final visuals: What was the client or organization trying to achieve? What constraints (such as limited production budgets, tight turnaround times, or low-bandwidth mobile networks) did you operate under? How did your visual and structural decisions directly resolve that challenge?
 
 For instance, rather than simply labeling a project "Branding for a Coffee Shop," reframe it strategically: "Brand identity and packaging for a Nyeri coffee cooperative designed to stand out on competitive supermarket shelves while cutting single-color plate printing costs by 22%." This immediately shifts you from being viewed as an execution decorator to a strategic creative partner.
 
@@ -472,7 +472,7 @@ Document your initial research, show the rough napkin sketches, include the disc
 ### 3. Speak the Client's Commercial Language
 Talent gets you noticed, but professional hygiene gets you hired repeatedly. Young creatives often lose lucrative contracts not because of weak craft, but because of poor communication, ambiguous pricing, or missing contract agreements.
 
-Always present transparent scopes of work (SOW), outline revision milestones upfront, and mandate a standard 50% deposit before commencing any project. When you discuss deliverables in terms of business outcomes—such as user engagement, brand recall, and conversion rates—clients feel confident paying professional rates in Kenyan Shillings or foreign currencies.
+Always present transparent scopes of work (SOW), outline revision milestones upfront, and mandate a standard 50% deposit before commencing any project. When you discuss deliverables in terms of business outcomes (such as user engagement, brand recall, and conversion rates), clients feel confident paying professional rates in Kenyan Shillings or foreign currencies.
 
 ### 4. Polish Every Digital Touchpoint
 Ensure your portfolio website or PDF pitch deck loads in under two seconds on standard 4G mobile connections across Kenya. Creative directors frequently review candidate links on their phones while commuting between meetings in Nairobi traffic.
@@ -486,10 +486,10 @@ Make your direct contact channels completely frictionless. Include your active W
     excerpt: "Practical ways young African creatives are leveraging generative tools to work faster, bolder, and more distinctively.",
     date: "29 Jul 2026",
     image: APP_ASSETS.motion3dAnimation,
-    imagePlaceholderText: "blog/ai-creative-voice.jpg — Creative working with generative design software (16:9)",
+    imagePlaceholderText: "blog/ai-creative-voice.jpg: Creative working with generative design software (16:9)",
     author: "KKF Digital Academy",
     readingMinutes: 7,
-    body: `Artificial intelligence tools are rapidly reshaping the creative industries across Kenya and the wider continent. But the most successful young creatives aren't treating AI as an idea replacement or an excuse for shortcuts—they treat it as a tireless studio apprentice that handles tedious scaffolding so they can spend more time refining their unique artistic vision.
+    body: `Artificial intelligence tools are rapidly reshaping the creative industries across Kenya and the wider continent. But the most successful young creatives aren't treating AI as an idea replacement or an excuse for shortcuts; instead, they treat it as a tireless studio apprentice that handles tedious scaffolding so they can spend more time refining their unique artistic vision.
 
 ### 1. Rapid Moodboarding & Texture Generation
 Instead of spending two days endlessly scrolling through generic Western stock photo libraries, forward-thinking art directors use generative diffusion models to build custom visual moodboards, test dynamic lighting angles, and generate hyper-specific architectural textures.
@@ -504,7 +504,7 @@ Infusing nuances like Sheng vernacular, Maasai color symbolism, Lamu coral stone
 ### 3. The 80/20 Rule of Creative Craft
 At KKF Digital Academy, we teach our students the 80/20 principle of AI workflow integration: use automated tools for the initial 20% (syntax scaffolding, brainstorming variations, cleaning audio noise) and the final 10% (upscaling textures, format adaptations).
 
-The essential middle 70%—the storytelling heartbeat, typographic hierarchy, editorial pacing, and emotional empathy—must remain strictly human-driven. An algorithm cannot feel the rhythm of an East African drum pattern or understand the social nuances of a community market in Kisumu. Master the tools, but let your human perspective lead.`
+The essential middle 70% (the storytelling heartbeat, typographic hierarchy, editorial pacing, and emotional empathy) must remain strictly human-driven. An algorithm cannot feel the rhythm of an East African drum pattern or understand the social nuances of a community market in Kisumu. Master the tools, but let your human perspective lead.`
   },
   {
     slug: "notes-from-a-term-inside-the-creative-academy",
@@ -513,7 +513,7 @@ The essential middle 70%—the storytelling heartbeat, typographic hierarchy, ed
     excerpt: "Twelve weeks, four Kenyan counties, and a transformative showcase night proving what happens when youth access meets real opportunity.",
     date: "04 Jul 2026",
     image: APP_ASSETS.academyShowcase,
-    imagePlaceholderText: "blog/academy-term-notes.jpg — Creative Academy cohort collaborating in classroom (16:9)",
+    imagePlaceholderText: "blog/academy-term-notes.jpg: Creative Academy cohort collaborating in classroom (16:9)",
     author: "Faith M., Cohort Coordinator",
     readingMinutes: 8,
     body: `Twelve weeks ago, thirty-two young people from across Nairobi, Mombasa, Nakuru, and Kisumu walked through the doors of the KKF Creative Studio. Some had only ever designed on five-year-old smartphones; others carried notebooks filled with hand-drawn comic strips and camera storyboards. Last Thursday, they stood before forty senior agency leads, production heads, and brand directors to present their finished capstone projects.
@@ -524,14 +524,14 @@ The first month of the Academy is intentionally designed to strip away the paral
 More importantly, the studio creates a safe, judgment-free space where failure is treated as necessary data. Through daily peer critique sessions, quiet students who were once intimidated by software tools discovered their voices, learning how to articulate design reasoning with clarity and pride.
 
 ### 2. Weeks 5 to 8: Real Briefs with High Stakes
-In the second month, theoretical exercises ended. The cohort was divided into multidisciplinary pods—pairing a graphic designer, a videographer, a motion animator, and a digital strategist together—and assigned live briefs for local grassroots enterprises and non-profits across Kenya.
+In the second month, theoretical exercises ended. The cohort was divided into multidisciplinary pods, pairing a graphic designer, a videographer, a motion animator, and a digital strategist together, and assigned live briefs for local grassroots enterprises and non-profits across Kenya.
 
 They conducted field interviews in local markets, tested prototypes on real users, managed client feedback meetings, and resolved creative disagreements under tight deadlines. This pressure-tested experience taught them what no online tutorial can: how to collaborate generously, protect creative integrity, and deliver world-class work on time.
 
 ### 3. Weeks 9 to 12: The Showcase and Beyond
 The final weeks culminated in the Annual KKF Creative Showcase. The studio was transformed into an interactive exhibition space featuring short documentary screenings, brand identity installations, UI/UX mobile app prototypes, and 3D architectural renders.
 
-The outcome exceeded our highest expectations: 100% of the cohort successfully graduated their capstones, and within three weeks of graduation, eighteen alumni had already secured paid agency internships, freelance commissions, or studio apprenticeships. The Creative Academy proves that Kenya does not have a talent shortage—it has an opportunity bridge that we are building together.`
+The outcome exceeded our highest expectations: 100% of the cohort successfully graduated their capstones, and within three weeks of graduation, eighteen alumni had already secured paid agency internships, freelance commissions, or studio apprenticeships. The Creative Academy proves that Kenya does not have a talent shortage. It has an opportunity bridge that we are building together.`
   }
 ];
 
@@ -560,7 +560,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Ian Nyatindo",
     role: "Founder & Executive Director",
     portrait: APP_ASSETS.founderPortrait,
-    placeholderText: "team/founder.jpg — Founder portrait (3:4)",
+    placeholderText: "team/founder.jpg: Founder portrait (3:4)",
     bio: "Passionate about democratising creative education and unlocking economic opportunities for East African youth.",
     order: 1
   },
@@ -568,7 +568,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Wanjiru Kariuki",
     role: "Programs Lead",
     portrait: APP_ASSETS.leadCurriculum,
-    placeholderText: "team/programs-lead.jpg — Programs Lead portrait (3:4)",
+    placeholderText: "team/programs-lead.jpg: Programs Lead portrait (3:4)",
     bio: "Over 8 years managing vocational youth curricula and studio production pipelines in Nairobi.",
     order: 2
   },
@@ -576,7 +576,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Kevin Ochieng",
     role: "Creative Director",
     portrait: APP_ASSETS.mentorGuidance,
-    placeholderText: "team/creative-director.jpg — Creative Director portrait (3:4)",
+    placeholderText: "team/creative-director.jpg: Creative Director portrait (3:4)",
     bio: "Award-winning brand designer and animator dedicated to high-standard craft mentorship.",
     order: 3
   },
@@ -584,19 +584,73 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Amina Hassan",
     role: "Head of Partnerships",
     portrait: APP_ASSETS.headPartnerships,
-    placeholderText: "team/partnerships.jpg — Partnerships Lead portrait (3:4)",
+    placeholderText: "team/partnerships.jpg: Partnerships Lead portrait (3:4)",
     bio: "Connecting international cultural foundations, tech studios, and corporate allies with KKF talent.",
     order: 4
   }
 ];
 
 export const PARTNERS: Partner[] = [
-  { name: "Safaricom Foundation", type: "Telecom & Digital Inclusion", logo: "Safaricom", order: 1 },
-  { name: "British Council Kenya", type: "Creative Economy Partner", logo: "British Council", order: 2 },
-  { name: "Goethe-Institut Nairobi", type: "Cultural Exchange", logo: "Goethe-Institut", order: 3 },
-  { name: "Kenya Film Commission", type: "Film & Media Partner", logo: "KFC", order: 4 },
-  { name: "Nairobi Design Week", type: "Industry Showcase", logo: "NDW", order: 5 },
-  { name: "HEVA Fund", type: "Creative Enterprises", logo: "HEVA", order: 6 },
+  { 
+    name: "Safaricom Foundation", 
+    type: "Telecom & Digital Inclusion", 
+    logo: "Safaricom", 
+    order: 1,
+    domain: "safaricomfoundation.org",
+    websiteUrl: "https://www.safaricomfoundation.org",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Safaricom_logo.svg/500px-Safaricom_logo.svg.png",
+    faviconUrl: "https://www.google.com/s2/favicons?domain=safaricom.co.ke&sz=128"
+  },
+  { 
+    name: "British Council Kenya", 
+    type: "Creative Economy Partner", 
+    logo: "British Council", 
+    order: 2,
+    domain: "britishcouncil.org",
+    websiteUrl: "https://www.britishcouncil.or.ke",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c4/British_Council_logo_2020.svg",
+    faviconUrl: "https://www.google.com/s2/favicons?domain=britishcouncil.org&sz=128"
+  },
+  { 
+    name: "Goethe-Institut Nairobi", 
+    type: "Cultural Exchange", 
+    logo: "Goethe-Institut", 
+    order: 3,
+    domain: "goethe.de",
+    websiteUrl: "https://www.goethe.de/ins/ke/en/index.html",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Goethe-Institut_Logo.svg",
+    faviconUrl: "https://www.google.com/s2/favicons?domain=goethe.de&sz=128"
+  },
+  { 
+    name: "Kenya Film Commission", 
+    type: "Film & Media Partner", 
+    logo: "KFC", 
+    order: 4,
+    domain: "kenyafilmcommission.go.ke",
+    websiteUrl: "https://kenyafilmcommission.go.ke",
+    logoUrl: "https://kenyafilmcommission.go.ke/wp-content/themes/_film/assets/images/logo.svg",
+    faviconUrl: "https://www.google.com/s2/favicons?domain=kenyafilmcommission.go.ke&sz=128"
+  },
+  { 
+    name: "Nairobi Design Week", 
+    type: "Industry Showcase", 
+    logo: "NDW", 
+    order: 5,
+    domain: "nairobi.design",
+    websiteUrl: "https://nairobi.design",
+    logoUrl: "https://cdn.prod.website-files.com/6a21fba6fcb435ddecc48a37/6a22c084862e9f9cabaf3840_1%20N.png",
+    faviconUrl: "https://www.google.com/s2/favicons?domain=nairobi.design&sz=128"
+  },
+  { 
+    name: "HEVA Fund", 
+    type: "Creative Enterprises", 
+    logo: "HEVA", 
+    order: 6,
+    domain: "hevafund.com",
+    websiteUrl: "https://hevafund.com",
+    logoUrl: "",
+    faviconUrl: "https://www.google.com/s2/favicons?domain=hevafund.com&sz=128"
+  },
 ];
 
 export const DONATION_TIERS: DonationTier[] = [
@@ -698,6 +752,10 @@ export const BANKING_DETAILS = {
   beneficiary: "Kijana Kreatives Foundation",
   registration: "Registered Non-Profit NGO Reg. OP.218/051/21-0429",
   bankName: "Co-operative Bank of Kenya",
+  bankLogoUrl: "https://www.co-opbank.co.ke/wp-content/uploads/2026/05/Coop-Logo-02-1.png",
+  bankFaviconUrl: "https://www.co-opbank.co.ke/wp-content/uploads/2026/06/cropped-Icon-192x192.jpeg",
+  bankWebsite: "https://www.co-opbank.co.ke",
+  bankDomain: "co-opbank.co.ke",
   branch: "Nairobi Business Centre Branch (Branch Code: 011)",
   swiftCode: "COOPKENA",
   bankAddress: "Co-operative House, Haile Selassie Avenue, P.O. Box 48231 - 00100, Nairobi, Kenya",

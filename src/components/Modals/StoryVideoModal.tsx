@@ -46,7 +46,7 @@ export const StoryVideoModal: React.FC<StoryVideoModalProps> = ({ isOpen, onClos
             <div className="relative w-full h-full">
               <ImagePlaceholder
                 src={APP_ASSETS.cameraFilmSet}
-                fallbackText="hero/story-poster.jpg — Documentary film poster: Young Kenyan creatives in Nairobi studio (16:9)"
+                fallbackText="hero/story-poster.jpg: Documentary film poster, Young Kenyan creatives in Nairobi studio (16:9)"
                 alt="KKF Documentary Story Trailer"
                 aspectRatio="16:9"
                 className="w-full h-full opacity-70"

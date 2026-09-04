@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PageId } from '../types';
-import { ChevronDown, ArrowRight, Sparkles, Heart, Search, Palette, Film, Box, Headphones, Layout, Cpu } from 'lucide-react';
+import { ChevronDown, ArrowRight, Sparkles, Heart, Palette, Film, Box, Headphones, Layout, Cpu } from 'lucide-react';
 import { KKFIconMark } from './BrandLogo';
 import { MobileMenu } from './MobileMenu';
 
 interface NavProps {
   currentPage: PageId;
   onNavigate: (page: PageId, programSlug?: string) => void;
-  onOpenSearch?: () => void;
 }
 
-export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onOpenSearch }) => {
+export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate }) => {
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [programsOpen, setProgramsOpen] = useState(false);
@@ -27,17 +26,8 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onOpenSearch 
       }
     };
 
-    // Keyboard shortcut for Spotlight Search (Cmd+K / Ctrl+K)
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        onOpenSearch?.();
-      }
-    };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
-    window.addEventListener('keydown', handleKeyDown);
     
     // Initial check
     handleScroll();
@@ -45,9 +35,8 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onOpenSearch 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onOpenSearch]);
+  }, []);
 
   // Prevent background scroll when mobile menu is active
   useEffect(() => {
@@ -332,22 +321,6 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onOpenSearch 
           {/* Right Action Cluster */}
           <div className="flex items-center gap-2 sm:gap-3">
             
-            {/* Spotlight Search Trigger (Desktop & Tablet) */}
-            {onOpenSearch && (
-              <button
-                type="button"
-                onClick={onOpenSearch}
-                className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white/80 hover:text-white border border-white/10 text-xs font-['Inter'] transition-all cursor-pointer"
-                title="Search (⌘K)"
-              >
-                <Search className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden md:inline">Search</span>
-                <span className="text-[10px] bg-white/20 text-white font-mono px-1.5 py-0.5 rounded border border-white/10">
-                  ⌘K
-                </span>
-              </button>
-            )}
-
             {/* Donate Action Button */}
             <button
               id="nav-btn-donate"
@@ -406,10 +379,6 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onOpenSearch 
         isOpen={mobileMenuOpen}
         activePage={currentPage}
         onNavigate={handleLinkClick}
-        onOpenSearch={() => {
-          setMobileMenuOpen(false);
-          onOpenSearch?.();
-        }}
         onClose={() => setMobileMenuOpen(false)}
       />
     </>

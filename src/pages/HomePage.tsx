@@ -74,7 +74,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="absolute inset-0 z-0 overflow-hidden">
           <ImagePlaceholder
             src={APP_ASSETS.heroBanner}
-            fallbackText="hero/home-hero-studio.jpg — Young Kenyan creatives in a studio — cameras, laptops, tablets (16:9)"
+            fallbackText="hero/home-hero-studio.jpg: Young Kenyan creatives in a studio, cameras, laptops, tablets (16:9)"
             alt="Young Kenyan creatives working in KKF studio, A Product Of Srafix Ink Design"
             aspectRatio="auto"
             className="w-full h-full object-cover object-center lg:object-[center_35%] opacity-85 transition-opacity duration-700"
@@ -114,7 +114,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </h1>
 
             {/* Sub-headline */}
-            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.6] font-normal mb-8 sm:mb-10 max-w-[620px] text-pretty">
+            <p className="font-['Inter'] text-base sm:text-[18px] md:text-[20px] text-white/85 leading-[1.6] font-normal mb-8 sm:mb-10 max-w-[620px]">
               We equip young people with creative and digital skills, mentorship and opportunities to turn their ideas into careers.
             </p>
 
@@ -196,17 +196,17 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Left: Asymmetric Photo Mosaic */}
             <div className="lg:col-span-6 grid grid-cols-2 gap-4">
               <div className="space-y-4">
-                <div className="rounded-[22px] overflow-hidden shadow-md">
+                <div className="rounded-[22px] overflow-hidden shadow-md card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.workshopSession}
-                    fallbackText="about/workshop.jpg — Design workshop, several people at tables (3:4)"
+                    fallbackText="about/workshop.jpg: Design workshop, several people at tables (3:4)"
                     alt="Creative workshop in Nairobi"
                     aspectRatio="3:4"
                     className="w-full h-full"
                   />
                 </div>
                 {/* Blue 2021 Founded Tile */}
-                <div className="bg-[#2563EB] text-white p-7 rounded-[22px] shadow-md flex flex-col justify-center">
+                <div className="bg-[#2563EB] text-white p-7 rounded-[22px] shadow-md flex flex-col justify-center card-glow-orange">
                   <span className="font-['Poppins'] font-bold text-[36px] leading-none mb-2 text-[#F59E0B]">
                     2021
                   </span>
@@ -220,19 +220,19 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
 
               <div className="space-y-4 pt-8">
-                <div className="rounded-[22px] overflow-hidden shadow-md">
+                <div className="rounded-[22px] overflow-hidden shadow-md card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.cameraFilmSet}
-                    fallbackText="about/camera-on-set.jpg — Camera on set, crew in background (1:1)"
+                    fallbackText="about/camera-on-set.jpg: Camera on set, crew in background (1:1)"
                     alt="Camera crew on set in Nairobi"
                     aspectRatio="1:1"
                     className="w-full h-full"
                   />
                 </div>
-                <div className="rounded-[22px] overflow-hidden shadow-md">
+                <div className="rounded-[22px] overflow-hidden shadow-md card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.mentorGuidance}
-                    fallbackText="about/mentor-student.jpg — Mentor and student, over-the-shoulder (3:4)"
+                    fallbackText="about/mentor-student.jpg: Mentor and student, over-the-shoulder (3:4)"
                     alt="Mentor and student reviewing creative work"
                     aspectRatio="3:4"
                     className="w-full h-full"
@@ -412,13 +412,13 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* 6. FEATURED PROGRAM (KKF Creative Academy: Practical Studio Training) */}
       <section id="home-featured-program" className="py-20 md:py-28 bg-[#F8FAFC]">
         <div className="max-w-[1240px] mx-auto px-6">
-          <div className="bg-white rounded-[30px] p-8 md:p-14 border border-[#E8EDF4] shadow-md grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="bg-white rounded-[30px] p-8 md:p-14 border border-[#E8EDF4] shadow-md card-glow grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Left: Tall Academy Image */}
-            <div className="lg:col-span-5 rounded-[24px] overflow-hidden shadow-lg">
+            <div className="lg:col-span-5 rounded-[24px] overflow-hidden shadow-lg card-glow">
               <ImagePlaceholder
                 src={APP_ASSETS.academyShowcase}
-                fallbackText="hero/academy-classroom.jpg — Wide classroom shot — full room, work in progress (4:5)"
+                fallbackText="hero/academy-classroom.jpg: Wide classroom shot, full room, work in progress (4:5)"
                 alt="KKF Creative Academy Studio in Nairobi"
                 aspectRatio="4:5"
                 className="w-full h-full"
@@ -448,7 +448,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   'Client Capstone Briefs',
                   'Agency Introductions',
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3.5 rounded-[14px] bg-[#F8FAFC] border border-[#E8EDF4]">
+                  <div key={idx} className="flex items-center gap-3 p-3.5 rounded-[14px] bg-[#F8FAFC] border border-[#E8EDF4] card-glow">
                     <div className="w-7 h-7 rounded-full bg-[#2563EB] text-white flex items-center justify-center shrink-0">
                       <Check className="w-4 h-4 stroke-[2.5]" />
                     </div>
@@ -568,20 +568,20 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Right: Staggered 2x2 Photo Grid */}
             <div className="lg:col-span-7 grid grid-cols-2 gap-4">
               <div className="space-y-4">
-                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10">
+                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.creativeWorkshop}
-                    fallbackText="community/workshop.jpg — Workshop in progress (1:1)"
+                    fallbackText="community/workshop.jpg: Workshop in progress (1:1)"
                     alt="Community workshop in progress"
                     aspectRatio="1:1"
                     className="w-full h-full"
                     darkTheme={true}
                   />
                 </div>
-                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10">
+                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.outdoorPhotography}
-                    fallbackText="community/film-shoot.jpg — Film shoot, crew working (4:3)"
+                    fallbackText="community/film-shoot.jpg: Film shoot, crew working (4:3)"
                     alt="Film crew shooting creative brief"
                     aspectRatio="4:3"
                     className="w-full h-full"
@@ -591,20 +591,20 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
 
               <div className="space-y-4 pt-6">
-                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10">
+                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.academyShowcase}
-                    fallbackText="community/group-discussion.jpg — Group discussion, circle seating (4:3)"
+                    fallbackText="community/group-discussion.jpg: Group discussion, circle seating (4:3)"
                     alt="Group critique and portfolio review"
                     aspectRatio="4:3"
                     className="w-full h-full"
                     darkTheme={true}
                   />
                 </div>
-                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10">
+                <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
                     src={APP_ASSETS.mentorGuidance}
-                    fallbackText="community/mentorship.jpg — One-to-one mentorship (1:1)"
+                    fallbackText="community/mentorship.jpg: One-to-one mentorship (1:1)"
                     alt="One-to-one mentorship session"
                     aspectRatio="1:1"
                     className="w-full h-full"
@@ -827,19 +827,21 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 items-center justify-items-center gap-8 sm:gap-10 lg:gap-12 py-4">
             {PARTNERS.map((partner) => (
-              <div
+              <a
                 key={partner.order}
-                className="h-[108px] rounded-[18px] border border-[#E8EDF4] bg-white card-glow flex flex-col items-center justify-between p-3.5 text-center group cursor-pointer"
+                href={partner.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Visit official website: ${partner.name}`}
+                className="flex items-center justify-center p-3 sm:p-4 hover:opacity-85 transition-all duration-300 hover:scale-105 no-underline group"
               >
-                <div className="flex-1 flex items-center justify-center w-full px-1">
-                  <PartnerBrandLogo partnerId={partner.logo} className="h-7 sm:h-8 max-w-[140px] w-auto transition-transform duration-300 group-hover:scale-105" />
-                </div>
-                <span className="text-[10.5px] text-[#64748B] group-hover:text-[#2563EB] font-['Inter'] font-medium truncate max-w-full block pt-1 border-t border-[#F1F5F9] w-full transition-colors">
-                  {partner.type}
-                </span>
-              </div>
+                <PartnerBrandLogo 
+                  partnerId={partner.logo} 
+                  className="h-12 sm:h-14 md:h-16 lg:h-16 max-h-16 w-auto max-w-[170px] sm:max-w-[200px] object-contain transition-transform duration-300" 
+                />
+              </a>
             ))}
           </div>
 
@@ -1081,7 +1083,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* 17. NEWSLETTER (Grey band: Stay Connected) */}
       <section id="home-newsletter" className="py-16 md:py-20 bg-white border-t border-[#E8EDF4]">
         <div className="max-w-[1240px] mx-auto px-6">
-          <div className="bg-[#F8FAFC] rounded-[28px] p-8 md:p-12 border border-[#E8EDF4] flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="bg-[#F8FAFC] rounded-[28px] p-8 md:p-12 border border-[#E8EDF4] card-glow flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-[540px]">
               <h2 className="font-['Poppins'] font-bold text-[28px] sm:text-[34px] text-[#0F172A] tracking-tight mb-2">
                 Stay Connected
