@@ -23,6 +23,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         imageSrc={APP_ASSETS.creativeWorkshop}
         imageAlt="Young Kenyan creators in a collaborative workshop at KKF Nairobi studio"
         imagePosition="object-center"
+        breadcrumbs={[{ label: 'About Foundation', active: true }]}
+        onNavigate={onNavigate}
       />
 
       {/* 2. OUR STORY */}
@@ -50,9 +52,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
             <div className="lg:col-span-6 rounded-[28px] overflow-hidden shadow-xl border border-[#E8EDF4] card-glow">
               <ImagePlaceholder
-                src={APP_ASSETS.creativeWorkshop}
-                fallbackText="about/workshop.jpg: Design workshop, several people at tables (3:4)"
-                alt="KKF Foundation founders and students in Nairobi"
+                src={APP_ASSETS.graphicDesignDoc}
+                fallbackText="about/workshop.jpg: Creative learning environment in Nairobi (4:3)"
+                alt="KKF creative learning environment in Nairobi"
                 aspectRatio="4:3"
                 className="w-full h-full"
               />

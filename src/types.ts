@@ -211,3 +211,12 @@ export interface PartnerEnquiry {
   interest: string;
   message: string;
 }
+
+export interface BreadcrumbItem {
+  label: string;
+  page?: PageId;
+  slug?: string;
+  tab?: 'youth' | 'mentor' | 'volunteer' | 'partner';
+  active?: boolean;
+}
+

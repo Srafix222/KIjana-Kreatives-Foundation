@@ -1,4 +1,6 @@
 import React from 'react';
+import { BreadcrumbItem, PageId } from '../types';
+import { Breadcrumbs } from './Breadcrumbs';
 
 interface PageHeroProps {
   badge: string;
@@ -9,6 +11,8 @@ interface PageHeroProps {
   imagePosition?: string;
   children?: React.ReactNode;
   badgeColor?: 'amber' | 'blue' | 'emerald';
+  breadcrumbs?: BreadcrumbItem[];
+  onNavigate?: (page: PageId, programSlug?: string) => void;
 }
 
 export const PageHero: React.FC<PageHeroProps> = ({
@@ -20,6 +24,8 @@ export const PageHero: React.FC<PageHeroProps> = ({
   imagePosition = 'object-center',
   children,
   badgeColor = 'amber',
+  breadcrumbs,
+  onNavigate,
 }) => {
   const badgeColors = {
     amber: 'text-[#F59E0B]',
@@ -73,6 +79,18 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
       {/* 3. Foreground Typography & Content */}
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
+        {/* Breadcrumb Navigation Trail */}
+        {breadcrumbs && breadcrumbs.length > 0 && (
+          <div className="mb-4 sm:mb-6">
+            <Breadcrumbs 
+              items={breadcrumbs} 
+              onNavigate={onNavigate} 
+              variant="dark"
+              className="px-3 py-1.5 rounded-[100px] bg-white/[0.06] backdrop-blur-md border border-white/10"
+            />
+          </div>
+        )}
+
         <div className="max-w-[820px]">
           {/* Eyebrow */}
           <span className={`font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] uppercase block mb-3 sm:mb-4 ${badgeColors[badgeColor]}`}>

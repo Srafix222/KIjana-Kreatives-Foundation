@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PageId } from '../types';
+import { PageId, BreadcrumbItem } from '../types';
 import { GOOGLE_FORMS } from '../data/forms';
 import { PageHero } from '../components/PageHero';
+import { FAQSection } from '../components/FAQSection';
 import { 
   CheckCircle2, 
   Users, 
@@ -53,6 +54,18 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
     setTimeout(() => setCopiedLink(false), 2500);
   };
 
+  const pathwayNames: Record<string, string> = {
+    youth: 'Youth Application',
+    mentor: 'Become a Mentor',
+    volunteer: 'Volunteer Time',
+    partner: 'Partner With Us',
+  };
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'Get Involved', page: 'get-involved' },
+    { label: pathwayNames[activeTab] || 'Pathways', active: true },
+  ];
+
   return (
     <div id="get-involved-page" className="w-full">
       
@@ -62,6 +75,8 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
         badgeColor="amber"
         title={<>Four pathways in. <span className="text-[#F59E0B]">Pick yours.</span></>}
         description="Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us, apply directly through our official admissions and registration portal."
+        breadcrumbs={breadcrumbItems}
+        onNavigate={onNavigate}
       >
         {/* Quick-Jump Pathway Buttons */}
         <div className="flex flex-wrap gap-2 sm:gap-2.5">
@@ -545,7 +560,14 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
         </div>
       </section>
 
-      {/* 4. CLOSING CTA: SUPPORT A CREATIVE INSTEAD */}
+      {/* 4. ADMISSIONS & GET INVOLVED FAQ */}
+      <FAQSection
+        onNavigate={onNavigate}
+        title="Admissions & Application FAQs"
+        subtitle="Common questions regarding cohort eligibility, studio hours, equipment provision, and mentor matching."
+      />
+
+      {/* 5. CLOSING CTA: SUPPORT A CREATIVE INSTEAD */}
       <section className="py-20 md:py-28 bg-[#0F172A] text-white text-center">
         <div className="max-w-[1240px] mx-auto px-6 max-w-[700px]">
           <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[46px] leading-[1.10] tracking-[-0.03em] mb-6">

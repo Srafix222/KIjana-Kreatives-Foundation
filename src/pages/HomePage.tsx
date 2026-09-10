@@ -16,6 +16,8 @@ import { GOOGLE_FORMS } from '../data/forms';
 import { PartnerBrandLogo } from '../components/PartnerLogos';
 import { StatBand } from '../components/StatBand';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
+import { FAQSection } from '../components/FAQSection';
+import { sanitizeText, isValidEmail, isRateLimited } from '../utils/security';
 import { 
   ArrowRight, 
   Check, 
@@ -30,7 +32,8 @@ import {
   TrendingUp, 
   Award,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  AlertCircle
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -49,14 +52,33 @@ export const HomePage: React.FC<HomePageProps> = ({
   onOpenVideo,
 }) => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterHoneypot, setNewsletterHoneypot] = useState('');
+  const [newsletterError, setNewsletterError] = useState('');
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newsletterEmail && newsletterEmail.includes('@')) {
+    setNewsletterError('');
+
+    // Honeypot check
+    if (newsletterHoneypot) {
       setNewsletterSuccess(true);
-      setNewsletterEmail('');
+      return;
     }
+
+    if (isRateLimited('homepage_newsletter', 2500)) {
+      setNewsletterError('Please wait a moment before trying again.');
+      return;
+    }
+
+    const cleanEmail = sanitizeText(newsletterEmail, 120);
+    if (!isValidEmail(cleanEmail)) {
+      setNewsletterError('Please enter a valid email address.');
+      return;
+    }
+
+    setNewsletterSuccess(true);
+    setNewsletterEmail('');
   };
 
   const featuredPrograms = PROGRAMS.filter((p) => p.featured).slice(0, 6);
@@ -198,9 +220,9 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="space-y-4">
                 <div className="rounded-[22px] overflow-hidden shadow-md card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.workshopSession}
+                    src={APP_ASSETS.graphicDesignDoc}
                     fallbackText="about/workshop.jpg: Design workshop, several people at tables (3:4)"
-                    alt="Creative workshop in Nairobi"
+                    alt="Creative graphic design review workshop in Nairobi"
                     aspectRatio="3:4"
                     className="w-full h-full"
                   />
@@ -222,18 +244,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="space-y-4 pt-8">
                 <div className="rounded-[22px] overflow-hidden shadow-md card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.cameraFilmSet}
+                    src={APP_ASSETS.photographyStreetDoc}
                     fallbackText="about/camera-on-set.jpg: Camera on set, crew in background (1:1)"
-                    alt="Camera crew on set in Nairobi"
+                    alt="Young photographers on Nairobi street"
                     aspectRatio="1:1"
                     className="w-full h-full"
                   />
                 </div>
                 <div className="rounded-[22px] overflow-hidden shadow-md card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.mentorGuidance}
+                    src={APP_ASSETS.animationDoc}
                     fallbackText="about/mentor-student.jpg: Mentor and student, over-the-shoulder (3:4)"
-                    alt="Mentor and student reviewing creative work"
+                    alt="Mentor and animator reviewing timeline in Nairobi"
                     aspectRatio="3:4"
                     className="w-full h-full"
                   />
@@ -570,9 +592,9 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="space-y-4">
                 <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.creativeWorkshop}
-                    fallbackText="community/workshop.jpg: Workshop in progress (1:1)"
-                    alt="Community workshop in progress"
+                    src={APP_ASSETS.musicProductionDoc}
+                    fallbackText="community/workshop.jpg: Music production in studio (1:1)"
+                    alt="Young music producer working in Nairobi studio"
                     aspectRatio="1:1"
                     className="w-full h-full"
                     darkTheme={true}
@@ -580,9 +602,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
                 <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.outdoorPhotography}
-                    fallbackText="community/film-shoot.jpg: Film shoot, crew working (4:3)"
-                    alt="Film crew shooting creative brief"
+                    src={APP_ASSETS.photographyStreetDoc}
+                    fallbackText="community/film-shoot.jpg: Street photography training (4:3)"
+                    alt="Photography trainees on Nairobi street"
                     aspectRatio="4:3"
                     className="w-full h-full"
                     darkTheme={true}
@@ -593,9 +615,9 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="space-y-4 pt-6">
                 <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.academyShowcase}
-                    fallbackText="community/group-discussion.jpg: Group discussion, circle seating (4:3)"
-                    alt="Group critique and portfolio review"
+                    src={APP_ASSETS.webUiUxDoc}
+                    fallbackText="community/group-discussion.jpg: UI/UX prototyping session (4:3)"
+                    alt="UI/UX team reviewing mobile prototype"
                     aspectRatio="4:3"
                     className="w-full h-full"
                     darkTheme={true}
@@ -603,9 +625,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
                 <div className="rounded-[22px] overflow-hidden shadow-lg border border-white/10 dark-card-glow">
                   <ImagePlaceholder
-                    src={APP_ASSETS.mentorGuidance}
-                    fallbackText="community/mentorship.jpg: One-to-one mentorship (1:1)"
-                    alt="One-to-one mentorship session"
+                    src={APP_ASSETS.aiCreativesDoc}
+                    fallbackText="community/mentorship.jpg: AI creative lab workshop (1:1)"
+                    alt="Creatives experimenting with AI tools in practical lab"
                     aspectRatio="1:1"
                     className="w-full h-full"
                     darkTheme={true}
@@ -1080,7 +1102,15 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 17. NEWSLETTER (Grey band: Stay Connected) */}
+      {/* 17. FREQUENTLY ASKED QUESTIONS (SEO & Rich Snippets) */}
+      <FAQSection 
+        onNavigate={onNavigate}
+        title="Frequently Asked Questions"
+        subtitle="Learn about tuition-free creative tracks, admissions eligibility, studio equipment access at The Foundry in Nairobi, and career outcomes."
+        limit={6}
+      />
+
+      {/* 18. NEWSLETTER (Grey band: Stay Connected) */}
       <section id="home-newsletter" className="py-16 md:py-20 bg-white border-t border-[#E8EDF4]">
         <div className="max-w-[1240px] mx-auto px-6">
           <div className="bg-[#F8FAFC] rounded-[28px] p-8 md:p-12 border border-[#E8EDF4] card-glow flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -1102,22 +1132,44 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email"
-                    required
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3.5 rounded-[12px] bg-white border border-[#DDE5EF] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#2563EB] text-sm"
-                  />
-                  <button
-                    type="submit"
-                    className="px-7 py-3.5 rounded-[12px] bg-[#0F172A] hover:bg-[#2563EB] text-white font-['Poppins'] font-semibold text-sm transition-all shrink-0 cursor-pointer shadow-sm"
-                  >
-                    Subscribe
-                  </button>
-                </form>
+                <div className="space-y-2">
+                  <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
+                    {/* Hidden Honeypot Field */}
+                    <input
+                      type="text"
+                      name="website_token_validation"
+                      value={newsletterHoneypot}
+                      onChange={(e) => setNewsletterHoneypot(e.target.value)}
+                      className="hidden"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                    />
+                    <input
+                      type="email"
+                      required
+                      value={newsletterEmail}
+                      onChange={(e) => {
+                        setNewsletterEmail(e.target.value);
+                        if (newsletterError) setNewsletterError('');
+                      }}
+                      placeholder="Enter your email"
+                      className="flex-1 px-4 py-3.5 rounded-[12px] bg-white border border-[#DDE5EF] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#2563EB] text-sm"
+                    />
+                    <button
+                      type="submit"
+                      className="px-7 py-3.5 rounded-[12px] bg-[#0F172A] hover:bg-[#2563EB] text-white font-['Poppins'] font-semibold text-sm transition-all shrink-0 cursor-pointer shadow-sm"
+                    >
+                      Subscribe
+                    </button>
+                  </form>
+                  {newsletterError && (
+                    <div className="flex items-center gap-1.5 text-xs text-red-600 font-['Inter']">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{newsletterError}</span>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>

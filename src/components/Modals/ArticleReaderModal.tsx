@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Post } from '../../types';
 import { X, Calendar, Clock, Share2, Tag, Check, BookOpen, User } from 'lucide-react';
 import { ImagePlaceholder } from '../ImagePlaceholder';
+import { Breadcrumbs } from '../Breadcrumbs';
 
 interface ArticleReaderModalProps {
   post: Post | null;
@@ -113,6 +114,20 @@ export const ArticleReaderModal: React.FC<ArticleReaderModalProps> = ({ post, on
           
           {/* Refined gradient overlay for superior text contrast */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/75 to-transparent flex flex-col justify-end p-6 sm:p-8 md:p-10">
+            <div className="mb-2.5">
+              <Breadcrumbs
+                items={[
+                  { label: 'Resources & Hub', page: 'resources' },
+                  { label: `${post.category} Articles` },
+                  { label: post.title, active: true },
+                ]}
+                onNavigate={() => onClose()}
+                variant="dark"
+                showHomeIcon={false}
+                showJsonLd={false}
+              />
+            </div>
+
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2563EB] text-white text-[11px] font-['Poppins'] font-semibold tracking-wider uppercase shadow-sm">
                 <Tag className="w-3 h-3" />

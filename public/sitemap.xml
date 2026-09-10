@@ -1,43 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://kijanakreatives.org/</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://kijanakreatives.org/assets/images/kkf_hero_documentary_1788763400589.jpg</image:loc>
+      <image:title>Kijana Kreatives Foundation Studio - Nairobi</image:title>
+      <image:caption>Young Kenyan creatives working in KKF studio at The Foundry Arts Hub, Nairobi</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://kijanakreatives.org/about</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://kijanakreatives.org/programs</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://kijanakreatives.org/assets/images/kkf_programs_documentary_1788763400589.jpg</image:loc>
+      <image:title>KKF Creative Academy Studio Tracks</image:title>
+      <image:caption>Graphic design, cinematography, animation, and music production tracks in Nairobi</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://kijanakreatives.org/impact</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://kijanakreatives.org/stories</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://kijanakreatives.org/get-involved</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://kijanakreatives.org/resources</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
   <url>
     <loc>https://kijanakreatives.org/donate</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://kijanakreatives.org/contact</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 </urlset>

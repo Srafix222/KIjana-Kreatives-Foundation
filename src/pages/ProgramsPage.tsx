@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PageId, Program, ProgramCategory } from '../types';
+import { PageId, Program, ProgramCategory, BreadcrumbItem } from '../types';
 import { PROGRAMS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
@@ -25,6 +25,23 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
     ? PROGRAMS
     : PROGRAMS.filter((p) => p.category === selectedCategory);
 
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { 
+      label: 'Creative Programs', 
+      page: selectedCategory !== 'All' ? 'programs' : undefined,
+      active: selectedCategory === 'All'
+    },
+    ...(selectedCategory !== 'All' ? [{ label: `${selectedCategory} Tracks`, active: true }] : []),
+  ];
+
+  const handleBreadcrumbNavigate = (page: PageId, programSlug?: string) => {
+    if (page === 'programs' && selectedCategory !== 'All') {
+      setSelectedCategory('All');
+    } else {
+      onNavigate(page, programSlug);
+    }
+  };
+
   return (
     <div id="programs-page" className="w-full">
       
@@ -37,6 +54,8 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
         imageSrc={APP_ASSETS.cameraFilmSet}
         imageAlt="Cinema camera and studio lighting rig at Kijana Kreatives Foundation"
         imagePosition="object-center"
+        breadcrumbs={breadcrumbItems}
+        onNavigate={handleBreadcrumbNavigate}
       />
 
       {/* 2. PROGRAM CATALOGUE & CATEGORY FILTER */}
@@ -200,9 +219,9 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
 
             <div className="lg:col-span-6 rounded-[24px] overflow-hidden shadow-lg border border-[#E8EDF4] card-glow">
               <ImagePlaceholder
-                src={APP_ASSETS.academyShowcase}
-                fallbackText="hero/academy-classroom.jpg: Wide classroom shot, full room, work in progress (4:5)"
-                alt="Creative Academy practical session"
+                src={APP_ASSETS.documentaryPhoto}
+                fallbackText="hero/academy-classroom.jpg: Creative learning environment in Nairobi (4:3)"
+                alt="Creative Academy practical documentary session"
                 aspectRatio="4:3"
                 className="w-full h-full"
               />

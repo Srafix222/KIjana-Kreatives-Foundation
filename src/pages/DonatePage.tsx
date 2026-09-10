@@ -181,6 +181,8 @@ export const DonatePage: React.FC<DonatePageProps> = ({
         badgeColor="amber"
         title="Fuel the Next Cohort"
         description="100% of public donations go directly into equipment, materials, studio access and mentorship for young Kenyan creatives."
+        breadcrumbs={[{ label: 'Donate & Support', active: true }]}
+        onNavigate={onNavigate}
       />
 
       {/* 2. DONATION ENGINE & TIERS */}

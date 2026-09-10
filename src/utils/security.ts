@@ -54,6 +54,75 @@ export function sanitizeAmount(amount: number | string, min: number = 1, max: nu
 }
 
 /**
+ * Validates and sanitizes hyperlinks to prevent JavaScript / data scheme URI-based XSS attacks.
+ * Only allows http:, https:, mailto:, and tel: protocols.
+ */
+export function sanitizeUrl(url: string): string {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  
+  // Neutralize common javascript / data URI payloads
+  if (/^(javascript:|data:|vbscript:|file:)/i.test(trimmed)) {
+    return '#';
+  }
+  
+  // Allow relative URLs starting with /
+  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) {
+    return trimmed;
+  }
+  
+  try {
+    const parsed = new URL(trimmed, 'https://kijanakreatives.org');
+    if (['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)) {
+      return trimmed;
+    }
+  } catch {
+    return '#';
+  }
+  
+  return '#';
+}
+
+/**
+ * Detects common malicious strings including XSS script patterns and SQL injection signatures.
+ */
+export function detectMaliciousPayload(input: string): boolean {
+  if (!input || typeof input !== 'string') return false;
+  
+  const dangerousPatterns = [
+    /<script\b/i,
+    /javascript:/i,
+    /onerror\s*=/i,
+    /onload\s*=/i,
+    /onclick\s*=/i,
+    /document\.cookie/i,
+    /window\.location/i,
+    /union\s+select/i,
+    /'\s*or\s+'1'\s*=\s*'1/i,
+    /"\s*or\s+"1"\s*=\s*"1/i,
+    /--\s*$/m,
+    /<iframe/i,
+    /<object/i,
+    /<embed/i
+  ];
+  
+  return dangerousPatterns.some(pattern => pattern.test(input));
+}
+
+/**
+ * Generates a cryptographically strong pseudo-random token for CSRF or form session identification.
+ */
+export function generateSecureToken(length: number = 24): string {
+  if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('').slice(0, length);
+  }
+  // Safe deterministic fallback if crypto is not available
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+/**
  * Client-side in-memory rate limiter to mitigate automated form spam
  */
 const submissionTimestamps: Record<string, number> = {};
@@ -69,3 +138,4 @@ export function isRateLimited(actionKey: string, cooldownMs: number = 3000): boo
   submissionTimestamps[actionKey] = now;
   return false;
 }
+

@@ -82,6 +82,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
         badgeColor="amber"
         title="Say hello."
         description="Whether you have a question about a cohort, an idea for a partnership, or want to drop by the space in Nairobi, we would love to hear from you."
+        breadcrumbs={[{ label: 'Contact & Studio Hub', active: true }]}
+        onNavigate={onNavigate}
       />
 
       {/* 2. CONTACT CHANNELS & FORM */}

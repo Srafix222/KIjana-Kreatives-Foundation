@@ -30,7 +30,7 @@ interface FooterProps {
   onNavigate: (page: PageId, programSlug?: string) => void;
   onOpenPrivacy?: () => void;
   onOpenTerms?: () => void;
-  onOpenLegal?: (type: 'privacy' | 'terms' | 'safeguarding' | 'financial') => void;
+  onOpenLegal?: (type: 'privacy' | 'terms' | 'safeguarding' | 'financial' | 'security') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPrivacy, onOpenTerms, onOpenLegal }) => {
@@ -418,6 +418,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPrivacy, onOpe
               className="text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
               Safeguarding
+            </button>
+            <span className="text-slate-700">·</span>
+            <button
+              type="button"
+              onClick={() => {
+                if (onOpenLegal) onOpenLegal('security');
+              }}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1"
+            >
+              <span>Security</span>
             </button>
             <span className="text-slate-700">·</span>
             <button

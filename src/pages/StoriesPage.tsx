@@ -23,6 +23,8 @@ export const StoriesPage: React.FC<StoriesPageProps> = ({ onNavigate }) => {
         imageSrc={APP_ASSETS.featuredFilmmaker}
         imageAlt="Young filmmaker and KKF alumnus working on documentary production"
         imagePosition="object-center"
+        breadcrumbs={[{ label: 'Alumni Stories', active: true }]}
+        onNavigate={onNavigate}
       />
 
       {/* 2. CREATIVE OF THE MONTH */}

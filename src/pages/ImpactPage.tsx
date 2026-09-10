@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PageId, Report } from '../types';
+import { PageId, Report, BreadcrumbItem } from '../types';
 import { OUTCOMES, KENYA_COUNTIES, REPORTS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
@@ -18,6 +18,23 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
   const activeCounties = KENYA_COUNTIES.filter((c) => c.active);
   const currentCountyData = activeCounties.find((c) => c.name === selectedCounty) || activeCounties[0];
 
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { 
+      label: 'Impact & Reports', 
+      page: selectedCounty !== 'Nairobi' ? 'impact' : undefined,
+      active: selectedCounty === 'Nairobi'
+    },
+    ...(selectedCounty !== 'Nairobi' ? [{ label: `${selectedCounty} County`, active: true }] : []),
+  ];
+
+  const handleBreadcrumbNavigate = (page: PageId) => {
+    if (page === 'impact' && selectedCounty !== 'Nairobi') {
+      setSelectedCounty('Nairobi');
+    } else {
+      onNavigate(page);
+    }
+  };
+
   return (
     <div id="impact-page" className="w-full">
       
@@ -30,6 +47,8 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
         imageSrc={APP_ASSETS.academyShowcase}
         imageAlt="Kijana Kreatives Foundation showcase and graduation outcomes"
         imagePosition="object-center"
+        breadcrumbs={breadcrumbItems}
+        onNavigate={handleBreadcrumbNavigate}
       />
 
       {/* 2. ANIMATED STAT BAND */}

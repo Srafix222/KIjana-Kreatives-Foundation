@@ -2,6 +2,7 @@ import React from 'react';
 import { Program } from '../../types';
 import { X, Calendar, Clock, MapPin, Award, CheckCircle, ExternalLink } from 'lucide-react';
 import { ImagePlaceholder } from '../ImagePlaceholder';
+import { Breadcrumbs } from '../Breadcrumbs';
 import { GOOGLE_FORMS } from '../../data/forms';
 
 interface ProgramDetailModalProps {
@@ -37,6 +38,19 @@ export const ProgramDetailModal: React.FC<ProgramDetailModalProps> = ({
             darkTheme={true}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/40 to-transparent flex flex-col justify-end p-6 md:p-8">
+            <div className="mb-2">
+              <Breadcrumbs
+                items={[
+                  { label: 'Creative Programs', page: 'programs' },
+                  { label: `${program.category} Tracks` },
+                  { label: program.title, active: true },
+                ]}
+                onNavigate={() => onClose()}
+                variant="dark"
+                showHomeIcon={false}
+                showJsonLd={false}
+              />
+            </div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-[100px] bg-[#2563EB] text-white text-xs font-['Poppins'] font-semibold uppercase tracking-wider">
                 {program.category}

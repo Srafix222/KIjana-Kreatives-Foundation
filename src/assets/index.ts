@@ -1,18 +1,27 @@
 // Static and generated image assets for Kijana Kreatives Foundation
-import heroBannerImg from './images/kkf_hero_cinematic_1788247206163.jpg';
-import featuredFilmmakerImg from './images/featured_filmmaker_1788243929212.jpg';
-import creativeWorkshopImg from './images/creative_workshop_1788243943856.jpg';
-import founderPortraitImg from './images/founder_portrait_1788243957828.jpg';
-import academyShowcaseImg from './images/academy_showcase_1788243972848.jpg';
-import cameraFilmSetImg from './images/camera_film_set_1788245355003.jpg';
-import mentorGuidanceImg from './images/mentor_guidance_1788245369673.jpg';
-import workshopSessionImg from './images/workshop_session_1788245387396.jpg';
-import outdoorPhotographyImg from './images/outdoor_photography_1788245402817.jpg';
-import soundAudioStudioImg from './images/sound_audio_studio_1788245419684.jpg';
-import motion3dAnimationImg from './images/motion_3d_animation_1788245436265.jpg';
-import uiUxWireframingImg from './images/ui_ux_wireframing_1788245453674.jpg';
-import leadCurriculumImg from './images/lead_curriculum_1788245469846.jpg';
-import headPartnershipsImg from './images/head_partnerships_1788245486200.jpg';
+// Follows KKF Documentary Photography System (Authentic, Lived-in, Candid, Natural Light)
+import heroBannerImg from './images/kkf_hero_documentary_1788763400589.jpg';
+import featuredFilmmakerImg from './images/filmmaker_spotlight_1788763433234.jpg';
+import creativeWorkshopImg from './images/workshop_overview_doc_1788763553237.jpg';
+import founderPortraitImg from './images/director_portrait_doc_1788763585221.jpg';
+import academyShowcaseImg from './images/showcase_documentary_1788763415110.jpg';
+import cameraFilmSetImg from './images/cinema_rigging_doc_1788763448366.jpg';
+import mentorGuidanceImg from './images/mentor_guidance_doc_1788763466076.jpg';
+import workshopSessionImg from './images/design_thinking_doc_1788763480003.jpg';
+import outdoorPhotographyImg from './images/field_photo_practice_1788763494255.jpg';
+import soundAudioStudioImg from './images/audio_booth_space_1788763508180.jpg';
+import motion3dAnimationImg from './images/motion_3d_workspace_1788763523066.jpg';
+import uiUxWireframingImg from './images/uiux_wireframe_doc_1788763539885.jpg';
+import leadCurriculumImg from './images/curriculum_lead_doc_1788763599419.jpg';
+import headPartnershipsImg from './images/partnerships_doc_1788763613248.jpg';
+import communityBrandImg from './images/community_brand_doc_1788763567813.jpg';
+import documentaryPhotoImg from './images/kkf_documentary_photo_1788756617210.jpg';
+import graphicDesignDocImg from './images/graphic_design_documentary_1788756858263.jpg';
+import photographyStreetDocImg from './images/photography_street_documentary_1788756875138.jpg';
+import animationDocImg from './images/animation_motion_documentary_1788756891423.jpg';
+import musicProductionDocImg from './images/music_production_documentary_1788756909923.jpg';
+import webUiUxDocImg from './images/web_uiux_documentary_1788756936260.jpg';
+import aiCreativesDocImg from './images/ai_creatives_documentary_1788756951074.jpg';
 
 export const APP_ASSETS = {
   heroBanner: heroBannerImg,
@@ -29,6 +38,14 @@ export const APP_ASSETS = {
   uiUxWireframing: uiUxWireframingImg,
   leadCurriculum: leadCurriculumImg,
   headPartnerships: headPartnershipsImg,
+  communityBrand: communityBrandImg,
+  documentaryPhoto: documentaryPhotoImg,
+  graphicDesignDoc: graphicDesignDocImg,
+  photographyStreetDoc: photographyStreetDocImg,
+  animationDoc: animationDocImg,
+  musicProductionDoc: musicProductionDocImg,
+  webUiUxDoc: webUiUxDocImg,
+  aiCreativesDoc: aiCreativesDocImg,
 };
 
 export default APP_ASSETS;

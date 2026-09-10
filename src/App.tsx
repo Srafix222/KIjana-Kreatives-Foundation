@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageId, Program, EventItem, Post, Report, Story, DonationReceipt } from './types';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
+import { SEOHead } from './components/SEOHead';
 import { 
   HomePage, 
   AboutPage, 
@@ -23,10 +24,50 @@ import { DonationReceiptModal } from './components/Modals/DonationReceiptModal';
 import { AnnualReportModal } from './components/Modals/AnnualReportModal';
 import { LegalModal } from './components/Modals/LegalModal';
 
+const VALID_PAGES: PageId[] = [
+  'home', 
+  'about', 
+  'programs', 
+  'impact', 
+  'stories', 
+  'get-involved', 
+  'resources', 
+  'donate', 
+  'contact'
+];
+
+function parseInitialRoute(): { page: PageId; programSlug?: string; tab?: 'youth' | 'mentor' | 'volunteer' | 'partner' } {
+  try {
+    const path = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
+    if (VALID_PAGES.includes(path as PageId)) {
+      return { page: path as PageId };
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const pageParam = params.get('page')?.toLowerCase();
+    const programParam = params.get('program') || undefined;
+    const tabParam = params.get('tab') as 'youth' | 'mentor' | 'volunteer' | 'partner' | undefined;
+
+    if (pageParam && VALID_PAGES.includes(pageParam as PageId)) {
+      return { page: pageParam as PageId, programSlug: programParam, tab: tabParam };
+    }
+
+    const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+    if (VALID_PAGES.includes(hash as PageId)) {
+      return { page: hash as PageId };
+    }
+  } catch {
+    // Fallback for isolated contexts
+  }
+
+  return { page: 'home' };
+}
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<PageId>('home');
-  const [selectedProgramSlug, setSelectedProgramSlug] = useState<string | undefined>(undefined);
-  const [selectedInvolvedTab, setSelectedInvolvedTab] = useState<'youth' | 'mentor' | 'volunteer' | 'partner'>('youth');
+  const initialRoute = parseInitialRoute();
+  const [currentPage, setCurrentPage] = useState<PageId>(initialRoute.page);
+  const [selectedProgramSlug, setSelectedProgramSlug] = useState<string | undefined>(initialRoute.programSlug);
+  const [selectedInvolvedTab, setSelectedInvolvedTab] = useState<'youth' | 'mentor' | 'volunteer' | 'partner'>(initialRoute.tab || 'youth');
 
   // Modal States
   const [activeProgram, setActiveProgram] = useState<Program | null>(null);
@@ -35,13 +76,40 @@ export default function App() {
   const [activeReport, setActiveReport] = useState<Report | null>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [activeReceipt, setActiveReceipt] = useState<DonationReceipt | null>(null);
-  const [activeLegal, setActiveLegal] = useState<'privacy' | 'terms' | 'safeguarding' | 'financial' | null>(null);
+  const [activeLegal, setActiveLegal] = useState<'privacy' | 'terms' | 'safeguarding' | 'financial' | 'security' | null>(null);
 
-  // Smooth scroll to top on page change
+  // Sync browser back/forward buttons (popstate)
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.page && VALID_PAGES.includes(event.state.page)) {
+        setCurrentPage(event.state.page);
+        if (event.state.programSlug) setSelectedProgramSlug(event.state.programSlug);
+        if (event.state.tab) setSelectedInvolvedTab(event.state.tab);
+      } else {
+        const route = parseInitialRoute();
+        setCurrentPage(route.page);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Smooth scroll to top on page change and sync URL
   const handleNavigate = (page: PageId, programSlug?: string, tab?: 'youth' | 'mentor' | 'volunteer' | 'partner') => {
     setCurrentPage(page);
     if (programSlug) setSelectedProgramSlug(programSlug);
     if (tab) setSelectedInvolvedTab(tab);
+
+    try {
+      const targetPath = page === 'home' ? '/' : `/${page}`;
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState({ page, programSlug, tab }, '', targetPath);
+      }
+    } catch {
+      // Gracefully handle iframe security restrictions if history.pushState is sandboxed
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -50,12 +118,14 @@ export default function App() {
     const slug = typeof programOrSlug === 'string' ? programOrSlug : programOrSlug.slug;
     setSelectedProgramSlug(slug);
     setSelectedInvolvedTab('youth');
-    setCurrentPage('get-involved');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    handleNavigate('get-involved', slug, 'youth');
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A] selection:bg-[#2563EB]/20 selection:text-[#2563EB]">
+      {/* Dynamic SEO Meta Tags, Canonical & JSON-LD Schemas */}
+      <SEOHead currentPage={currentPage} />
+
       {/* 1. Global Navigation */}
       <Nav 
         currentPage={currentPage} 

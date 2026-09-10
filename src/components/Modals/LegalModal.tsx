@@ -1,9 +1,9 @@
 import React from 'react';
-import { X, ShieldCheck, Lock } from 'lucide-react';
+import { X, ShieldCheck, Lock, ShieldAlert } from 'lucide-react';
 import { BRAND } from '../../data/content';
 
 interface LegalModalProps {
-  type: 'privacy' | 'terms' | 'safeguarding' | 'financial' | null;
+  type: 'privacy' | 'terms' | 'safeguarding' | 'financial' | 'security' | null;
   onClose: () => void;
 }
 
@@ -13,6 +13,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
   const isPrivacy = type === 'privacy';
   const isSafeguarding = type === 'safeguarding';
   const isFinancial = type === 'financial';
+  const isSecurity = type === 'security';
 
   const getTitle = () => {
     switch (type) {
@@ -20,6 +21,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
       case 'terms': return 'Terms of Participation & Engagement';
       case 'safeguarding': return 'Youth Safeguarding & Child Protection';
       case 'financial': return 'Financial Transparency & Governance';
+      case 'security': return 'Information Security & Vulnerability Policy';
     }
   };
 
@@ -29,6 +31,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
       case 'terms': return 'Community standards, intellectual property & studio conduct';
       case 'safeguarding': return 'Safe creative spaces policy & minor protection protocols';
       case 'financial': return 'Audited reports, NGO Board filings & donor stewardship';
+      case 'security': return 'RFC 9116 disclosure standards, TLS encryption & data integrity';
     }
   };
 
@@ -51,7 +54,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
         <div className="flex items-center gap-3 mb-4 pb-4 border-b border-[#E8EDF4]">
           <div className="w-10 h-10 rounded-[12px] bg-[#EFF5FF] text-[#2563EB] flex items-center justify-center">
-            {isPrivacy ? <Lock className="w-5 h-5" /> : <ShieldCheck className="w-5 h-5" />}
+            {isPrivacy ? <Lock className="w-5 h-5" /> : isSecurity ? <ShieldAlert className="w-5 h-5 text-emerald-600" /> : <ShieldCheck className="w-5 h-5" />}
           </div>
           <div>
             <h2 className="font-['Poppins'] font-bold text-xl text-[#0F172A]">
@@ -77,6 +80,23 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               </p>
               <p>
                 <strong>4. Your Rights:</strong> Under the Kenya Data Protection Act 2019, you have the right to request access to, correction of, or permanent deletion of your personal records by contacting <em>{BRAND.email}</em>.
+              </p>
+            </>
+          )}
+
+          {isSecurity && (
+            <>
+              <p>
+                <strong>1. Encryption & Transport Security:</strong> All data transmissions across the Kijana Kreatives Foundation web platform are strictly enforced over HTTPS using TLS 1.3 encryption. We employ strict Content Security Policies (CSP), HTTP Strict Transport Security (HSTS), X-Content-Type-Options nosniff flags, and frame-origin guardrails.
+              </p>
+              <p>
+                <strong>2. Payment & Credential Protection:</strong> KKF never stores, logs, or intercepts sensitive credit card numbers or banking PINs. All financial transactions are processed directly through PCI-DSS Level 1 compliant gateway partners and Safaricom Daraja M-Pesa APIs.
+              </p>
+              <p>
+                <strong>3. Input Sanitization & Anti-Abuse:</strong> All public submission forms feature client-side rate limiting, RFC-compliant email verification, honeypot spam bot trapping, and multi-tier input sanitization to eliminate Cross-Site Scripting (XSS) and injection vectors.
+              </p>
+              <p>
+                <strong>4. Responsible Vulnerability Disclosure:</strong> We welcome ethical security researchers. If you identify a potential vulnerability, please notify our team confidentially at <em>security@kijanakreatives.org</em> or review our RFC 9116 manifest at <em>/.well-known/security.txt</em>. We acknowledge reports within 72 hours and provide safe harbor to researchers acting in good faith.
               </p>
             </>
           )}
