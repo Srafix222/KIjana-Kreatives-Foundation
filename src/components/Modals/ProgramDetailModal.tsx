@@ -190,15 +190,14 @@ export const ProgramDetailModal: React.FC<ProgramDetailModalProps> = ({
             Rolling admission · Next cohort starts <strong className="text-[#0F172A]">{program.cohort}</strong>
           </div>
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <a
-              href={GOOGLE_FORMS.youth.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-7 py-3 rounded-[13px] bg-[#2563EB] hover:bg-[#1D4FD8] text-white font-['Poppins'] font-semibold text-sm transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
+            <button
+              type="button"
+              onClick={() => onApply(program.slug)}
+              className="w-full sm:w-auto px-7 py-3 rounded-[13px] bg-[#2563EB] hover:bg-[#1D4FD8] active:scale-95 text-white font-['Poppins'] font-semibold text-sm transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Apply for this Program</span>
-              <ExternalLink className="w-4 h-4" />
-            </a>
+              <span>Apply for this Track</span>
+              <CheckCircle className="w-4 h-4" />
+            </button>
           </div>
         </div>
 

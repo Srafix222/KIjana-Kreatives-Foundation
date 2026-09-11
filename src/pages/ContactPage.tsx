@@ -7,7 +7,6 @@ import {
   Clock, 
   Send, 
   CheckCircle2, 
-  Sparkles, 
   MessageSquare,
   Building,
   ExternalLink,
@@ -16,13 +15,15 @@ import {
 import { WhatsAppIcon } from '../components/SocialIcons';
 import { PageHero } from '../components/PageHero';
 import { BRAND } from '../data/content';
+import { APP_ASSETS } from '../data/assets';
 import { sanitizeText, isValidEmail, isValidPhone, isRateLimited } from '../utils/security';
 
 interface ContactPageProps {
   onNavigate: (page: PageId) => void;
+  onBack?: () => void;
 }
 
-export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
+export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onBack }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -82,8 +83,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
         badgeColor="amber"
         title="Say hello."
         description="Whether you have a question about a cohort, an idea for a partnership, or want to drop by the space in Nairobi, we would love to hear from you."
+        imageSrc={APP_ASSETS.leadCurriculum}
+        imageAlt="Kijana Kreatives Foundation creative hub and laboratory in Nairobi, Kenya"
         breadcrumbs={[{ label: 'Contact & Studio Hub', active: true }]}
         onNavigate={onNavigate}
+        onBack={onBack}
       />
 
       {/* 2. CONTACT CHANNELS & FORM */}

@@ -10,7 +10,8 @@ import {
   TeamMember, 
   Partner, 
   DonationTier, 
-  Report 
+  Report,
+  ImpactCardItem 
 } from '../types';
 import { APP_ASSETS } from './assets';
 export { GOOGLE_FORMS } from './forms';
@@ -31,30 +32,39 @@ export const BRAND = {
   registration: "Registered Non-Profit Organisation (NGO), Republic of Kenya (Reg. OP.218/051/21-0429)",
 };
 
-export const IMPACT_CARDS = [
+export const IMPACT_CARDS: ImpactCardItem[] = [
   {
     no: "01",
     title: "Youth Empowerment",
     body: "Equipping young people with practical creative skills.",
     accent: false,
+    page: "about",
+    destinationLabel: "Our Mission & Origins",
   },
   {
     no: "02",
     title: "Creative Skills",
     body: "Design, photography, animation, film, music and digital technology.",
     accent: false,
+    page: "programs",
+    destinationLabel: "6 Studio Disciplines",
   },
   {
     no: "03",
     title: "Mentorship",
     body: "Connecting emerging creatives with experienced professionals.",
     accent: false,
+    page: "get-involved",
+    tab: "mentor",
+    destinationLabel: "Industry Mentorship",
   },
   {
     no: "04",
     title: "Career Opportunities",
     body: "Helping young creatives move from learning to earning.",
     accent: true,
+    page: "impact",
+    destinationLabel: "82% Earning & Impact",
   },
 ];
 
@@ -348,46 +358,94 @@ export const PROGRAMS: Program[] = [
 
 export const STORIES: Story[] = [
   {
-    slug: "nairobi-artisan-doc",
-    name: "Nairobi Artisan Heritage Project",
-    county: "Nairobi",
-    field: "Photography & Film Capstone",
-    quote: "“Our cohort spent four weeks documenting informal craft workers in Gikomba. We presented the finished photo book and short documentary to 14 creative agency leads at the graduation showcase.”",
+    slug: "brian-ochieng-film",
+    name: "Brian Ochieng",
+    county: "Nairobi (Mathare)",
+    field: "Documentary Film & Cinematography",
+    quote: "“Joining the film cohort gave me hands-on access to cinema camera rigs and gimbal stabilizers I could never afford on my own. Within three months of graduating, I was hired as a 2nd camera assistant on a regional documentary series and now run my own commercial freelance production company.”",
     avatar: APP_ASSETS.featuredFilmmaker,
-    avatarPlaceholderText: "showcase/artisan-doc.jpg: Documentary film crew on location (1:1)",
+    avatarPlaceholderText: "showcase/brian-ochieng.jpg: Filmmaker on set with cinema rig (1:1)",
     featured: true,
-    role: "2025 Creative Academy Capstone",
-    highlightWork: "5-part documentary short & published print photo book",
+    role: "2024 Film Alumnus · 2nd Camera Assistant & Freelance Director",
+    bio: "Brian completed the 12-week Creative Academy Film & Cinematography track. His graduation capstone on Nairobi informal artisans screened at youth film showcases.",
+    highlightWork: "5-part documentary short & published artisan photo book",
     consentOnFile: true,
     publishedAt: "2025-12-10"
   },
   {
-    slug: "coastal-agri-brand",
-    name: "Coastal Agriculture Identity System",
-    county: "Kilifi & Mombasa",
-    field: "Graphic Design Capstone",
-    quote: "“We delivered an end-to-end visual identity and packaging system for an organic coconut cooperative, cutting printing costs while giving their products premium shelf appeal.”",
+    slug: "faith-kamau-design",
+    name: "Faith Wanjiku Kamau",
+    county: "Kiambu & Nairobi",
+    field: "Graphic Design & Brand Architecture",
+    quote: "“Before Kijana Kreatives, I was designing simple flyers on my phone with Canva. The typography, grid systems, and Adobe Illustrator masterclasses transformed how I approach visual identities. We delivered an end-to-end identity system for an organic agriculture cooperative that cut their printing costs while winning retail shelf space.”",
     avatar: APP_ASSETS.creativeWorkshop,
-    avatarPlaceholderText: "showcase/agri-brand.jpg: Brand identity style guide and packaging (1:1)",
+    avatarPlaceholderText: "showcase/faith-kamau.jpg: Designer reviewing brand identity packaging (1:1)",
     featured: true,
-    role: "2025 Design Cohort Capstone",
-    highlightWork: "Full brand identity, label packaging, and vendor guidelines",
+    role: "2024 Design Alumna · Junior Brand Designer at Scanad Kenya",
+    bio: "Faith graduated from the Graphic Design track and transitioned into agency work within six weeks of the cohort demo day.",
+    highlightWork: "Full brand identity, label packaging, and vendor guidelines for organic co-op",
     consentOnFile: true,
     publishedAt: "2025-11-28"
   },
   {
-    slug: "community-savings-ui",
-    name: "Chama Mobile Interface & Design System",
-    county: "Nakuru & Nairobi",
-    field: "UI/UX Capstone",
-    quote: "“Our team prototyped a low-bandwidth group savings application in Figma, validated through user tests with 24 market traders. Two team members were hired as junior product designers following the showcase.”",
+    slug: "kevin-mutua-uiux",
+    name: "Kevin Mutua",
+    county: "Machakos & Nairobi",
+    field: "UI/UX & Product Design",
+    quote: "“Our team prototyped a low-bandwidth group savings mobile application in Figma, validated through user tests with 24 market traders. Following our capstone presentation to 14 industry leads, two team members were hired as junior product designers.”",
     avatar: APP_ASSETS.uiUxWireframing,
-    avatarPlaceholderText: "showcase/savings-ui.jpg: Mobile app wireframes and usability tests (1:1)",
+    avatarPlaceholderText: "showcase/kevin-mutua.jpg: Product designer wireframing mobile interfaces (1:1)",
     featured: true,
-    role: "2025 Digital Academy Capstone",
-    highlightWork: "Tested 34-screen prototype and accessible component library",
+    role: "2025 Digital Academy Alumnus · Associate Product Designer",
+    bio: "Kevin specializes in accessible digital product design for East African low-connectivity environments.",
+    highlightWork: "Tested 34-screen prototype and accessible component token library",
     consentOnFile: true,
     publishedAt: "2025-10-15"
+  },
+  {
+    slug: "halima-abdi-animation",
+    name: "Halima Hassan Abdi",
+    county: "Mombasa & Kilifi",
+    field: "3D Animation & Motion Graphics",
+    quote: "“3D software like Blender and After Effects required workstation computing power that was out of reach for me in Mombasa. KKF’s creative workstations and 1-on-1 industry mentors allowed me to render my first 60-second character animation reel, landing a remote contract with an international gaming studio.”",
+    avatar: APP_ASSETS.motion3dAnimation,
+    avatarPlaceholderText: "showcase/halima-abdi.jpg: 3D animator rigging character model (1:1)",
+    featured: true,
+    role: "2025 Creative Academy Alumna · 3D Motion Designer & Generalist",
+    bio: "Halima creates Swahili-language youth educational motion graphics and 3D character animations.",
+    highlightWork: "Produced 60-second animated character short & regional awareness campaign",
+    consentOnFile: true,
+    publishedAt: "2025-09-20"
+  },
+  {
+    slug: "emmanuel-kiprop-sound",
+    name: "Emmanuel Kiprop",
+    county: "Eldoret & Nairobi",
+    field: "Sound Engineering & Music Production",
+    quote: "“Learning Foley recording, multitrack mixing, and broadcast mastering at the studio opened doors I didn't think were possible without university tuition. I composed the score and handled sound design for two alumni films and now produce audio for podcast networks in Nairobi.”",
+    avatar: APP_ASSETS.soundAudioStudio,
+    avatarPlaceholderText: "showcase/emmanuel-kiprop.jpg: Audio producer at studio mixing desk (1:1)",
+    featured: true,
+    role: "2024 Sound Cohort Alumnus · Studio Audio Engineer & Composer",
+    bio: "Emmanuel produces original orchestral and indigenous percussion scores for East African independent films.",
+    highlightWork: "Composed original documentary score and Dolby 5.1 surround sound mix",
+    consentOnFile: true,
+    publishedAt: "2025-08-14"
+  },
+  {
+    slug: "grace-otieno-photo",
+    name: "Grace Achieng Otieno",
+    county: "Kisumu County",
+    field: "Documentary & Commercial Photography",
+    quote: "“The foundation provided professional prime lenses, lighting rigs, and weekly photography expeditions. Learning color grading and print curation helped me stage my first solo gallery print series in Kisumu, and I now shoot commercial editorial briefs for local lifestyle publications.”",
+    avatar: APP_ASSETS.outdoorPhotography,
+    avatarPlaceholderText: "showcase/grace-otieno.jpg: Photographer shooting portraits in natural light (1:1)",
+    featured: true,
+    role: "2025 Photography Alumna · Editorial & Commercial Photographer",
+    bio: "Grace documents women entrepreneurs and cultural heritage across western Kenya and Lake Victoria.",
+    highlightWork: "Curated 20-print photo series exhibited at Kenya National Museum youth pavilion",
+    consentOnFile: true,
+    publishedAt: "2025-07-02"
   }
 ];
 

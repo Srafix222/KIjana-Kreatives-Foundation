@@ -1,29 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageId, Program, ProgramCategory, BreadcrumbItem } from '../types';
 import { PROGRAMS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
 import { GOOGLE_FORMS } from '../data/forms';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
-import { ArrowRight, Check, Sparkles, Filter, Calendar, MapPin, Clock, ExternalLink } from 'lucide-react';
+import { ArrowRight, Check, Filter, Calendar, MapPin, Clock, ExternalLink, RotateCcw } from 'lucide-react';
+import { ProgramsListSkeleton } from '../components/Skeleton';
 
 interface ProgramsPageProps {
   onNavigate: (page: PageId, programSlug?: string) => void;
+  onBack?: () => void;
   onOpenProgram: (program: Program) => void;
   initialProgramSlug?: string;
+  isLoading?: boolean;
+  selectedCategory?: string;
+  onCategoryChange?: (category: string) => void;
 }
 
 export const ProgramsPage: React.FC<ProgramsPageProps> = ({
   onNavigate,
+  onBack,
   onOpenProgram,
+  isLoading: externalLoading,
+  selectedCategory: propCategory,
+  onCategoryChange,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [internalCategory, setInternalCategory] = useState<string>('All');
+  const selectedCategory = propCategory !== undefined ? propCategory : internalCategory;
+  const setSelectedCategory = (cat: string) => {
+    if (onCategoryChange) {
+      onCategoryChange(cat);
+    } else {
+      setInternalCategory(cat);
+    }
+  };
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
+  const [isCategoryTransitioning, setIsCategoryTransitioning] = useState<boolean>(false);
+
+  // Initial simulated hydration state for perceived performance optimization
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 380);
+    return () => clearTimeout(timer);
+  }, []);
 
   const categories = ['All', 'Creative', 'Digital', 'Business', 'Opportunities'];
+
+  const handleCategorySelect = (cat: string) => {
+    if (cat === selectedCategory) return;
+    setIsCategoryTransitioning(true);
+    setSelectedCategory(cat);
+    setTimeout(() => {
+      setIsCategoryTransitioning(false);
+    }, 280);
+  };
+
+  const handleManualRefresh = () => {
+    setIsCategoryTransitioning(true);
+    setTimeout(() => {
+      setIsCategoryTransitioning(false);
+    }, 350);
+  };
 
   const filteredPrograms = selectedCategory === 'All'
     ? PROGRAMS
     : PROGRAMS.filter((p) => p.category === selectedCategory);
+
+  const showSkeleton = externalLoading ?? (isInitialLoading || isCategoryTransitioning);
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { 
@@ -56,6 +101,8 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
         imagePosition="object-center"
         breadcrumbs={breadcrumbItems}
         onNavigate={handleBreadcrumbNavigate}
+        onBack={selectedCategory !== 'All' ? () => setSelectedCategory('All') : onBack}
+        backLabel={selectedCategory !== 'All' ? 'All Programs' : 'Back to Home'}
       />
 
       {/* 2. PROGRAM CATALOGUE & CATEGORY FILTER */}
@@ -69,7 +116,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
                 <button
                   key={cat}
                   type="button"
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => handleCategorySelect(cat)}
                   className={`px-5 py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs tracking-wider uppercase transition-all cursor-pointer ${
                     selectedCategory === cat
                       ? 'bg-[#0F172A] text-white shadow-md'
@@ -81,88 +128,107 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
               ))}
             </div>
 
-            <span className="text-xs text-[#64748B] font-mono">
-              Showing {filteredPrograms.length} {filteredPrograms.length === 1 ? 'track' : 'tracks'}
-            </span>
-          </div>
-
-          {/* Program Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPrograms.map((prog) => (
-              <div
-                key={prog.slug}
-                className="bg-white rounded-[26px] overflow-hidden border border-[#E8EDF4] shadow-sm card-glow flex flex-col justify-between group"
+            <div className="flex items-center gap-3 self-end sm:self-auto">
+              <button
+                type="button"
+                onClick={handleManualRefresh}
+                disabled={showSkeleton}
+                title="Reload track catalogue"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#E8EDF4] text-xs font-['Poppins'] font-medium text-[#475569] hover:text-[#2563EB] hover:border-[#2563EB]/40 transition-colors cursor-pointer disabled:opacity-50"
               >
-                <div className="relative h-[200px] w-full overflow-hidden">
-                  <ImagePlaceholder
-                    src={prog.image}
-                    fallbackText={prog.imagePlaceholderText}
-                    alt={prog.title}
-                    aspectRatio="auto"
-                    className="w-full h-full"
-                  />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-[100px] bg-white/90 backdrop-blur-xs text-xs font-['Poppins'] font-semibold text-[#2563EB] shadow-xs">
-                    {prog.category}
-                  </div>
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-[100px] bg-[#0F172A]/80 backdrop-blur-xs text-xs font-['Poppins'] font-semibold text-white">
-                    {prog.duration}
-                  </div>
-                </div>
+                <RotateCcw className={`w-3.5 h-3.5 ${showSkeleton ? 'animate-spin text-[#2563EB]' : ''}`} />
+                <span>Refresh</span>
+              </button>
 
-                <div className="p-7 flex flex-col justify-between flex-1">
-                  <div>
-                    <div className="flex items-center gap-2 text-xs text-[#64748B] font-mono mb-2">
-                      <span>{prog.level}</span>
-                      <span>·</span>
-                      <span>{prog.location}</span>
-                      <span>·</span>
-                      <span className="text-emerald-600 font-semibold">{prog.cost}</span>
-                    </div>
-
-                    <h3 className="font-['Poppins'] font-bold text-[21px] text-[#0F172A] tracking-tight mb-2.5 group-hover:text-[#2563EB] transition-colors">
-                      {prog.title}
-                    </h3>
-                    <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed mb-4">
-                      {prog.description}
-                    </p>
-
-                    <div className="text-xs text-[#64748B] mb-6 space-y-1 bg-[#F8FAFC] p-3 rounded-[12px] border border-[#E8EDF4]">
-                      <div><strong className="text-[#334155]">Schedule:</strong> {prog.schedule}</div>
-                      <div><strong className="text-[#334155]">Eligibility:</strong> {prog.eligibility}</div>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-[#E8EDF4] flex items-center justify-between gap-3">
-                    <button
-                      type="button"
-                      onClick={() => onOpenProgram(prog)}
-                      className="font-['Poppins'] font-semibold text-xs text-[#2563EB] hover:text-[#1D4FD8] flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <span>Curriculum & Details</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </button>
-
-                    <div className="flex items-center gap-2">
-                      <a
-                        href={GOOGLE_FORMS.youth.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3.5 py-1.5 rounded-[10px] bg-[#0F172A] hover:bg-[#2563EB] text-white text-xs font-['Poppins'] font-semibold transition-colors inline-flex items-center gap-1 cursor-pointer"
-                      >
-                        <span>Apply</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                      <span className={`text-[11px] font-['Poppins'] font-semibold px-2 py-1 rounded-full ${
-                        prog.status === 'Open' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                      }`}>
-                        {prog.status}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+              <span className="text-xs text-[#64748B] font-mono">
+                Showing {filteredPrograms.length} {filteredPrograms.length === 1 ? 'track' : 'tracks'}
+              </span>
+            </div>
           </div>
+
+          {/* Program Cards Grid or Skeleton Loader */}
+          {showSkeleton ? (
+            <ProgramsListSkeleton
+              count={selectedCategory === 'All' ? 6 : Math.max(3, filteredPrograms.length)}
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-kkf-rise">
+              {filteredPrograms.map((prog) => (
+                <div
+                  key={prog.slug}
+                  className="bg-white rounded-[26px] overflow-hidden border border-[#E8EDF4] shadow-sm card-glow flex flex-col justify-between group"
+                >
+                  <div className="relative h-[200px] w-full overflow-hidden">
+                    <ImagePlaceholder
+                      src={prog.image}
+                      fallbackText={prog.imagePlaceholderText}
+                      alt={prog.title}
+                      aspectRatio="auto"
+                      className="w-full h-full"
+                    />
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-[100px] bg-white/90 backdrop-blur-xs text-xs font-['Poppins'] font-semibold text-[#2563EB] shadow-xs">
+                      {prog.category}
+                    </div>
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[100px] bg-[#0F172A]/80 backdrop-blur-xs text-xs font-['Poppins'] font-semibold text-white">
+                      {prog.duration}
+                    </div>
+                  </div>
+
+                  <div className="p-7 flex flex-col justify-between flex-1">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs text-[#64748B] font-mono mb-2">
+                        <span>{prog.level}</span>
+                        <span>·</span>
+                        <span>{prog.location}</span>
+                        <span>·</span>
+                        <span className="text-emerald-600 font-semibold">{prog.cost}</span>
+                      </div>
+
+                      <h3 className="font-['Poppins'] font-bold text-[21px] text-[#0F172A] tracking-tight mb-2.5 group-hover:text-[#2563EB] transition-colors">
+                        {prog.title}
+                      </h3>
+                      <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed mb-4">
+                        {prog.description}
+                      </p>
+
+                      <div className="text-xs text-[#64748B] mb-6 space-y-1 bg-[#F8FAFC] p-3 rounded-[12px] border border-[#E8EDF4]">
+                        <div><strong className="text-[#334155]">Schedule:</strong> {prog.schedule}</div>
+                        <div><strong className="text-[#334155]">Eligibility:</strong> {prog.eligibility}</div>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-[#E8EDF4] flex items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={() => onOpenProgram(prog)}
+                        className="font-['Poppins'] font-semibold text-xs text-[#2563EB] hover:text-[#1D4FD8] flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <span>Curriculum & Details</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </button>
+
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={GOOGLE_FORMS.youth.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3.5 py-1.5 rounded-[10px] bg-[#0F172A] hover:bg-[#2563EB] text-white text-xs font-['Poppins'] font-semibold transition-colors inline-flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>Apply</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                        <span className={`text-[11px] font-['Poppins'] font-semibold px-2 py-1 rounded-full ${
+                          prog.status === 'Open' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                        }`}>
+                          {prog.status}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
         </div>
       </section>

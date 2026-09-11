@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageId, DonationReceipt } from '../types';
 import { DONATION_TIERS, BANKING_DETAILS, CHEQUE_DETAILS, BRAND } from '../data/content';
+import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
 import { 
   Heart, 
@@ -12,7 +13,6 @@ import {
   HelpCircle, 
   Lock, 
   ArrowRight, 
-  Sparkles, 
   AlertCircle,
   FileText,
   Globe,
@@ -28,11 +28,13 @@ import { CompanyFavicon, TrueCompanyLogo } from '../components/PartnerLogos';
 
 interface DonatePageProps {
   onNavigate: (page: PageId) => void;
+  onBack?: () => void;
   onDonationSuccess: (receipt: DonationReceipt) => void;
 }
 
 export const DonatePage: React.FC<DonatePageProps> = ({
   onNavigate,
+  onBack,
   onDonationSuccess,
 }) => {
   const [frequency, setFrequency] = useState<'once' | 'monthly'>('once');
@@ -181,8 +183,11 @@ export const DonatePage: React.FC<DonatePageProps> = ({
         badgeColor="amber"
         title="Fuel the Next Cohort"
         description="100% of public donations go directly into equipment, materials, studio access and mentorship for young Kenyan creatives."
+        imageSrc={APP_ASSETS.communityBrand}
+        imageAlt="KKF creative community collaborating on multimedia productions in Nairobi"
         breadcrumbs={[{ label: 'Donate & Support', active: true }]}
         onNavigate={onNavigate}
+        onBack={onBack}
       />
 
       {/* 2. DONATION ENGINE & TIERS */}

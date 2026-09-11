@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Play, Volume2, Award, Clock, Sparkles } from 'lucide-react';
+import { X, Play, Volume2, Award, Clock, Film } from 'lucide-react';
 import { ImagePlaceholder } from '../ImagePlaceholder';
 import { APP_ASSETS } from '../../data/assets';
 
@@ -55,7 +55,7 @@ export const StoryVideoModal: React.FC<StoryVideoModalProps> = ({ isOpen, onClos
               
               <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-black/40 flex flex-col justify-between p-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[100px] bg-white/10 backdrop-blur-md text-amber-400 text-xs font-['Poppins'] font-semibold border border-white/15 w-fit">
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Film className="w-3.5 h-3.5" />
                   Official Foundation Mini-Doc
                 </div>
 

@@ -21,4 +21,7 @@ export {
   MastercardLogo
 } from './PartnerLogos';
 export * from './SocialIcons';
+export { BackToTop } from './BackToTop';
+export { BreadcrumbBar } from './BreadcrumbBar';
+export { Breadcrumbs } from './Breadcrumbs';
 

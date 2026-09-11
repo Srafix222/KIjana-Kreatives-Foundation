@@ -4,13 +4,14 @@ import { VALUES, WHY_WE_EXIST, TIMELINE, TEAM_MEMBERS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
-import { ArrowRight, Heart, Users, Target, Sparkles, CheckCircle } from 'lucide-react';
+import { ArrowRight, Heart, Users, Target, CheckCircle } from 'lucide-react';
 
 interface AboutPageProps {
   onNavigate: (page: PageId) => void;
+  onBack?: () => void;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
+export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onBack }) => {
   return (
     <div id="about-page" className="w-full">
       
@@ -25,6 +26,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         imagePosition="object-center"
         breadcrumbs={[{ label: 'About Foundation', active: true }]}
         onNavigate={onNavigate}
+        onBack={onBack}
       />
 
       {/* 2. OUR STORY */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageId, Program, EventItem, Post } from '../types';
 import { 
   IMPACT_CARDS, 
@@ -18,6 +18,7 @@ import { StatBand } from '../components/StatBand';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { FAQSection } from '../components/FAQSection';
 import { sanitizeText, isValidEmail, isRateLimited } from '../utils/security';
+import { ProgramsListSkeleton } from '../components/Skeleton';
 import { 
   ArrowRight, 
   Check, 
@@ -25,7 +26,6 @@ import {
   Calendar, 
   MapPin, 
   Heart, 
-  Sparkles, 
   Users, 
   Compass, 
   Lightbulb, 
@@ -37,7 +37,7 @@ import {
 } from 'lucide-react';
 
 interface HomePageProps {
-  onNavigate: (page: PageId, programSlug?: string) => void;
+  onNavigate: (page: PageId, programSlug?: string, tab?: 'youth' | 'mentor' | 'volunteer' | 'partner') => void;
   onOpenProgram: (program: Program) => void;
   onOpenEvent: (event: EventItem) => void;
   onOpenPost: (post: Post) => void;
@@ -55,6 +55,14 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [newsletterHoneypot, setNewsletterHoneypot] = useState('');
   const [newsletterError, setNewsletterError] = useState('');
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  const [isProgramsLoading, setIsProgramsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsProgramsLoading(false);
+    }, 380);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +98,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* 1. HERO SECTION */}
       <section 
         id="home-hero"
+        data-hero="true"
         className="relative bg-[#0F172A] text-white pt-28 sm:pt-36 md:pt-44 pb-16 sm:pb-24 md:pb-32 overflow-hidden"
       >
         {/* Background Full-bleed Image with Left-to-Right Dark Gradient */}
@@ -99,7 +108,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             fallbackText="hero/home-hero-studio.jpg: Young Kenyan creatives in a studio, cameras, laptops, tablets (16:9)"
             alt="Young Kenyan creatives working in KKF studio, A Product Of Srafix Ink Design"
             aspectRatio="auto"
-            className="w-full h-full object-cover object-center lg:object-[center_35%] opacity-85 transition-opacity duration-700"
+            className="w-full h-full object-cover object-center lg:object-[center_35%] opacity-95 transition-opacity duration-700"
             darkTheme={true}
             priority={true}
           />
@@ -107,7 +116,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div 
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(90deg, #0F172A 0%, rgba(15,23,42,0.92) 35%, rgba(15,23,42,0.62) 65%, rgba(15,23,42,0.18) 100%)',
+              background: 'linear-gradient(90deg, #0F172A 0%, rgba(15,23,42,0.90) 32%, rgba(15,23,42,0.50) 64%, rgba(15,23,42,0.12) 100%)',
             }}
           />
           {/* Top and Bottom Vignette for navigation & seamless section overlap */}
@@ -181,16 +190,38 @@ export const HomePage: React.FC<HomePageProps> = ({
           {IMPACT_CARDS.map((card) => (
             <div
               key={card.no}
-              className={`bg-white rounded-[22px] sm:rounded-[26px] p-6 sm:p-8 shadow-[0_18px_44px_rgba(15,23,42,0.12)] border border-[#E8EDF4] flex flex-col justify-between group ${
-                card.accent ? 'card-glow-orange' : 'card-glow'
+              id={`impact-card-${card.no}`}
+              role="button"
+              tabIndex={0}
+              onClick={() => onNavigate(card.page, undefined, card.tab)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onNavigate(card.page, undefined, card.tab);
+                }
+              }}
+              aria-label={`Learn more about ${card.title} - leads to ${card.destinationLabel}`}
+              className={`bg-white rounded-[22px] sm:rounded-[26px] p-6 sm:p-8 shadow-[0_18px_44px_rgba(15,23,42,0.10)] hover:shadow-[0_24px_50px_rgba(15,23,42,0.16)] border border-[#E8EDF4] hover:border-slate-300 flex flex-col justify-between group cursor-pointer transition-all duration-300 hover:-translate-y-2 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 select-none ${
+                card.accent 
+                  ? 'focus-visible:ring-[#F59E0B]' 
+                  : 'focus-visible:ring-[#2563EB]'
               }`}
             >
               <div>
-                <span className={`font-['Poppins'] font-bold text-[32px] block mb-3 leading-none transition-transform group-hover:scale-105 ${
-                  card.accent ? 'text-[#F59E0B]' : 'text-[#2563EB]'
-                }`}>
-                  {card.no}
-                </span>
+                <div className="flex items-center justify-between mb-3">
+                  <span className={`font-['Poppins'] font-bold text-[32px] leading-none transition-transform duration-200 group-hover:scale-105 ${
+                    card.accent ? 'text-[#F59E0B]' : 'text-[#2563EB]'
+                  }`}>
+                    {card.no}
+                  </span>
+                  <span className={`text-[10.5px] font-semibold font-['Poppins'] uppercase tracking-wider px-2.5 py-0.5 rounded-full transition-colors ${
+                    card.accent
+                      ? 'bg-amber-50 text-amber-700 group-hover:bg-amber-100/90'
+                      : 'bg-blue-50 text-blue-700 group-hover:bg-blue-100/90'
+                  }`}>
+                    {card.destinationLabel}
+                  </span>
+                </div>
                 <h2 className="font-['Poppins'] font-bold text-[20px] text-[#0F172A] tracking-tight mb-2 group-hover:text-slate-900 transition-colors">
                   {card.title}
                 </h2>
@@ -199,11 +230,18 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </p>
               </div>
 
-              <div className={`pt-6 mt-4 border-t border-[#E8EDF4]/80 flex items-center gap-1.5 text-xs font-semibold ${
-                card.accent ? 'text-[#F59E0B]' : 'text-[#2563EB]'
-              }`}>
-                <span>Learn more</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+              <div className="pt-6 mt-5 border-t border-[#E8EDF4]/80 flex items-center justify-between">
+                <div
+                  className={`inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200 ${
+                    card.accent ? 'text-[#F59E0B] group-hover:text-[#D97706]' : 'text-[#2563EB] group-hover:text-[#1D4ED8]'
+                  }`}
+                >
+                  <span className="group-hover:underline underline-offset-4 decoration-current/50">Learn more</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-200" />
+                </div>
+                <span className="text-[11px] text-slate-400 group-hover:text-slate-600 transition-colors font-mono">
+                  Explore →
+                </span>
               </div>
             </div>
           ))}
@@ -377,56 +415,60 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           {/* 6 Program Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredPrograms.map((prog) => (
-              <div
-                key={prog.slug}
-                className="bg-[#16223A] rounded-[26px] overflow-hidden border border-white/10 dark-card-glow flex flex-col justify-between group"
-              >
-                <div className="relative h-[200px] w-full overflow-hidden">
-                  <ImagePlaceholder
-                    src={prog.image}
-                    fallbackText={prog.imagePlaceholderText}
-                    alt={prog.title}
-                    aspectRatio="auto"
-                    className="w-full h-full"
-                    darkTheme={true}
-                  />
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-[100px] bg-black/60 backdrop-blur-xs text-xs font-['Poppins'] font-medium text-amber-400 border border-white/10">
-                    {prog.duration}
-                  </div>
-                </div>
-
-                <div className="p-7 flex flex-col justify-between flex-1">
-                  <div>
-                    <span className="text-[11px] font-['Poppins'] font-semibold uppercase tracking-wider text-[#2563EB] block mb-1">
-                      {prog.category} Academy
-                    </span>
-                    <h3 className="font-['Poppins'] font-bold text-[21px] text-white tracking-tight mb-2.5">
-                      {prog.title}
-                    </h3>
-                    <p className="font-['Inter'] text-[14.5px] text-white/65 leading-relaxed mb-6">
-                      {prog.description}
-                    </p>
+          {isProgramsLoading ? (
+            <ProgramsListSkeleton count={6} dark={true} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-kkf-rise">
+              {featuredPrograms.map((prog) => (
+                <div
+                  key={prog.slug}
+                  className="bg-[#16223A] rounded-[26px] overflow-hidden border border-white/10 dark-card-glow flex flex-col justify-between group"
+                >
+                  <div className="relative h-[200px] w-full overflow-hidden">
+                    <ImagePlaceholder
+                      src={prog.image}
+                      fallbackText={prog.imagePlaceholderText}
+                      alt={prog.title}
+                      aspectRatio="auto"
+                      className="w-full h-full"
+                      darkTheme={true}
+                    />
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[100px] bg-black/60 backdrop-blur-xs text-xs font-['Poppins'] font-medium text-amber-400 border border-white/10">
+                      {prog.duration}
+                    </div>
                   </div>
 
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                    <button
-                      type="button"
-                      onClick={() => onOpenProgram(prog)}
-                      className="font-['Poppins'] font-semibold text-[14px] text-amber-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
-                    >
-                      <span>Explore Program</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <span className="text-[12px] text-slate-400 font-mono">
-                      {prog.cohort}
-                    </span>
+                  <div className="p-7 flex flex-col justify-between flex-1">
+                    <div>
+                      <span className="text-[11px] font-['Poppins'] font-semibold uppercase tracking-wider text-[#2563EB] block mb-1">
+                        {prog.category} Academy
+                      </span>
+                      <h3 className="font-['Poppins'] font-bold text-[21px] text-white tracking-tight mb-2.5">
+                        {prog.title}
+                      </h3>
+                      <p className="font-['Inter'] text-[14.5px] text-white/65 leading-relaxed mb-6">
+                        {prog.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => onOpenProgram(prog)}
+                        className="font-['Poppins'] font-semibold text-[14px] text-amber-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <span>Explore Program</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                      <span className="text-[12px] text-slate-400 font-mono">
+                        {prog.cohort}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
         </div>
       </section>

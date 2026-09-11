@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageId, BreadcrumbItem } from '../types';
 import { GOOGLE_FORMS } from '../data/forms';
+import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
 import { FAQSection } from '../components/FAQSection';
 import { 
@@ -8,7 +9,8 @@ import {
   Users, 
   Briefcase, 
   Heart, 
-  Sparkles, 
+  Compass,
+  Award,
   ShieldCheck, 
   ExternalLink,
   FileText,
@@ -22,14 +24,18 @@ import {
 
 interface GetInvolvedPageProps {
   onNavigate: (page: PageId) => void;
+  onBack?: () => void;
   initialTab?: 'youth' | 'mentor' | 'volunteer' | 'partner';
   initialProgramSlug?: string;
+  onOpenApplication?: (type: 'youth' | 'mentor' | 'volunteer' | 'partner', trackSlug?: string) => void;
 }
 
 export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
   onNavigate,
+  onBack,
   initialTab = 'youth',
   initialProgramSlug,
+  onOpenApplication,
 }) => {
   const [activeTab, setActiveTab] = useState<'youth' | 'mentor' | 'volunteer' | 'partner'>(initialTab);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -75,8 +81,11 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
         badgeColor="amber"
         title={<>Four pathways in. <span className="text-[#F59E0B]">Pick yours.</span></>}
         description="Whether you are starting out as an emerging creator, giving industry hours as a mentor, volunteering at our studios, or building commercial programs with us, apply directly through our official admissions and registration portal."
+        imageSrc={APP_ASSETS.mentorGuidance}
+        imageAlt="Industry mentor reviewing work with young Kenyan creative apprentice in Nairobi studio"
         breadcrumbs={breadcrumbItems}
         onNavigate={onNavigate}
+        onBack={onBack}
       >
         {/* Quick-Jump Pathway Buttons */}
         <div className="flex flex-wrap gap-2 sm:gap-2.5">
@@ -220,7 +229,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
             <div className="bg-white rounded-[26px] p-8 border border-[#E8EDF4] card-glow-orange flex flex-col justify-between group">
               <div>
                 <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-[#D97706] mb-6 shadow-xs">
-                  <Sparkles className="w-6 h-6" />
+                  <Briefcase className="w-6 h-6" />
                 </div>
                 <span className="font-['Poppins'] font-semibold text-[11px] tracking-[0.16em] text-[#D97706] uppercase block mb-2">
                   ECONOMIC OUTCOMES
@@ -369,7 +378,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
               <div className="my-8 p-5 sm:p-6 rounded-[22px] bg-white border border-[#E2E8F0] shadow-xs card-glow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0 mt-0.5">
-                    <Sparkles className="w-5 h-5" />
+                    <Compass className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A]">
@@ -415,14 +424,14 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
               {/* Column 2: Key Benefits */}
               <div className="bg-white rounded-[22px] p-6 sm:p-7 border border-[#E8EDF4] card-glow-orange">
                 <h4 className="font-['Poppins'] font-bold text-[16px] text-[#0F172A] mb-4 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-[#D97706]" />
+                  <Award className="w-5 h-5 text-[#D97706]" />
                   <span>What You Receive</span>
                 </h4>
                 <ul className="space-y-3">
                   {activeForm.keyBenefits.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 font-['Inter'] text-[13.5px] text-[#475569]">
-                      <span className="w-5 h-5 rounded-full bg-amber-50 text-[#D97706] flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
-                        ✓
+                      <span className="w-5 h-5 rounded-full bg-amber-50 text-[#D97706] flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-3 h-3 text-[#D97706]" />
                       </span>
                       <span className="leading-snug">{item}</span>
                     </li>
@@ -449,15 +458,26 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
-                  <a
-                    href={activeForm.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[14px] bg-[#F59E0B] hover:bg-[#FFB52E] text-[#0F172A] font-['Poppins'] font-bold text-[15px] shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all cursor-pointer"
-                  >
-                    <span>{activeForm.actionText}</span>
-                    <ExternalLink className="w-4 h-4 shrink-0" />
-                  </a>
+                  {onOpenApplication ? (
+                    <button
+                      type="button"
+                      onClick={() => onOpenApplication(activeTab, initialProgramSlug)}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[14px] bg-[#F59E0B] hover:bg-[#FFB52E] active:scale-95 text-[#0F172A] font-['Poppins'] font-bold text-[15px] shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all cursor-pointer"
+                    >
+                      <span>{activeForm.actionText}</span>
+                      <ArrowRight className="w-4 h-4 shrink-0" />
+                    </button>
+                  ) : (
+                    <a
+                      href={activeForm.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[14px] bg-[#F59E0B] hover:bg-[#FFB52E] text-[#0F172A] font-['Poppins'] font-bold text-[15px] shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all cursor-pointer"
+                    >
+                      <span>{activeForm.actionText}</span>
+                      <ExternalLink className="w-4 h-4 shrink-0" />
+                    </a>
+                  )}
 
                   <button
                     type="button"

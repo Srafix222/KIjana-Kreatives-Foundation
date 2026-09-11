@@ -3,7 +3,7 @@
 > **Official Media Registry for Kijana Kreatives Foundation**  
 > *Location: Nairobi, Kenya | Updated: September 2026*
 
-## 🎯 KKF Documentary Photography Direction
+## KKF Documentary Photography Direction
 
 > **KKF photography should document, not advertise.**
 >
@@ -30,7 +30,7 @@ Avoid: stock photography, commercial advertising photography, staged poses, ever
 
 ---
 
-## 📸 Section 1: Academy Creative Tracks (Documentary Series)
+## Section 1: Academy Creative Tracks (Documentary Series)
 
 ### 1. Graphic Design Studio Review
 - **File**: `src/assets/images/graphic_design_documentary_1788756858263.jpg`
@@ -76,7 +76,7 @@ Avoid: stock photography, commercial advertising photography, staged poses, ever
 
 ---
 
-## 🏢 Section 2: Studio Environments, Stories & Field Practicals
+## Section 2: Studio Environments, Stories & Field Practicals
 
 ### 8. Creative Academy Main Workshop Atmosphere (Hero)
 - **File**: `src/assets/images/kkf_hero_documentary_1788763400589.jpg`
@@ -152,7 +152,7 @@ Avoid: stock photography, commercial advertising photography, staged poses, ever
 
 ---
 
-## 👥 Section 3: Leadership Team Environmental Portraits
+## Section 3: Leadership Team Environmental Portraits
 
 ### 20. Ian Nyatindo (Executive Director)
 - **File**: `src/assets/images/director_portrait_doc_1788763585221.jpg`

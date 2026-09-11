@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageId, Report, BreadcrumbItem } from '../types';
 import { OUTCOMES, KENYA_COUNTIES, REPORTS } from '../data/content';
 import { APP_ASSETS } from '../data/assets';
 import { PageHero } from '../components/PageHero';
 import { StatBand } from '../components/StatBand';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
-import { ArrowRight, MapPin, FileText, Download, CheckCircle2, TrendingUp, Users, Heart } from 'lucide-react';
+import { ArrowRight, MapPin, FileText, Download, CheckCircle2, TrendingUp, Users, Heart, RotateCcw } from 'lucide-react';
+import { TestimonialsCarousel } from '../components/TestimonialsCarousel';
+import { ImpactMetricsSkeleton } from '../components/Skeleton';
 
 interface ImpactPageProps {
   onNavigate: (page: PageId) => void;
+  onBack?: () => void;
   onOpenReport: (report: Report) => void;
 }
 
-export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport }) => {
+export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onBack, onOpenReport }) => {
   const [selectedCounty, setSelectedCounty] = useState<string>('Nairobi');
+  const [isMetricsLoading, setIsMetricsLoading] = useState<boolean>(true);
+  const [isMetricsRefreshing, setIsMetricsRefreshing] = useState<boolean>(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsMetricsLoading(false);
+    }, 380);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRefreshMetrics = () => {
+    setIsMetricsRefreshing(true);
+    setTimeout(() => {
+      setIsMetricsRefreshing(false);
+    }, 320);
+  };
+
+  const showMetricsSkeleton = isMetricsLoading || isMetricsRefreshing;
 
   const activeCounties = KENYA_COUNTIES.filter((c) => c.active);
   const currentCountyData = activeCounties.find((c) => c.name === selectedCounty) || activeCounties[0];
@@ -49,6 +70,8 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
         imagePosition="object-center"
         breadcrumbs={breadcrumbItems}
         onNavigate={handleBreadcrumbNavigate}
+        onBack={selectedCounty !== 'Nairobi' ? () => setSelectedCounty('Nairobi') : onBack}
+        backLabel={selectedCounty !== 'Nairobi' ? 'All Counties' : 'Back to Home'}
       />
 
       {/* 2. ANIMATED STAT BAND */}
@@ -142,48 +165,74 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
       <section className="py-20 md:py-28 bg-[#F8FAFC] border-y border-[#E8EDF4]">
         <div className="max-w-[1240px] mx-auto px-6">
           
-          <div className="text-center max-w-[640px] mx-auto mb-16">
-            <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
-              Audited Metrics
-            </span>
-            <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[44px] text-[#0F172A] leading-[1.10] tracking-[-0.025em]">
-              Long-term Outcomes
-            </h2>
-            <p className="font-['Inter'] text-[16.5px] text-[#64748B] mt-3">
-              Measuring long-term creative agency, financial stability, and community impact.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14 pb-4 border-b border-[#E8EDF4]">
+            <div>
+              <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-2">
+                Audited Metrics
+              </span>
+              <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[44px] text-[#0F172A] leading-[1.10] tracking-[-0.025em]">
+                Long-term Outcomes
+              </h2>
+              <p className="font-['Inter'] text-[15px] sm:text-[16.5px] text-[#64748B] mt-2">
+                Measuring long-term creative agency, financial stability, and community impact.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleRefreshMetrics}
+              disabled={showMetricsSkeleton}
+              title="Refresh audited metrics"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#E8EDF4] text-xs font-['Poppins'] font-medium text-[#475569] hover:text-[#2563EB] hover:border-[#2563EB]/40 transition-colors cursor-pointer disabled:opacity-50 self-start sm:self-auto"
+            >
+              <RotateCcw className={`w-3.5 h-3.5 ${showMetricsSkeleton ? 'animate-spin text-[#2563EB]' : ''}`} />
+              <span>Refresh Metrics</span>
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {OUTCOMES.map((outcome, idx) => (
-              <div
-                key={idx}
-                className={`bg-white rounded-[26px] p-8 border border-[#E8EDF4] flex flex-col justify-between group ${
-                  outcome.accent ? 'card-glow-orange' : 'card-glow'
-                }`}
-              >
-                <div>
-                  <span className={`font-['Poppins'] font-bold text-[38px] sm:text-[42px] block mb-3 leading-none tabular-nums transition-transform group-hover:scale-105 ${
-                    outcome.accent ? 'text-[#F59E0B]' : 'text-[#2563EB]'
-                  }`}>
-                    {outcome.value}
-                  </span>
-                  <h3 className="font-['Poppins'] font-bold text-[19px] text-[#0F172A] group-hover:text-slate-900 mb-2 leading-snug">
-                    {outcome.title}
-                  </h3>
-                  <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
-                    {outcome.description}
-                  </p>
+          {showMetricsSkeleton ? (
+            <ImpactMetricsSkeleton count={4} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-kkf-rise">
+              {OUTCOMES.map((outcome, idx) => (
+                <div
+                  key={idx}
+                  className={`bg-white rounded-[26px] p-8 border border-[#E8EDF4] flex flex-col justify-between group ${
+                    outcome.accent ? 'card-glow-orange' : 'card-glow'
+                  }`}
+                >
+                  <div>
+                    <span className={`font-['Poppins'] font-bold text-[38px] sm:text-[42px] block mb-3 leading-none tabular-nums transition-transform group-hover:scale-105 ${
+                      outcome.accent ? 'text-[#F59E0B]' : 'text-[#2563EB]'
+                    }`}>
+                      {outcome.value}
+                    </span>
+                    <h3 className="font-['Poppins'] font-bold text-[19px] text-[#0F172A] group-hover:text-slate-900 mb-2 leading-snug">
+                      {outcome.title}
+                    </h3>
+                    <p className="font-['Inter'] text-[14.5px] text-[#475569] leading-relaxed">
+                      {outcome.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
         </div>
       </section>
 
-      {/* 5. ANNUAL REPORTS */}
-      <section className="py-20 md:py-28 bg-white">
+      {/* 5. TESTIMONIALS CAROUSEL (Former Student Success Stories) */}
+      <TestimonialsCarousel
+        onNavigate={onNavigate}
+        badge="Verified Student Outcomes"
+        title="The Human Impact Behind the Audited Numbers"
+        subtitle="Statistics only tell half the story. Meet former students from across Kenya who gained studio access, built commercial portfolios, and transitioned into sustainable creative careers."
+        className="bg-white"
+      />
+
+      {/* 6. ANNUAL REPORTS */}
+      <section className="py-20 md:py-28 bg-[#F8FAFC] border-t border-[#E8EDF4]">
         <div className="max-w-[940px] mx-auto px-6">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
@@ -243,7 +292,7 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate, onOpenReport
         </div>
       </section>
 
-      {/* 6. CLOSING CTA */}
+      {/* 7. CLOSING CTA */}
       <section className="py-20 md:py-28 bg-[#0F172A] text-white text-center">
         <div className="max-w-[1240px] mx-auto px-6 max-w-[700px]">
           <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[46px] leading-[1.10] tracking-[-0.03em] mb-6">

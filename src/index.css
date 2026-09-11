@@ -77,44 +77,10 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   Universal Interactive Glow System
+   Universal Interactive Card Hover System (Clean Lift-Up, No Glow)
    ========================================================================== */
 .card-glow,
-.kkf-card-glow {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card-glow:hover,
-.kkf-card-glow:hover {
-  transform: translateY(-4px);
-  border-color: #2563EB !important;
-  box-shadow: 0 16px 36px -6px rgba(37, 99, 235, 0.28), 0 0 24px 2px rgba(37, 99, 235, 0.2) !important;
-}
-
-/* Dark-Surface Adaptations: soft sky-blue glow (rgba(59, 130, 246, 0.45)) */
-.dark-card-glow,
-.card-glow-dark,
-.kkf-card-glow-dark {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.dark-card-glow:hover,
-.card-glow-dark:hover,
-.kkf-card-glow-dark:hover,
-.bg-dark-textured .card-glow:hover,
-.bg-\[\#0F172A\] .card-glow:hover,
-.bg-\[\#16223A\].card-glow:hover,
-.bg-\[\#16223A\] .card-glow:hover {
-  transform: translateY(-4px);
-  border-color: #60A5FA !important;
-  box-shadow: 0 16px 38px -6px rgba(59, 130, 246, 0.45), 0 0 28px 4px rgba(59, 130, 246, 0.3) !important;
-}
-
-/* Matching Orange Glow (#F59E0B): Dual-layer orange glow (rgba(245, 158, 11, 0.38) and rgba(245, 158, 11, 0.28)) */
+.kkf-card-glow,
 .card-glow-orange,
 .card-glow-amber,
 .kkf-card-glow-orange {
@@ -123,17 +89,23 @@ input:focus, select:focus, textarea:focus {
               border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Light Surface Cards: Lift up with clean neutral depth, no colored halo */
+.card-glow:hover,
+.kkf-card-glow:hover,
 .card-glow-orange:hover,
 .card-glow-amber:hover,
 .kkf-card-glow-orange:hover,
 .card-glow.card-glow-orange:hover,
 .card-glow.card-glow-amber:hover {
-  transform: translateY(-4px);
-  border-color: #F59E0B !important;
-  box-shadow: 0 16px 36px -6px rgba(245, 158, 11, 0.38), 0 0 24px 2px rgba(245, 158, 11, 0.28) !important;
+  transform: translateY(-5px);
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 20px 32px -8px rgba(15, 23, 42, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.05) !important;
 }
 
-/* Dark Surface Orange Glow: golden-amber (#FBBF24 border with rgba(245, 158, 11, 0.48) radiance) */
+/* Dark Surface Cards: Lift up with rich natural ambient shadow, no neon glow */
+.dark-card-glow,
+.card-glow-dark,
+.kkf-card-glow-dark,
 .dark-card-glow-orange,
 .card-glow-orange-dark {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
@@ -141,18 +113,90 @@ input:focus, select:focus, textarea:focus {
               border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.dark-card-glow:hover,
+.card-glow-dark:hover,
+.kkf-card-glow-dark:hover,
 .dark-card-glow-orange:hover,
 .card-glow-orange-dark:hover,
 .card-glow.dark-card-glow-orange:hover,
 .card-glow-orange.dark-card-glow:hover,
+.bg-dark-textured .card-glow:hover,
+.bg-\[\#0F172A\] .card-glow:hover,
+.bg-\[\#16223A\].card-glow:hover,
+.bg-\[\#16223A\] .card-glow:hover,
 .bg-dark-textured .card-glow-orange:hover,
 .bg-\[\#0F172A\] .card-glow-orange:hover,
 .bg-\[\#16223A\].card-glow-orange:hover,
 .bg-\[\#16223A\] .card-glow-orange:hover,
 .bg-\[\#16223A\] .card-glow-orange-dark:hover {
-  transform: translateY(-4px);
-  border-color: #FBBF24 !important;
-  box-shadow: 0 16px 38px -6px rgba(245, 158, 11, 0.48), 0 0 28px 4px rgba(245, 158, 11, 0.35) !important;
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 20px 36px -8px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ==========================================================================
+   Loading Skeleton Shimmer Engine
+   ========================================================================== */
+@keyframes kkfShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: #E2E8F0;
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: kkfShimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.skeleton-shimmer-dark {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.skeleton-shimmer-dark::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: kkfShimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after,
+  .skeleton-shimmer-dark::after {
+    animation: none !important;
+  }
 }
 
 

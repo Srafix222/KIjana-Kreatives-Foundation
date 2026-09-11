@@ -3,6 +3,7 @@ import { PageId, Post, EventItem, Report, BreadcrumbItem } from '../types';
 import { POSTS, EVENTS, REPORTS } from '../data/content';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { PageHero } from '../components/PageHero';
+import { APP_ASSETS } from '../data/assets';
 import { IMAGE_CATALOG, ImageCatalogItem } from '../image-catalog';
 import { sanitizeText, isValidEmail, isRateLimited } from '../utils/security';
 import {
@@ -21,25 +22,38 @@ import {
   Folder,
   ExternalLink,
   Layers,
-  Sparkles,
   X,
   AlertCircle
 } from 'lucide-react';
 
 interface ResourcesPageProps {
   onNavigate: (page: PageId) => void;
+  onBack?: () => void;
   onOpenPost: (post: Post) => void;
   onOpenEvent: (event: EventItem) => void;
   onOpenReport: (report: Report) => void;
+  selectedCategory?: string;
+  onCategoryChange?: (category: string) => void;
 }
 
 export const ResourcesPage: React.FC<ResourcesPageProps> = ({
   onNavigate,
+  onBack,
   onOpenPost,
   onOpenEvent,
   onOpenReport,
+  selectedCategory: propCategory,
+  onCategoryChange,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [internalCategory, setInternalCategory] = useState<string>('All');
+  const selectedCategory = propCategory !== undefined ? propCategory : internalCategory;
+  const setSelectedCategory = (cat: string) => {
+    if (onCategoryChange) {
+      onCategoryChange(cat);
+    } else {
+      setInternalCategory(cat);
+    }
+  };
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterHoneypot, setNewsletterHoneypot] = useState('');
   const [newsletterError, setNewsletterError] = useState('');
@@ -137,8 +151,12 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
         badgeColor="amber"
         title="Ideas, Stories & Inspiration"
         description="Writing from the programs, plus what's coming up on the calendar."
+        imageSrc={APP_ASSETS.workshopSession}
+        imageAlt="Design thinking and collaborative creative workshop at KKF studio in Nairobi"
         breadcrumbs={breadcrumbItems}
         onNavigate={handleBreadcrumbNavigate}
+        onBack={selectedCategory !== 'All' ? () => setSelectedCategory('All') : onBack}
+        backLabel={selectedCategory !== 'All' ? 'All Articles' : 'Back to Home'}
       />
 
       {/* 2. BLOG & ARTICLES */}

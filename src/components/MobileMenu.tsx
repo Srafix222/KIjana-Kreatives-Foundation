@@ -3,7 +3,7 @@ import { PageId } from '../types';
 import { BRAND } from '../data/content';
 import { WhatsAppIcon } from './SocialIcons';
 import { 
-  Sparkles, 
+  Handshake, 
   Heart, 
   ChevronRight, 
   ChevronDown, 
@@ -20,7 +20,8 @@ import {
   Layout,
   Cpu,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  Mail
 } from 'lucide-react';
 
 interface MobileMenuProps {
@@ -153,7 +154,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 
                 <h4 className="font-bold text-sm font-['Poppins'] text-white tracking-tight flex items-center gap-1.5">
                   <span>Cohort 2026 Admissions</span>
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <GraduationCap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                 </h4>
                 
                 <p className="text-[11px] text-slate-300 font-['Inter'] leading-relaxed">
@@ -351,11 +352,34 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             >
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${activePage === 'get-involved' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
-                  <Sparkles className="w-4 h-4" />
+                  <Handshake className="w-4 h-4" />
                 </div>
                 <div className="text-left">
                   <span>Get Involved</span>
                   <span className="block text-[10px] text-slate-400 font-normal">Mentors · Volunteers · Partners</span>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </button>
+
+            {/* Contact & Studio Hub */}
+            <button
+              type="button"
+              onClick={() => {
+                onNavigate('contact');
+                onClose();
+              }}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
+                activePage === 'contact' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${activePage === 'contact' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <span>Contact Hub</span>
+                  <span className="block text-[10px] text-slate-400 font-normal">Nairobi Studio · Directions · Inquiries</span>
                 </div>
               </div>
               <ChevronRight className="w-4 h-4 text-slate-400" />

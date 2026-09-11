@@ -74,35 +74,35 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPrivacy, onOpe
   const socialLinks = [
     { 
       name: 'Instagram', 
-      href: 'https://instagram.com', 
+      href: 'https://instagram.com/kijanakreatives', 
       icon: InstagramIcon, 
       handle: '@kijanakreatives', 
       color: 'hover:text-[#E1306C] hover:border-[#E1306C]/50 hover:shadow-[0_0_16px_rgba(225,48,108,0.25)] hover:bg-[#E1306C]/10' 
     },
     { 
       name: 'TikTok', 
-      href: 'https://tiktok.com', 
+      href: 'https://tiktok.com/@kijanakreatives', 
       icon: TikTokIcon, 
       handle: '@kijanakreatives', 
       color: 'hover:text-[#25F4EE] hover:border-[#25F4EE]/50 hover:shadow-[0_0_16px_rgba(37,244,238,0.25)] hover:bg-[#25F4EE]/10' 
     },
     { 
       name: 'YouTube', 
-      href: 'https://youtube.com', 
+      href: 'https://youtube.com/@kijanakreatives', 
       icon: YouTubeIcon, 
       handle: 'KKF Studios', 
       color: 'hover:text-[#FF0000] hover:border-[#FF0000]/50 hover:shadow-[0_0_16px_rgba(255,0,0,0.25)] hover:bg-[#FF0000]/10' 
     },
     { 
       name: 'LinkedIn', 
-      href: 'https://linkedin.com', 
+      href: 'https://linkedin.com/company/kijanakreatives', 
       icon: LinkedInIcon, 
       handle: 'Kijana Kreatives', 
       color: 'hover:text-[#0A66C2] hover:border-[#0A66C2]/50 hover:shadow-[0_0_16px_rgba(10,102,194,0.25)] hover:bg-[#0A66C2]/10' 
     },
     { 
       name: 'Facebook', 
-      href: 'https://facebook.com', 
+      href: 'https://facebook.com/kijanakreatives', 
       icon: FacebookIcon, 
       handle: 'Kijana Kreatives', 
       color: 'hover:text-[#1877F2] hover:border-[#1877F2]/50 hover:shadow-[0_0_16px_rgba(24,119,242,0.25)] hover:bg-[#1877F2]/10' 

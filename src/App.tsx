@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { PageId, Program, EventItem, Post, Report, Story, DonationReceipt } from './types';
+import { PageId, Program, EventItem, Post, Report, Story, DonationReceipt, BreadcrumbItem } from './types';
 import { Nav } from './components/Nav';
+import { BreadcrumbBar } from './components/BreadcrumbBar';
 import { Footer } from './components/Footer';
+import { BackToTop } from './components/BackToTop';
 import { SEOHead } from './components/SEOHead';
+import { PROGRAMS } from './data/content';
 import { 
   HomePage, 
   AboutPage, 
@@ -23,6 +26,7 @@ import { StoryVideoModal } from './components/Modals/StoryVideoModal';
 import { DonationReceiptModal } from './components/Modals/DonationReceiptModal';
 import { AnnualReportModal } from './components/Modals/AnnualReportModal';
 import { LegalModal } from './components/Modals/LegalModal';
+import { ApplicationModal, ApplicationType } from './components/Modals/ApplicationModal';
 
 const VALID_PAGES: PageId[] = [
   'home', 
@@ -66,8 +70,11 @@ function parseInitialRoute(): { page: PageId; programSlug?: string; tab?: 'youth
 export default function App() {
   const initialRoute = parseInitialRoute();
   const [currentPage, setCurrentPage] = useState<PageId>(initialRoute.page);
+  const [navigationHistory, setNavigationHistory] = useState<PageId[]>([initialRoute.page]);
   const [selectedProgramSlug, setSelectedProgramSlug] = useState<string | undefined>(initialRoute.programSlug);
   const [selectedInvolvedTab, setSelectedInvolvedTab] = useState<'youth' | 'mentor' | 'volunteer' | 'partner'>(initialRoute.tab || 'youth');
+  const [programsCategory, setProgramsCategory] = useState<string>('All');
+  const [resourcesCategory, setResourcesCategory] = useState<string>('All');
 
   // Modal States
   const [activeProgram, setActiveProgram] = useState<Program | null>(null);
@@ -77,6 +84,18 @@ export default function App() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [activeReceipt, setActiveReceipt] = useState<DonationReceipt | null>(null);
   const [activeLegal, setActiveLegal] = useState<'privacy' | 'terms' | 'safeguarding' | 'financial' | 'security' | null>(null);
+  const [activeApplication, setActiveApplication] = useState<{
+    isOpen: boolean;
+    type: ApplicationType;
+    trackSlug?: string;
+  }>({
+    isOpen: false,
+    type: 'youth',
+  });
+
+  const handleOpenApplication = (type: ApplicationType = 'youth', trackSlug?: string) => {
+    setActiveApplication({ isOpen: true, type, trackSlug });
+  };
 
   // Sync browser back/forward buttons (popstate)
   useEffect(() => {
@@ -97,8 +116,17 @@ export default function App() {
 
   // Smooth scroll to top on page change and sync URL
   const handleNavigate = (page: PageId, programSlug?: string, tab?: 'youth' | 'mentor' | 'volunteer' | 'partner') => {
+    if (page !== currentPage) {
+      setNavigationHistory((prev) => [...prev, page]);
+    }
     setCurrentPage(page);
-    if (programSlug) setSelectedProgramSlug(programSlug);
+    if (programSlug) {
+      setSelectedProgramSlug(programSlug);
+      const foundProg = PROGRAMS.find((p) => p.slug === programSlug);
+      if (foundProg) {
+        setProgramsCategory(foundProg.category);
+      }
+    }
     if (tab) setSelectedInvolvedTab(tab);
 
     try {
@@ -113,12 +141,202 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleBack = () => {
+    if (navigationHistory.length > 1) {
+      const updated = [...navigationHistory];
+      updated.pop(); // Remove current page
+      const previous = updated[updated.length - 1] || 'home';
+      setNavigationHistory(updated);
+      handleNavigate(previous);
+    } else if (currentPage !== 'home') {
+      handleNavigate('home');
+    } else {
+      try {
+        window.history.back();
+      } catch {
+        // Fallback
+      }
+    }
+  };
+
+  const handleBreadcrumbClick = (item: BreadcrumbItem) => {
+    if (item.page === 'programs') {
+      setProgramsCategory('All');
+      setActiveProgram(null);
+      setSelectedProgramSlug(undefined);
+      handleNavigate('programs');
+      return;
+    }
+    if (item.page === 'resources') {
+      setResourcesCategory('All');
+      setActivePost(null);
+      setActiveReport(null);
+      setActiveEvent(null);
+      handleNavigate('resources');
+      return;
+    }
+    if (item.page) {
+      handleNavigate(item.page, item.slug, item.tab);
+    }
+  };
+
+  // Build real-time path breadcrumbs for interior pages
+  const getBreadcrumbData = (): { items: BreadcrumbItem[]; metaBadge?: string } => {
+    switch (currentPage) {
+      case 'programs': {
+        const items: BreadcrumbItem[] = [
+          { label: 'Home', page: 'home' },
+          { 
+            label: 'Programs', 
+            page: 'programs', 
+            active: programsCategory === 'All' && !activeProgram 
+          },
+        ];
+        if (programsCategory !== 'All') {
+          items.push({
+            label: `${programsCategory} Tracks`,
+            page: 'programs',
+            active: !activeProgram,
+          });
+        }
+        if (activeProgram) {
+          items.push({
+            label: activeProgram.title,
+            active: true,
+          });
+        }
+        const metaBadge = activeProgram 
+          ? activeProgram.category 
+          : programsCategory !== 'All' 
+            ? `${programsCategory} Pathway` 
+            : '7 Specialized Tracks';
+        return { items, metaBadge };
+      }
+
+      case 'stories': {
+        const items: BreadcrumbItem[] = [
+          { label: 'Home', page: 'home' },
+          { label: 'Alumni Stories', page: 'stories', active: true },
+        ];
+        return { items, metaBadge: '320+ Creative Alumni' };
+      }
+
+      case 'resources': {
+        const items: BreadcrumbItem[] = [
+          { label: 'Home', page: 'home' },
+          { 
+            label: 'Resources & Hub', 
+            page: 'resources', 
+            active: resourcesCategory === 'All' && !activePost && !activeReport && !activeEvent 
+          },
+        ];
+        if (resourcesCategory !== 'All') {
+          items.push({
+            label: `${resourcesCategory} Articles`,
+            page: 'resources',
+            active: !activePost && !activeReport && !activeEvent,
+          });
+        }
+        if (activePost) {
+          items.push({
+            label: activePost.title,
+            active: true,
+          });
+        } else if (activeReport) {
+          items.push({
+            label: activeReport.title,
+            active: true,
+          });
+        } else if (activeEvent) {
+          items.push({
+            label: activeEvent.title,
+            active: true,
+          });
+        }
+        const metaBadge = activePost 
+          ? activePost.category 
+          : activeReport 
+            ? 'Annual Report' 
+            : activeEvent 
+              ? 'Event' 
+              : resourcesCategory !== 'All' 
+                ? `${resourcesCategory}` 
+                : 'Toolkits & Insights';
+        return { items, metaBadge };
+      }
+
+      case 'about': {
+        return {
+          items: [
+            { label: 'Home', page: 'home' },
+            { label: 'About Foundation', page: 'about', active: true },
+          ],
+          metaBadge: 'Mission & Vision',
+        };
+      }
+
+      case 'impact': {
+        return {
+          items: [
+            { label: 'Home', page: 'home' },
+            { label: 'Impact & Accountability', page: 'impact', active: !activeReport },
+            ...(activeReport ? [{ label: activeReport.title, active: true }] : []),
+          ],
+          metaBadge: 'Audited Transparency',
+        };
+      }
+
+      case 'get-involved': {
+        const tabLabels: Record<string, string> = {
+          youth: 'Youth Application',
+          mentor: 'Industry Mentorship',
+          volunteer: 'Volunteer Community',
+          partner: 'Institutional Partnership',
+        };
+        return {
+          items: [
+            { label: 'Home', page: 'home' },
+            { label: 'Get Involved', page: 'get-involved' },
+            { label: tabLabels[selectedInvolvedTab] || 'Opportunities', active: true },
+          ],
+          metaBadge: `${selectedInvolvedTab.toUpperCase()} Pathway`,
+        };
+      }
+
+      case 'donate': {
+        return {
+          items: [
+            { label: 'Home', page: 'home' },
+            { label: 'Donate & Support', page: 'donate', active: true },
+          ],
+          metaBadge: '100% Direct Program Impact',
+        };
+      }
+
+      case 'contact': {
+        return {
+          items: [
+            { label: 'Home', page: 'home' },
+            { label: 'Contact & Hub', page: 'contact', active: true },
+          ],
+          metaBadge: 'Nairobi Studio HQ',
+        };
+      }
+
+      default:
+        return { items: [] };
+    }
+  };
+
+  const breadcrumbData = getBreadcrumbData();
+
   const handleApplyToProgram = (programOrSlug: Program | string) => {
     setActiveProgram(null);
     const slug = typeof programOrSlug === 'string' ? programOrSlug : programOrSlug.slug;
     setSelectedProgramSlug(slug);
     setSelectedInvolvedTab('youth');
     handleNavigate('get-involved', slug, 'youth');
+    handleOpenApplication('youth', slug);
   };
 
   return (
@@ -129,10 +347,23 @@ export default function App() {
       {/* 1. Global Navigation */}
       <Nav 
         currentPage={currentPage} 
-        onNavigate={handleNavigate} 
+        onNavigate={handleNavigate}
+        onBack={handleBack}
       />
 
-      {/* 2. Main Page Content Routing */}
+      {/* 2. Breadcrumb Navigation Bar Under Main Navigation (Interior Pages) */}
+      {currentPage !== 'home' && (
+        <BreadcrumbBar
+          currentPage={currentPage}
+          items={breadcrumbData.items}
+          metaBadge={breadcrumbData.metaBadge}
+          onNavigate={handleNavigate}
+          onBack={handleBack}
+          onItemClick={handleBreadcrumbClick}
+        />
+      )}
+
+      {/* 3. Main Page Content Routing */}
       <main className="flex-1 w-full">
         {currentPage === 'home' && (
           <HomePage
@@ -145,54 +376,64 @@ export default function App() {
         )}
 
         {currentPage === 'about' && (
-          <AboutPage onNavigate={handleNavigate} />
+          <AboutPage onNavigate={handleNavigate} onBack={handleBack} />
         )}
 
         {currentPage === 'programs' && (
           <ProgramsPage
             onNavigate={handleNavigate}
+            onBack={handleBack}
             onOpenProgram={(p) => setActiveProgram(p)}
             initialProgramSlug={selectedProgramSlug}
+            selectedCategory={programsCategory}
+            onCategoryChange={setProgramsCategory}
           />
         )}
 
         {currentPage === 'impact' && (
           <ImpactPage
             onNavigate={handleNavigate}
+            onBack={handleBack}
             onOpenReport={(r) => setActiveReport(r)}
           />
         )}
 
         {currentPage === 'stories' && (
-          <StoriesPage onNavigate={handleNavigate} />
+          <StoriesPage onNavigate={handleNavigate} onBack={handleBack} />
         )}
 
         {currentPage === 'get-involved' && (
           <GetInvolvedPage
             onNavigate={handleNavigate}
+            onBack={handleBack}
             initialTab={selectedInvolvedTab}
             initialProgramSlug={selectedProgramSlug}
+            onOpenApplication={handleOpenApplication}
           />
         )}
 
         {currentPage === 'resources' && (
           <ResourcesPage
             onNavigate={handleNavigate}
+            onBack={handleBack}
             onOpenPost={(p) => setActivePost(p)}
             onOpenEvent={(e) => setActiveEvent(e)}
             onOpenReport={(r) => setActiveReport(r)}
+            selectedCategory={resourcesCategory}
+            onCategoryChange={setResourcesCategory}
           />
         )}
 
         {currentPage === 'donate' && (
           <DonatePage
             onNavigate={handleNavigate}
+            onBack={handleBack}
             onDonationSuccess={(receipt) => setActiveReceipt(receipt)}
           />
         )}
 
         {currentPage === 'contact' && (
-          <ContactPage onNavigate={handleNavigate} />
+          <ContactPage onNavigate={handleNavigate} onBack={handleBack} />
         )}
       </main>
 
@@ -202,6 +443,9 @@ export default function App() {
         onNavigate={handleNavigate}
         onOpenLegal={(type) => setActiveLegal(type)}
       />
+
+      {/* Floating Back to Top Navigation Control */}
+      <BackToTop currentPage={currentPage} />
 
       {/* 4. Global Modals */}
       {activeProgram && (
@@ -271,6 +515,14 @@ export default function App() {
           onClose={() => setActiveLegal(null)}
         />
       )}
+
+      <ApplicationModal
+        isOpen={activeApplication.isOpen}
+        type={activeApplication.type}
+        selectedTrackSlug={activeApplication.trackSlug}
+        onClose={() => setActiveApplication((prev) => ({ ...prev, isOpen: false }))}
+        onTypeChange={(newType) => setActiveApplication((prev) => ({ ...prev, type: newType }))}
+      />
     </div>
   );
 }

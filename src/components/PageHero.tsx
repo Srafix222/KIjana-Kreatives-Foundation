@@ -1,6 +1,7 @@
 import React from 'react';
 import { BreadcrumbItem, PageId } from '../types';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ArrowLeft } from 'lucide-react';
 
 interface PageHeroProps {
   badge: string;
@@ -13,6 +14,9 @@ interface PageHeroProps {
   badgeColor?: 'amber' | 'blue' | 'emerald';
   breadcrumbs?: BreadcrumbItem[];
   onNavigate?: (page: PageId, programSlug?: string) => void;
+  onBack?: () => void;
+  backLabel?: string;
+  showBackButton?: boolean;
 }
 
 export const PageHero: React.FC<PageHeroProps> = ({
@@ -26,6 +30,9 @@ export const PageHero: React.FC<PageHeroProps> = ({
   badgeColor = 'amber',
   breadcrumbs,
   onNavigate,
+  onBack,
+  backLabel,
+  showBackButton = true,
 }) => {
   const badgeColors = {
     amber: 'text-[#F59E0B]',
@@ -33,8 +40,46 @@ export const PageHero: React.FC<PageHeroProps> = ({
     emerald: 'text-[#34D399]',
   };
 
+  // Contextual back resolution
+  const handleBackClick = () => {
+    if (onBack) {
+      onBack();
+      return;
+    }
+    if (onNavigate) {
+      // Check if breadcrumbs has a parent step
+      if (breadcrumbs && breadcrumbs.length > 1) {
+        const parent = breadcrumbs[breadcrumbs.length - 2];
+        if (parent?.page) {
+          onNavigate(parent.page, parent.slug);
+          return;
+        }
+      }
+      onNavigate('home');
+      return;
+    }
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      window.history.back();
+    }
+  };
+
+  // Determine intuitive label if not explicitly provided
+  let resolvedBackLabel = backLabel;
+  if (!resolvedBackLabel) {
+    if (breadcrumbs && breadcrumbs.length > 1) {
+      const parent = breadcrumbs[breadcrumbs.length - 2];
+      resolvedBackLabel = parent?.label ? `Back to ${parent.label}` : 'Back';
+    } else {
+      resolvedBackLabel = 'Back to Home';
+    }
+  }
+
   return (
-    <section className="relative bg-[#0B1329] text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 overflow-hidden border-b border-slate-800/60">
+    <section 
+      id="page-hero"
+      data-hero="true"
+      className="relative bg-[#0B1329] text-white pt-32 sm:pt-40 md:pt-48 pb-14 sm:pb-20 md:pb-24 overflow-hidden border-b border-slate-800/60"
+    >
       {/* 1. Ambient Brand Lighting & Glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         {/* Top-Right Royal Blue Glow */}
@@ -53,43 +98,65 @@ export const PageHero: React.FC<PageHeroProps> = ({
         />
       </div>
 
-      {/* 2. Contextual Imagery on Right Side (Option 3 for Storytelling Pages) */}
+      {/* 2. Contextual Imagery with High Clarity and Directional Scrim */}
       {imageSrc && (
         <div 
-          className="absolute right-0 top-0 bottom-0 w-full sm:w-[65%] md:w-[52%] lg:w-[46%] pointer-events-none overflow-hidden select-none"
+          className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0"
           aria-hidden="true"
         >
-          {/* Background image */}
+          {/* Background image - crisp, authentic documentary color, high visibility */}
           <img
             src={imageSrc}
             alt={imageAlt}
             referrerPolicy="no-referrer"
-            className={`w-full h-full object-cover ${imagePosition} opacity-20 sm:opacity-25 lg:opacity-30 mix-blend-luminosity brightness-90 contrast-110`}
+            className={`w-full h-full object-cover ${imagePosition} opacity-80 sm:opacity-85 md:opacity-90 contrast-[1.05] brightness-[0.96] transition-opacity duration-700`}
           />
 
-          {/* Dissolve gradients ensuring 100% text readability */}
-          {/* Left-edge smooth fade into the deep navy canvas */}
-          <div className="absolute inset-y-0 left-0 w-32 sm:w-48 md:w-64 bg-gradient-to-r from-[#0B1329] via-[#0B1329]/80 to-transparent" />
-          
-          {/* Full overlay tone mapping */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1329] via-[#0B1329]/50 to-[#0B1329]/80" />
-          <div className="absolute inset-0 bg-blue-950/25 mix-blend-multiply" />
+          {/* Directional Horizontal Scrim: Solid contrast on left for typography, opening up to vibrant photography on right */}
+          <div 
+            className="absolute inset-0 hidden sm:block"
+            style={{
+              background: 'linear-gradient(90deg, #0B1329 0%, rgba(11,19,41,0.92) 34%, rgba(11,19,41,0.60) 62%, rgba(11,19,41,0.22) 86%, rgba(11,19,41,0.10) 100%)',
+            }}
+          />
+
+          {/* Mobile Scrim: Softened vertical gradient ensuring text legibility without burying the image */}
+          <div 
+            className="absolute inset-0 sm:hidden bg-gradient-to-t from-[#0B1329] via-[#0B1329]/75 to-[#0B1329]/35" 
+          />
+
+          {/* Top & Bottom Vignette for seamless navigation & section boundary blending */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1329]/75 via-transparent to-[#0B1329] pointer-events-none" />
         </div>
       )}
 
       {/* 3. Foreground Typography & Content */}
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-        {/* Breadcrumb Navigation Trail */}
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <div className="mb-4 sm:mb-6">
+        {/* Contextual Navigation Bar (Back Button & Breadcrumbs) */}
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+          {showBackButton && (
+            <button
+              type="button"
+              onClick={handleBackClick}
+              id="page-hero-back-button"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[100px] bg-white/[0.08] hover:bg-white/[0.18] text-white border border-white/15 backdrop-blur-md transition-all text-xs font-['Poppins'] font-semibold cursor-pointer active:scale-95 shadow-xs group"
+              title={resolvedBackLabel}
+              aria-label={resolvedBackLabel}
+            >
+              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+              <span>{resolvedBackLabel}</span>
+            </button>
+          )}
+
+          {breadcrumbs && breadcrumbs.length > 0 && (
             <Breadcrumbs 
               items={breadcrumbs} 
               onNavigate={onNavigate} 
               variant="dark"
               className="px-3 py-1.5 rounded-[100px] bg-white/[0.06] backdrop-blur-md border border-white/10"
             />
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="max-w-[820px]">
           {/* Eyebrow */}

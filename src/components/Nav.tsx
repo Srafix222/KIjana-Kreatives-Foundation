@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PageId } from '../types';
-import { ChevronDown, ArrowRight, Sparkles, Heart, Palette, Film, Box, Headphones, Layout, Cpu } from 'lucide-react';
+import { ChevronDown, ArrowRight, ArrowLeft, Award, Heart, Palette, Film, Box, Headphones, Layout, Cpu } from 'lucide-react';
 import { KKFIconMark } from './BrandLogo';
 import { MobileMenu } from './MobileMenu';
 
 interface NavProps {
   currentPage: PageId;
   onNavigate: (page: PageId, programSlug?: string) => void;
+  onBack?: () => void;
 }
 
-export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate }) => {
+export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onBack }) => {
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [programsOpen, setProgramsOpen] = useState(false);
@@ -88,31 +89,47 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate }) => {
       >
         <div className="max-w-[1280px] h-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Brand Lockup */}
-          <button
-            id="nav-brand-logo"
-            type="button"
-            onClick={() => handleLinkClick('home')}
-            className="flex items-center gap-2.5 sm:gap-3 group text-left cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-400 rounded-xl shrink-0"
-            aria-label="Kijana Kreatives Foundation Home"
-          >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-[12px] bg-white flex items-center justify-center p-1 shadow-md shadow-black/30 group-hover:scale-105 transition-transform">
-              <KKFIconMark className="w-full h-full" />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-baseline gap-1 leading-none">
-                <span className="font-['Poppins'] font-bold text-[17px] sm:text-[18px] text-[#2563EB] tracking-tight">
-                  Kijana
-                </span>
-                <span className="font-['Poppins'] font-bold text-[15px] sm:text-[16px] text-white tracking-tight">
-                  Kreatives
+          {/* Brand Lockup & Contextual Back Button */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {currentPage !== 'home' && (
+              <button
+                id="nav-back-button"
+                type="button"
+                onClick={onBack ? onBack : () => handleLinkClick('home')}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/15 backdrop-blur-md text-xs font-['Poppins'] font-semibold transition-all cursor-pointer active:scale-95 shadow-xs group"
+                title="Go back"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                <span className="hidden xs:inline sm:inline">Back</span>
+              </button>
+            )}
+
+            <button
+              id="nav-brand-logo"
+              type="button"
+              onClick={() => handleLinkClick('home')}
+              className="flex items-center gap-2.5 sm:gap-3 group text-left cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-400 rounded-xl shrink-0"
+              aria-label="Kijana Kreatives Foundation Home"
+            >
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-[12px] bg-white flex items-center justify-center p-1 shadow-md shadow-black/30 group-hover:scale-105 transition-transform">
+                <KKFIconMark className="w-full h-full" />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-1 leading-none">
+                  <span className="font-['Poppins'] font-bold text-[17px] sm:text-[18px] text-[#2563EB] tracking-tight">
+                    Kijana
+                  </span>
+                  <span className="font-['Poppins'] font-bold text-[15px] sm:text-[16px] text-white tracking-tight">
+                    Kreatives
+                  </span>
+                </div>
+                <span className="text-[9px] sm:text-[9.5px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5 font-['Poppins']">
+                  Foundation
                 </span>
               </div>
-              <span className="text-[9px] sm:text-[9.5px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5 font-['Poppins']">
-                Foundation
-              </span>
-            </div>
-          </button>
+            </button>
+          </div>
 
           {/* Desktop Navigation Links (>= 1024px) */}
           <nav className="hidden lg:flex items-center gap-6 xl:gap-7" aria-label="Main Navigation">
@@ -228,7 +245,7 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate }) => {
                   <div className="bg-[#EFF5FF]/80 -m-2 p-5 rounded-[16px] border border-[#2563EB]/15 flex flex-col justify-between">
                     <div>
                       <h3 className="font-['Poppins'] font-bold text-[12px] uppercase tracking-wider text-[#F59E0B] mb-3 pb-2 border-b border-[#F59E0B]/25 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+                        <Award className="w-3.5 h-3.5 text-[#F59E0B]" />
                         <span>Opportunities</span>
                       </h3>
                       <ul className="space-y-1">
@@ -316,6 +333,19 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate }) => {
             >
               Resources
             </button>
+
+            <button
+              id="nav-link-contact"
+              type="button"
+              onClick={() => handleLinkClick('contact')}
+              className={`font-['Inter'] font-medium text-[14px] transition-colors py-1 cursor-pointer ${
+                currentPage === 'contact' 
+                  ? 'text-amber-400 font-semibold' 
+                  : 'text-white/85 hover:text-white'
+              }`}
+            >
+              Contact
+            </button>
           </nav>
 
           {/* Right Action Cluster */}
@@ -332,41 +362,46 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate }) => {
               <span>Donate</span>
             </button>
 
-            {/* Modern Morphing Animated Hamburger Button (< 1024px) */}
+            {/* Refined Architectural Hamburger Button (< 1024px) */}
             <button
               id="mobile-menu-toggle"
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-10 h-10 sm:w-11 sm:h-11 rounded-[14px] p-[1px] bg-gradient-to-br from-[#3B82F6]/70 via-slate-700/50 to-[#F59E0B]/70 hover:from-[#60A5FA] hover:to-[#FBBF24] active:scale-95 transition-all cursor-pointer relative group shadow-md shadow-slate-950/40 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F59E0B]"
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              className={`lg:hidden relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer group focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1329] active:scale-95 ${
+                mobileMenuOpen
+                  ? 'bg-white/15 text-amber-400 border border-amber-400/40 shadow-xs'
+                  : 'bg-white/[0.07] hover:bg-white/[0.12] text-white border border-white/10 hover:border-white/20'
+              }`}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
             >
-              <div className="w-full h-full bg-[#0B1329] group-hover:bg-[#0F1B38] rounded-[13px] flex items-center justify-center transition-colors">
-                <div className="w-5 h-5 relative flex items-center justify-center">
-                  {/* Top Bar (Blue in hamburger, Blue 45° diagonal in close) */}
-                  <span 
-                    className={`absolute w-[19px] h-[2px] rounded-full transition-all duration-300 ease-out transform origin-center drop-shadow-[0_0_3px_rgba(56,189,248,0.45)] ${
-                      mobileMenuOpen 
-                        ? 'translate-y-0 rotate-45 bg-[#38BDF8]' 
-                        : '-translate-y-[6px] rotate-0 bg-[#38BDF8] group-hover:bg-[#60A5FA]'
-                    }`} 
-                  />
-                  {/* Middle Bar (Vibrant Orange in hamburger, disappears in close) */}
-                  <span 
-                    className={`absolute w-[19px] h-[2px] rounded-full transition-all duration-200 ease-out transform origin-center drop-shadow-[0_0_3px_rgba(245,158,11,0.5)] bg-[#F59E0B] group-hover:bg-[#FBBF24] ${
-                      mobileMenuOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-100'
-                    }`} 
-                  />
-                  {/* Bottom Bar (Blue in hamburger, Vibrant Orange -45° diagonal in close) */}
-                  <span 
-                    className={`absolute w-[19px] h-[2px] rounded-full transition-all duration-300 ease-out transform origin-center drop-shadow-[0_0_3px_rgba(245,158,11,0.45)] ${
-                      mobileMenuOpen 
-                        ? 'translate-y-0 -rotate-45 bg-[#F59E0B]' 
-                        : 'translate-y-[6px] rotate-0 bg-[#38BDF8] group-hover:bg-[#60A5FA]'
-                    }`} 
-                  />
-                </div>
+              <span className="sr-only">{mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}</span>
+              <div className="w-5 h-5 relative flex items-center justify-center pointer-events-none">
+                {/* Top Bar */}
+                <span
+                  className={`absolute left-0 w-5 h-[2px] rounded-full origin-center transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    mobileMenuOpen
+                      ? 'top-1/2 -translate-y-1/2 rotate-45 bg-amber-400'
+                      : 'top-1 rotate-0 bg-white group-hover:bg-amber-400'
+                  }`}
+                />
+                {/* Middle Bar (Refined micro-interaction: slightly shorter at rest, expands to full width on hover) */}
+                <span
+                  className={`absolute left-0 h-[2px] rounded-full transition-all duration-200 ease-out origin-left ${
+                    mobileMenuOpen
+                      ? 'top-1/2 -translate-y-1/2 w-0 opacity-0 scale-x-0'
+                      : 'top-1/2 -translate-y-1/2 w-3.5 group-hover:w-5 opacity-100 bg-white group-hover:bg-amber-400'
+                  }`}
+                />
+                {/* Bottom Bar */}
+                <span
+                  className={`absolute left-0 w-5 h-[2px] rounded-full origin-center transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    mobileMenuOpen
+                      ? 'top-1/2 -translate-y-1/2 -rotate-45 bg-amber-400'
+                      : 'bottom-1 rotate-0 bg-white group-hover:bg-amber-400'
+                  }`}
+                />
               </div>
             </button>
 

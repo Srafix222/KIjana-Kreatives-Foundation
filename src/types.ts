@@ -220,3 +220,14 @@ export interface BreadcrumbItem {
   active?: boolean;
 }
 
+export interface ImpactCardItem {
+  no: string;
+  title: string;
+  body: string;
+  accent: boolean;
+  page: PageId;
+  tab?: 'youth' | 'mentor' | 'volunteer' | 'partner';
+  programSlug?: string;
+  destinationLabel: string;
+}
+

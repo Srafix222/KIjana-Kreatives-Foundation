@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { KKF_FAQS, FAQItem } from '../seo/faqData';
-import { ChevronDown, HelpCircle, Search, Sparkles, MessageSquare, ArrowRight } from 'lucide-react';
+import { ChevronDown, HelpCircle, Search, MessageSquare, ArrowRight } from 'lucide-react';
 import { PageId } from '../types';
 
 interface FAQSectionProps {
@@ -186,7 +186,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
         <div className="max-w-[840px] mx-auto mt-12 p-6 sm:p-8 rounded-[22px] bg-[#0F172A] text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
           <div className="space-y-1.5 text-center sm:text-left">
             <h4 className="font-['Poppins'] font-bold text-[18px] text-white flex items-center justify-center sm:justify-start gap-2">
-              <Sparkles className="w-4 h-4 text-[#F59E0B]" />
+              <MessageSquare className="w-4 h-4 text-[#F59E0B]" />
               Still have a question?
             </h4>
             <p className="font-['Inter'] text-[13.5px] text-slate-300">
