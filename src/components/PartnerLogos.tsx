@@ -202,8 +202,6 @@ export const CompanyFavicon: React.FC<CompanyFaviconProps> = ({
       width={size}
       height={size}
       onError={handleImageError}
-      crossOrigin="anonymous"
-      referrerPolicy="no-referrer"
       className={`shrink-0 object-contain rounded-[6px] ${
         showBorder ? 'bg-white p-0.5 border border-[#E2E8F0] shadow-2xs' : ''
       } ${className}`}
