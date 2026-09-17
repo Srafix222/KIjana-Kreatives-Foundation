@@ -127,7 +127,7 @@ export const BackToTop: React.FC<BackToTopProps> = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.85 }}
           transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-          className={`fixed bottom-5 right-4 sm:bottom-8 sm:right-8 z-40 ${className}`}
+          className={`fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-4 sm:bottom-8 sm:right-8 z-40 touch-manipulation ${className}`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -147,7 +147,7 @@ export const BackToTop: React.FC<BackToTopProps> = ({
             id="back-to-top-button"
             onClick={handleScrollToTop}
             aria-label="Back to top of page"
-            className="group relative flex items-center justify-center w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-[#0F172A] text-white border border-slate-700/70 shadow-lg shadow-black/25 hover:bg-[#1E293B] hover:border-[#2563EB]/50 hover:shadow-xl hover:shadow-[#2563EB]/15 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8FAFC]"
+            className="group relative flex items-center justify-center w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-[#0F172A] text-white border border-slate-700/70 shadow-lg shadow-black/25 hover:bg-[#1E293B] hover:border-[#2563EB]/50 hover:shadow-xl hover:shadow-[#2563EB]/15 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8FAFC] touch-manipulation"
           >
             {/* Subtle Circular Progress Indicator */}
             {showProgress && (

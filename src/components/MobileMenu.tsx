@@ -131,34 +131,24 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
       role="dialog"
     >
       <div 
-        className="w-full sm:max-w-md bg-white border-l border-slate-200 shadow-2xl h-full max-h-[calc(100dvh-72px)] md:max-h-[calc(100dvh-80px)] overflow-y-auto flex flex-col justify-between p-4 sm:p-5 space-y-4"
+        className="w-full sm:max-w-md bg-white border-l border-slate-200 shadow-2xl h-full max-h-[calc(100dvh-72px)] md:max-h-[calc(100dvh-80px)] overflow-y-auto flex flex-col justify-between p-4 sm:p-5 space-y-3.5 overscroll-contain touch-pan-y"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="space-y-3.5">
+        <div className="space-y-3">
           
-          {/* 1. Live Cohort Status Card */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white p-4 rounded-2xl border border-slate-800 shadow-lg">
-            {/* Ambient background glow */}
-            <div className="absolute -top-6 -right-6 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none" />
-            <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-blue-500/15 rounded-full blur-xl pointer-events-none" />
-
-            <div className="relative z-10 flex items-start justify-between gap-3">
-              <div className="space-y-1.5 flex-1 min-w-0">
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold font-['Poppins'] tracking-wider uppercase">
-                  <span className="relative flex h-2 w-2">
+          {/* 1. Compact Live Cohort Status Banner */}
+          <div className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white p-3 rounded-xl border border-slate-800 shadow-md">
+            <div className="relative z-10 flex items-center justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold font-['Poppins'] tracking-wider uppercase mb-1">
+                  <span className="relative flex h-1.5 w-1.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
                   </span>
-                  <span>Admissions Open</span>
+                  <span>Cohort 2026 Admissions Open</span>
                 </div>
-                
-                <h4 className="font-bold text-sm font-['Poppins'] text-white tracking-tight flex items-center gap-1.5">
-                  <span>Cohort 2026 Admissions</span>
-                  <GraduationCap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                </h4>
-                
-                <p className="text-[11px] text-slate-300 font-['Inter'] leading-relaxed">
-                  Nairobi Studio Apprenticeships · 12-week hands-on tracks with industry mentors.
+                <p className="text-[11px] text-slate-300 font-['Inter'] truncate">
+                  Tuition-free studio apprenticeships in Nairobi
                 </p>
               </div>
 
@@ -168,7 +158,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                   onNavigate('get-involved');
                   onClose();
                 }}
-                className="shrink-0 mt-0.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 active:scale-95 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs font-['Poppins'] transition-all shadow-md shadow-amber-500/25 cursor-pointer flex items-center gap-1"
+                className="shrink-0 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 active:scale-95 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs font-['Poppins'] transition-all shadow-sm cursor-pointer flex items-center gap-1 touch-manipulation"
               >
                 <span>Apply</span>
                 <ArrowRight className="w-3 h-3" />
@@ -186,8 +176,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onNavigate('home');
                 onClose();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
-                activePage === 'home' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all touch-manipulation min-h-[44px] cursor-pointer ${
+                activePage === 'home' ? 'bg-blue-50 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -203,8 +193,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="rounded-xl overflow-hidden border border-slate-200/80 bg-white">
               <button 
                 type="button"
-                className={`w-full flex items-center justify-between px-3 py-2.5 transition-all cursor-pointer ${
-                  activePage === 'programs' ? 'bg-blue-50/80 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+                className={`w-full flex items-center justify-between px-3 py-2.5 transition-all cursor-pointer touch-manipulation min-h-[44px] ${
+                  activePage === 'programs' ? 'bg-blue-50/80 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
                 }`}
                 onClick={() => setProgramsExpanded(!programsExpanded)}
                 aria-expanded={programsExpanded}
@@ -241,7 +231,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                           onNavigate('programs', prog.slug);
                           onClose();
                         }}
-                        className="w-full flex items-center justify-between p-2 rounded-xl text-left bg-white hover:bg-blue-50/70 border border-slate-200/70 text-xs font-['Inter'] text-slate-800 transition-all group cursor-pointer shadow-2xs"
+                        className="w-full flex items-center justify-between p-2 rounded-xl text-left bg-white hover:bg-blue-50/70 border border-slate-200/70 text-xs font-['Inter'] text-slate-800 transition-all group cursor-pointer shadow-2xs touch-manipulation min-h-[40px] active:scale-[0.99]"
                       >
                         <div className="flex items-center gap-2.5 min-w-0 flex-1">
                           <div className={`w-7 h-7 rounded-lg border flex items-center justify-center shrink-0 ${prog.color}`}>
@@ -270,7 +260,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                       onNavigate('programs');
                       onClose();
                     }}
-                    className="w-full text-center py-2 text-xs text-blue-600 font-semibold hover:text-blue-700 hover:underline flex items-center justify-center gap-1 mt-1 cursor-pointer"
+                    className="w-full text-center py-2.5 text-xs text-blue-600 font-semibold hover:text-blue-700 hover:underline flex items-center justify-center gap-1 mt-1 cursor-pointer touch-manipulation min-h-[38px]"
                   >
                     <span>Explore Full Curriculum & Studios</span>
                     <ArrowRight className="w-3 h-3" />
@@ -286,8 +276,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onNavigate('about');
                 onClose();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
-                activePage === 'about' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer touch-manipulation min-h-[44px] ${
+                activePage === 'about' ? 'bg-blue-50 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -306,8 +296,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onNavigate('stories');
                 onClose();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
-                activePage === 'stories' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer touch-manipulation min-h-[44px] ${
+                activePage === 'stories' ? 'bg-blue-50 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -326,8 +316,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onNavigate('resources');
                 onClose();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
-                activePage === 'resources' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer touch-manipulation min-h-[44px] ${
+                activePage === 'resources' ? 'bg-blue-50 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -346,8 +336,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onNavigate('get-involved');
                 onClose();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
-                activePage === 'get-involved' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer touch-manipulation min-h-[44px] ${
+                activePage === 'get-involved' ? 'bg-blue-50 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -369,8 +359,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onNavigate('contact');
                 onClose();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
-                activePage === 'contact' ? 'bg-blue-50 text-[#2563EB] font-bold' : 'text-slate-700 hover:bg-slate-50'
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer touch-manipulation min-h-[44px] ${
+                activePage === 'contact' ? 'bg-blue-50 text-[#2563EB] font-bold border-l-4 border-blue-600 pl-2.5' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -389,7 +379,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         </div>
 
         {/* 4. Dedicated Bottom CTA Cluster */}
-        <div className="pt-3.5 border-t border-slate-200/90 space-y-2.5">
+        <div className="pt-3 border-t border-slate-200/90 space-y-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           {/* Prominent Full-Width Gradient Donate Button */}
           <button
             type="button"
@@ -397,7 +387,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               onNavigate('donate');
               onClose();
             }}
-            className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#2563EB] via-[#1D4FD8] to-[#F59E0B] hover:opacity-95 active:scale-[0.98] text-white font-['Poppins'] font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-900/25 cursor-pointer transition-all"
+            className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#2563EB] via-[#1D4FD8] to-[#F59E0B] hover:opacity-95 active:scale-[0.98] text-white font-['Poppins'] font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-900/20 cursor-pointer transition-all touch-manipulation min-h-[46px]"
           >
             <Heart className="w-4 h-4 fill-current text-rose-300 shrink-0" />
             <span>Support Young Creatives · Donate</span>

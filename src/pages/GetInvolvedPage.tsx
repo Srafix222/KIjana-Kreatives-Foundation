@@ -133,8 +133,8 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
       </PageHero>
 
       {/* 2. THE KKF ECOSYSTEM STANDARD (Replacing repetitive role cards with substantive context) */}
-      <section className="py-20 md:py-24 bg-[#F8FAFC] border-b border-[#E8EDF4]">
-        <div className="max-w-[1240px] mx-auto px-6">
+      <section className="py-16 sm:py-20 md:py-24 bg-[#F8FAFC] border-b border-[#E8EDF4]">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
           
           <div className="max-w-[700px] mb-14">
             <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
@@ -256,24 +256,24 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
       </section>
 
       {/* 3. APPLICATION & ADMISSIONS HUB (Clean, direct, zero redundant fields) */}
-      <section id="application-forms" className="py-20 md:py-28 bg-white">
-        <div className="max-w-[1060px] mx-auto px-6">
+      <section id="application-forms" className="py-16 sm:py-20 md:py-28 bg-white">
+        <div className="max-w-[1060px] mx-auto px-4 sm:px-6">
           
-          <div className="text-center max-w-[700px] mx-auto mb-10">
+          <div className="text-center max-w-[700px] mx-auto mb-8 sm:mb-10">
             <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-3">
               Application & Proposal Portal
             </span>
-            <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[44px] text-[#0F172A] leading-[1.10] tracking-[-0.025em] mb-4">
+            <h2 className="font-['Poppins'] font-bold text-[30px] sm:text-[44px] text-[#0F172A] leading-[1.10] tracking-[-0.025em] mb-4">
               Apply Online
             </h2>
-            <p className="font-['Inter'] text-[16px] text-[#64748B] leading-relaxed">
+            <p className="font-['Inter'] text-[15.5px] sm:text-[16px] text-[#64748B] leading-relaxed">
               All cohort applications, mentor registrations, volunteer signups, and partnership proposals are submitted online. For youth applicants, one application covers all 6 programs from our Programs page. Applications are reviewed on a rolling basis.
             </p>
           </div>
 
           {/* Form Track Switcher Tabs */}
-          <div className="flex justify-center mb-10 overflow-x-auto pb-2 scrollbar-none">
-            <div className="inline-flex p-1.5 rounded-[100px] bg-[#F1F5F9] border border-[#E2E8F0] gap-1">
+          <div className="flex justify-start sm:justify-center mb-8 sm:mb-10 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 touch-pan-x overscroll-x-contain">
+            <div className="inline-flex p-1.5 rounded-[100px] bg-[#F1F5F9] border border-[#E2E8F0] gap-1 shrink-0">
               {[
                 { id: 'youth', label: 'Youth Cohorts', badge: '16–30 yrs' },
                 { id: 'mentor', label: 'Mentor Network', badge: 'Industry' },
@@ -284,7 +284,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`px-5 sm:px-6 py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs sm:text-[13px] transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
+                  className={`px-4 sm:px-6 py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs sm:text-[13px] transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 whitespace-nowrap touch-manipulation active:scale-95 ${
                     activeTab === tab.id
                       ? 'bg-[#0F172A] text-white shadow-sm'
                       : 'text-[#475569] hover:text-[#0F172A]'
@@ -302,7 +302,7 @@ export const GetInvolvedPage: React.FC<GetInvolvedPageProps> = ({
           </div>
 
           {/* Dedicated Application Card */}
-          <div className="bg-[#F8FAFC] rounded-[32px] p-8 md:p-12 border border-[#E2E8F0] shadow-sm card-glow">
+          <div className="bg-[#F8FAFC] rounded-[24px] sm:rounded-[32px] p-6 sm:p-10 md:p-12 border border-[#E2E8F0] shadow-sm card-glow">
             
             {/* Header / Track Banner */}
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-8 border-b border-[#E2E8F0]">

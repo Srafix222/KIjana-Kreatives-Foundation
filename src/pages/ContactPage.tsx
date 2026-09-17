@@ -91,15 +91,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onBack }) 
       />
 
       {/* 2. CONTACT CHANNELS & FORM */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC]">
-        <div className="max-w-[1240px] mx-auto px-6">
+      <section className="py-14 sm:py-20 md:py-28 bg-[#F8FAFC]">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             
             {/* Left Column: Direct Info Cards */}
             <div className="lg:col-span-5 space-y-6">
               
-              <div className="bg-white rounded-[26px] p-8 border border-[#E8EDF4] shadow-sm card-glow space-y-6">
+              <div className="bg-white rounded-[22px] sm:rounded-[26px] p-6 sm:p-8 border border-[#E8EDF4] shadow-sm card-glow space-y-6">
                 <div>
                   <h3 className="font-['Poppins'] font-bold text-[22px] text-[#0F172A] mb-1">
                     Direct Channels
@@ -204,7 +204,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onBack }) 
             </div>
 
             {/* Right Column: Interactive Contact Form */}
-            <div className="lg:col-span-7 bg-white rounded-[28px] p-8 md:p-12 border border-[#E8EDF4] shadow-sm card-glow">
+            <div className="lg:col-span-7 bg-white rounded-[22px] sm:rounded-[28px] p-6 sm:p-8 md:p-12 border border-[#E8EDF4] shadow-sm card-glow">
               
               {submitted ? (
                 <div className="text-center py-12 space-y-4 animate-kkf-rise font-['Inter']">

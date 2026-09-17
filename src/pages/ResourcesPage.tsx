@@ -160,27 +160,27 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
       />
 
       {/* 2. BLOG & ARTICLES */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC]">
-        <div className="max-w-[1240px] mx-auto px-6">
+      <section className="py-14 sm:py-20 md:py-28 bg-[#F8FAFC]">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-5">
             <div>
               <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block mb-2">
                 Articles
               </span>
-              <h2 className="font-['Poppins'] font-bold text-[32px] sm:text-[40px] text-[#0F172A] tracking-tight">
+              <h2 className="font-['Poppins'] font-bold text-[30px] sm:text-[40px] text-[#0F172A] tracking-tight">
                 From the blog
               </h2>
             </div>
 
             {/* Category Filter */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 flex-nowrap sm:flex-wrap touch-pan-x overscroll-x-contain">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-[100px] text-xs font-['Poppins'] font-semibold transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-[100px] text-xs font-['Poppins'] font-semibold transition-all cursor-pointer whitespace-nowrap touch-manipulation active:scale-95 shrink-0 ${
                     selectedCategory === cat
                       ? 'bg-[#0F172A] text-white shadow-sm'
                       : 'bg-white text-[#475569] border border-[#DDE5EF] hover:border-[#2563EB] hover:bg-blue-50/60 hover:text-[#2563EB]'
@@ -211,7 +211,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
                   </div>
                 </div>
 
-                <div className="p-7 flex flex-col justify-between flex-1">
+                <div className="p-5 sm:p-7 flex flex-col justify-between flex-1">
                   <div>
                     <div className="flex items-center gap-2 text-xs text-[#64748B] font-mono mb-2">
                       <span>{post.date}</span>

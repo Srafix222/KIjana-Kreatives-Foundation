@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Home, ChevronRight, ArrowLeft } from 'lucide-react';
 import { PageId, BreadcrumbItem } from '../types';
 
@@ -21,6 +21,18 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
   metaBadge,
   className = '',
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to show the active crumb on mobile when navigating
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        left: scrollContainerRef.current.scrollWidth,
+        behavior: 'smooth',
+      });
+    }
+  }, [currentPage, items]);
+
   // Only display on interior pages (non-home)
   if (currentPage === 'home' || !items || items.length === 0) {
     return null;
@@ -77,7 +89,10 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 h-10 sm:h-11 flex items-center justify-between text-xs">
           
           {/* Left section: Back button & Breadcrumb Trail */}
-          <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto scrollbar-none py-1 min-w-0 pr-2">
+          <div 
+            ref={scrollContainerRef}
+            className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto scrollbar-none py-1 min-w-0 pr-2 touch-pan-x overscroll-x-contain"
+          >
             {/* Quick Back Trigger */}
             {onBack && (
               <>
@@ -87,12 +102,12 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
                   onClick={onBack}
                   aria-label="Go back to previous page"
                   title="Go back"
-                  className="inline-flex items-center gap-1 text-slate-300 hover:text-white px-2 py-1 rounded-md hover:bg-white/10 active:scale-95 transition-all shrink-0 font-['Poppins'] font-medium text-[11px] sm:text-xs cursor-pointer focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400"
+                  className="inline-flex items-center gap-1.5 text-slate-200 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 border border-white/15 active:scale-95 transition-all shrink-0 font-['Poppins'] font-medium text-[11.5px] sm:text-xs cursor-pointer focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400 touch-manipulation min-h-[32px] sm:min-h-0"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                  <span className="hidden xs:inline sm:inline">Back</span>
+                  <ArrowLeft className="w-3.5 h-3.5 shrink-0 text-amber-400" aria-hidden="true" />
+                  <span className="font-semibold">Back</span>
                 </button>
-                <div className="w-px h-3.5 bg-white/15 shrink-0" aria-hidden="true" />
+                <div className="w-px h-4 bg-white/15 shrink-0" aria-hidden="true" />
               </>
             )}
 
@@ -107,7 +122,7 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
                     {isLast ? (
                       <span
                         aria-current="page"
-                        className="font-semibold text-amber-400 truncate max-w-[180px] sm:max-w-[280px] md:max-w-none inline-block font-['Poppins'] text-[11.5px] sm:text-xs tracking-tight"
+                        className="font-semibold text-amber-400 truncate max-w-[150px] xs:max-w-[200px] sm:max-w-[320px] md:max-w-none inline-block font-['Poppins'] text-[11.5px] sm:text-xs tracking-tight"
                         title={item.label}
                       >
                         {item.label}
@@ -116,11 +131,11 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
                       <button
                         type="button"
                         onClick={() => handleCrumbClick(item)}
-                        className="inline-flex items-center gap-1 py-0.5 text-slate-300 hover:text-white hover:underline decoration-amber-400/50 underline-offset-4 transition-colors cursor-pointer text-[11.5px] sm:text-xs shrink-0 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400 rounded"
+                        className="inline-flex items-center gap-1 py-1.5 px-1.5 rounded text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer text-[11.5px] sm:text-xs shrink-0 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400 touch-manipulation"
                         title={`Go to ${item.label}`}
                       >
                         {isHome && (
-                          <Home className="w-3.5 h-3.5 shrink-0 opacity-80" aria-hidden="true" />
+                          <Home className="w-3.5 h-3.5 shrink-0 opacity-85" aria-hidden="true" />
                         )}
                         <span className={isHome ? 'hidden sm:inline' : ''}>{item.label}</span>
                       </button>

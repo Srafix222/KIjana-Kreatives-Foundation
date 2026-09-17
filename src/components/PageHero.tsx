@@ -1,7 +1,5 @@
 import React from 'react';
 import { BreadcrumbItem, PageId } from '../types';
-import { Breadcrumbs } from './Breadcrumbs';
-import { ArrowLeft } from 'lucide-react';
 
 interface PageHeroProps {
   badge: string;
@@ -28,11 +26,11 @@ export const PageHero: React.FC<PageHeroProps> = ({
   imagePosition = 'object-center',
   children,
   badgeColor = 'amber',
-  breadcrumbs,
-  onNavigate,
-  onBack,
-  backLabel,
-  showBackButton = true,
+  breadcrumbs: _breadcrumbs,
+  onNavigate: _onNavigate,
+  onBack: _onBack,
+  backLabel: _backLabel,
+  showBackButton: _showBackButton = false,
 }) => {
   const badgeColors = {
     amber: 'text-[#F59E0B]',
@@ -40,45 +38,11 @@ export const PageHero: React.FC<PageHeroProps> = ({
     emerald: 'text-[#34D399]',
   };
 
-  // Contextual back resolution
-  const handleBackClick = () => {
-    if (onBack) {
-      onBack();
-      return;
-    }
-    if (onNavigate) {
-      // Check if breadcrumbs has a parent step
-      if (breadcrumbs && breadcrumbs.length > 1) {
-        const parent = breadcrumbs[breadcrumbs.length - 2];
-        if (parent?.page) {
-          onNavigate(parent.page, parent.slug);
-          return;
-        }
-      }
-      onNavigate('home');
-      return;
-    }
-    if (typeof window !== 'undefined' && window.history.length > 1) {
-      window.history.back();
-    }
-  };
-
-  // Determine intuitive label if not explicitly provided
-  let resolvedBackLabel = backLabel;
-  if (!resolvedBackLabel) {
-    if (breadcrumbs && breadcrumbs.length > 1) {
-      const parent = breadcrumbs[breadcrumbs.length - 2];
-      resolvedBackLabel = parent?.label ? `Back to ${parent.label}` : 'Back';
-    } else {
-      resolvedBackLabel = 'Back to Home';
-    }
-  }
-
   return (
     <section 
       id="page-hero"
       data-hero="true"
-      className="relative bg-[#0B1329] text-white pt-32 sm:pt-40 md:pt-48 pb-14 sm:pb-20 md:pb-24 overflow-hidden border-b border-slate-800/60"
+      className="relative bg-[#0B1329] text-white pt-28 sm:pt-36 md:pt-44 pb-14 sm:pb-20 md:pb-24 overflow-hidden border-b border-slate-800/60"
     >
       {/* 1. Ambient Brand Lighting & Glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -132,32 +96,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
       {/* 3. Foreground Typography & Content */}
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10 animate-kkf-rise">
-        {/* Contextual Navigation Bar (Back Button & Breadcrumbs) */}
-        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-          {showBackButton && (
-            <button
-              type="button"
-              onClick={handleBackClick}
-              id="page-hero-back-button"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[100px] bg-white/[0.08] hover:bg-white/[0.18] text-white border border-white/15 backdrop-blur-md transition-all text-xs font-['Poppins'] font-semibold cursor-pointer active:scale-95 shadow-xs group"
-              title={resolvedBackLabel}
-              aria-label={resolvedBackLabel}
-            >
-              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-              <span>{resolvedBackLabel}</span>
-            </button>
-          )}
-
-          {breadcrumbs && breadcrumbs.length > 0 && (
-            <Breadcrumbs 
-              items={breadcrumbs} 
-              onNavigate={onNavigate} 
-              variant="dark"
-              className="px-3 py-1.5 rounded-[100px] bg-white/[0.06] backdrop-blur-md border border-white/10"
-            />
-          )}
-        </div>
-
         <div className="max-w-[820px]">
           {/* Eyebrow */}
           <span className={`font-['Poppins'] font-semibold text-xs sm:text-[12.5px] tracking-[0.16em] uppercase block mb-3 sm:mb-4 ${badgeColors[badgeColor]}`}>

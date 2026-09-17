@@ -125,7 +125,7 @@ export const StatBand: React.FC<StatBandProps> = ({ className = '', autoCount = 
     <div 
       ref={containerRef}
       id="stat-impact-band"
-      className={`bg-gradient-to-r from-[#1D4FD8] via-[#2563EB] to-[#1E40AF] text-white py-14 sm:py-16 px-6 relative overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.15)] ${className}`}
+      className={`bg-gradient-to-r from-[#1D4FD8] via-[#2563EB] to-[#1E40AF] text-white py-12 sm:py-16 px-4 sm:px-6 relative overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.15)] ${className}`}
     >
       {/* Background ambient lighting */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.08),transparent_50%)] pointer-events-none" />
@@ -140,7 +140,9 @@ export const StatBand: React.FC<StatBandProps> = ({ className = '', autoCount = 
             return (
               <div 
                 key={stat.key} 
-                className={`flex flex-col items-center text-center px-3 sm:px-4 relative ${
+                className={`flex flex-col items-center text-center px-2 sm:px-4 relative ${
+                  idx === 4 ? 'col-span-2 md:col-span-1' : ''
+                } ${
                   idx < STATS.length - 1 ? 'lg:border-r lg:border-white/15' : ''
                 }`}
               >

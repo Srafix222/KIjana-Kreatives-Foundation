@@ -111,13 +111,13 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
           
           {/* Category Filter Chips */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-12 pb-6 border-b border-[#E8EDF4]">
-            <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 touch-pan-x overscroll-x-contain">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => handleCategorySelect(cat)}
-                  className={`px-5 py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs tracking-wider uppercase transition-all cursor-pointer ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-[100px] font-['Poppins'] font-semibold text-xs tracking-wider uppercase transition-all cursor-pointer whitespace-nowrap touch-manipulation active:scale-95 shrink-0 ${
                     selectedCategory === cat
                       ? 'bg-[#0F172A] text-white shadow-md'
                       : 'bg-white text-[#475569] border border-[#DDE5EF] hover:border-[#2563EB] hover:bg-blue-50/50 hover:text-[#2563EB]'
@@ -174,7 +174,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
                     </div>
                   </div>
 
-                  <div className="p-7 flex flex-col justify-between flex-1">
+                  <div className="p-5 sm:p-7 flex flex-col justify-between flex-1">
                     <div>
                       <div className="flex items-center gap-2 text-xs text-[#64748B] font-mono mb-2">
                         <span>{prog.level}</span>
@@ -234,9 +234,9 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({
       </section>
 
       {/* 3. HOW A COHORT WORKS */}
-      <section className="py-20 md:py-28 bg-white border-t border-[#E8EDF4]">
-        <div className="max-w-[1240px] mx-auto px-6">
-          <div className="bg-[#F8FAFC] rounded-[30px] p-8 md:p-14 border border-[#E8EDF4] card-glow grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <section className="py-16 sm:py-20 md:py-28 bg-white border-t border-[#E8EDF4]">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="bg-[#F8FAFC] rounded-[24px] sm:rounded-[30px] p-6 sm:p-10 md:p-14 border border-[#E8EDF4] card-glow grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
             
             <div className="lg:col-span-6 space-y-6">
               <span className="font-['Poppins'] font-semibold text-[12.5px] tracking-[0.16em] text-[#2563EB] uppercase block">

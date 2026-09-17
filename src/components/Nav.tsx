@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PageId } from '../types';
-import { ChevronDown, ArrowRight, ArrowLeft, Award, Heart, Palette, Film, Box, Headphones, Layout, Cpu } from 'lucide-react';
+import { ChevronDown, ArrowRight, Award, Heart, Palette, Film, Box, Headphones, Layout, Cpu } from 'lucide-react';
 import { KKFIconMark } from './BrandLogo';
 import { MobileMenu } from './MobileMenu';
 
@@ -89,42 +89,28 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onBack }) => 
       >
         <div className="max-w-[1280px] h-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Brand Lockup & Contextual Back Button */}
+          {/* Brand Lockup */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {currentPage !== 'home' && (
-              <button
-                id="nav-back-button"
-                type="button"
-                onClick={onBack ? onBack : () => handleLinkClick('home')}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/15 backdrop-blur-md text-xs font-['Poppins'] font-semibold transition-all cursor-pointer active:scale-95 shadow-xs group"
-                title="Go back"
-                aria-label="Go back"
-              >
-                <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-                <span className="hidden xs:inline sm:inline">Back</span>
-              </button>
-            )}
-
             <button
               id="nav-brand-logo"
               type="button"
               onClick={() => handleLinkClick('home')}
-              className="flex items-center gap-2.5 sm:gap-3 group text-left cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-400 rounded-xl shrink-0"
+              className="flex items-center gap-2 sm:gap-3 group text-left cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-400 rounded-xl shrink-0 touch-manipulation"
               aria-label="Kijana Kreatives Foundation Home"
             >
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-[12px] bg-white flex items-center justify-center p-1 shadow-md shadow-black/30 group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-[11px] sm:rounded-[12px] bg-white flex items-center justify-center p-1 shadow-md shadow-black/30 group-hover:scale-105 transition-transform">
                 <KKFIconMark className="w-full h-full" />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-1 leading-none">
-                  <span className="font-['Poppins'] font-bold text-[17px] sm:text-[18px] text-[#2563EB] tracking-tight">
+                  <span className="font-['Poppins'] font-bold text-[16px] sm:text-[18px] text-[#2563EB] tracking-tight">
                     Kijana
                   </span>
-                  <span className="font-['Poppins'] font-bold text-[15px] sm:text-[16px] text-white tracking-tight">
+                  <span className="font-['Poppins'] font-bold text-[14.5px] sm:text-[16px] text-white tracking-tight">
                     Kreatives
                   </span>
                 </div>
-                <span className="text-[9px] sm:text-[9.5px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5 font-['Poppins']">
+                <span className="text-[8.5px] sm:text-[9.5px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5 font-['Poppins']">
                   Foundation
                 </span>
               </div>
@@ -349,14 +335,14 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onBack }) => 
           </nav>
 
           {/* Right Action Cluster */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
             
             {/* Donate Action Button */}
             <button
               id="nav-btn-donate"
               type="button"
               onClick={() => handleLinkClick('donate')}
-              className="bg-[#F59E0B] hover:bg-[#FFB52E] text-[#0F172A] font-['Poppins'] font-bold text-[13px] sm:text-[14px] px-4 sm:px-5 py-2 sm:py-2.5 rounded-[12px] transition-all transform active:scale-95 shadow-md shadow-amber-500/20 flex items-center gap-1.5 cursor-pointer shrink-0"
+              className="bg-[#F59E0B] hover:bg-[#FFB52E] active:bg-[#D97706] text-[#0F172A] font-['Poppins'] font-bold text-xs sm:text-[14px] px-3 xs:px-4 sm:px-5 py-2 sm:py-2.5 rounded-[12px] transition-all transform active:scale-95 shadow-md shadow-amber-500/20 flex items-center gap-1.5 cursor-pointer shrink-0 touch-manipulation min-h-[38px] sm:min-h-[42px]"
             >
               <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#0F172A]" />
               <span>Donate</span>
@@ -367,7 +353,7 @@ export const Nav: React.FC<NavProps> = ({ currentPage, onNavigate, onBack }) => 
               id="mobile-menu-toggle"
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`lg:hidden relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer group focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1329] active:scale-95 ${
+              className={`lg:hidden relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer group focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1329] active:scale-95 touch-manipulation ${
                 mobileMenuOpen
                   ? 'bg-white/15 text-amber-400 border border-amber-400/40 shadow-xs'
                   : 'bg-white/[0.07] hover:bg-white/[0.12] text-white border border-white/10 hover:border-white/20'
